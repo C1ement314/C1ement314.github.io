@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 1 章：第一个 C 程序
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>写出并运行第一个 C 程序。</li>
+<li>认识 <code>#include</code>、<code>main</code>、<code>printf</code>、<code>return 0;</code> 这些基础部分。</li>
+<li>学会用 <code>printf</code> 输出文字，并理解 <code>\n</code>、注释的基础用法。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让程序跑起来。进阶篇会解释“为什么这么写”，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平，这一章咱们正式写出第一个 C 程序。</p>
+<p>从这一小段代码开始，你会慢慢拥有把想法变成程序的能力。</p>
+<hr>
+<h2 id="1-1-先导：第一个程序为什么从输出开始？">1.1 先导：第一个程序为什么从输出开始？</h2>
+<p>学编程很像学做菜。</p>
+<p>你不会第一天就去做满汉全席，而是先学怎么开火、怎么热锅、怎么把42号水泥拌意大利面煎熟。写程序也是一样，第一步不是做复杂功能，而是先确认：</p>
+<blockquote>
+<p>我写下的指令，能不能被计算机正确执行？</p>
+</blockquote>
+<p>所以，第一个程序通常只做一件事：<strong>在屏幕上输出一行文字</strong>。</p>
+<p>这行文字通常是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Hello, World!<br></code></pre></td></tr></table></figure>
+<p>中文教程里，咱们也可以写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">你好，世界！<br></code></pre></td></tr></table></figure>
+<p>不要小看这一行。它包含了写 C 程序最基本的几个环节：</p>
+<ul>
+<li>创建源文件；</li>
+<li>写代码；</li>
+<li>编译；</li>
+<li>链接；</li>
+<li>运行；</li>
+<li>观察输出。</li>
+</ul>
+<p>把这一套流程走通，后面的学习就有了稳固的起点。</p>
+<hr>
+<h2 id="1-2-基础篇：先会用">1.2 基础篇：先会用</h2>
+<h3 id="1-2-1-第一个-C-程序长什么样？">1.2.1 第一个 C 程序长什么样？</h3>
+<p>新建一个源文件，名字可以叫 <code>main.c</code>，然后写入下面的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好，世界！\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果你更喜欢英文，也可以把输出改成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, World!\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>这两种写法都是合法的 C 代码。</p>
+<h3 id="1-2-2-运行它">1.2.2 运行它</h3>
+<p>不同开发工具的运行方式不一样。</p>
+<p>如果你使用 CLion，可以创建项目、新建源文件，然后点击运行按钮。具体操作请参考七平的 CLion 教程，本教程不重复讲按钮位置。</p>
+<p>如果你使用命令行，一些环境下可以这样编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc main.c -o main<br></code></pre></td></tr></table></figure>
+<p>然后运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./main<br></code></pre></td></tr></table></figure>
+<p>Windows 下使用 MinGW 或类似环境时，也可能是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc main.c -o main.exe<br>main.exe<br></code></pre></td></tr></table></figure>
+<p>不同平台、不同编译器的命令可能不同。你不需要死记命令，只要理解背后的流程：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">源文件 main.c → 编译 → 链接 → 可执行文件 → 运行 → 输出结果<br></code></pre></td></tr></table></figure>
+<p>如果一切正常，你会看到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">你好，世界！<br></code></pre></td></tr></table></figure>
+<p>恭喜，你的第一个 C 程序跑起来了。</p>
+<h3 id="1-2-3-逐行认识这个程序">1.2.3 逐行认识这个程序</h3>
+<p>现在咱们把代码拆开，一句一句看。</p>
+<h4 id="第一行：-include-stdio-h">第一行：<code>#include &lt;stdio.h&gt;</code></h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br></code></pre></td></tr></table></figure>
+<p>这一行叫<strong>预处理指令</strong>，以 <code>#</code> 开头。</p>
+<p>它的作用是告诉预处理器：</p>
+<blockquote>
+<p>把标准输入输出头文件 <code>stdio.h</code> 的内容包含进来。</p>
+</blockquote>
+<p><code>stdio.h</code> 是 C 标准库提供的头文件，里面声明了 <code>printf</code> 等输入输出函数。</p>
+<p>注意几个细节：</p>
+<ul>
+<li><code>#include</code> 不是普通的 C 语句，后面不写分号。</li>
+<li>标准库头文件通常使用尖括号 <code>&lt; &gt;</code>。</li>
+<li><strong>这一行末尾没有分号，不要画蛇添足。</strong></li>
+</ul>
+<p>如果没有包含 <code>stdio.h</code>，编译器可能不知道 <code>printf</code> 是什么，于是给出警告或错误。</p>
+<h4 id="第二行：int-main-void">第二行：<code>int main(void)</code></h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br></code></pre></td></tr></table></figure>
+<p>这一行定义了一个叫 <code>main</code> 的函数。</p>
+<p>拆开看：</p>
+<ul>
+<li><code>int</code>：表示 <code>main</code> 函数返回一个整数（integer）。</li>
+<li><code>main</code>：函数名。常规 C 程序通常从 <code>main</code> 函数开始执行。</li>
+<li><code>void</code>：表示这个 <code>main</code> 函数不接收参数。</li>
+<li><code>{</code>：函数体开始。</li>
+</ul>
+<p>初学者要特别注意：</p>
+<blockquote>
+<p>标准 C 中，<code>main</code> 的返回类型通常是 <code>int</code>，不要写成 <code>void main()</code>。</p>
+</blockquote>
+<p>虽然在个别老教材(如谭浩强版C 语言程序设计)或某些编译器中，<code>void main()</code> 可能也能通过，但它不是标准推荐写法，也不利于养成良好习惯。</p>
+<h4 id="第三行：printf-你好，世界！-n">第三行：<code>printf(&quot;你好，世界！\n&quot;);</code></h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好，世界！\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>这一行调用 <code>printf</code> 函数，把文字输出到屏幕上。</p>
+<p>拆开看：</p>
+<ul>
+<li><code>printf</code>：标准库函数，负责格式化输出。print 是“打印”的意思。</li>
+<li><code>&quot;你好，世界！\n&quot;</code>：字符串字面量，也就是要输出的内容。</li>
+<li><code>\n</code>：转义序列，表示换行。</li>
+<li>末尾的 <code>;</code>：表示一条语句结束。</li>
+</ul>
+<p>如果没有 <code>\n</code>，输出可能不会换行，后面的内容会挤在同一行。</p>
+<h4 id="第四行：return-0">第四行：<code>return 0;</code></h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<p>这一行结束 <code>main</code> 函数，并把整数 <code>0</code> 返回给运行环境。</p>
+<p>通常来说：</p>
+<ul>
+<li><code>0</code> 表示程序正常结束。</li>
+<li>非 <code>0</code> 值通常表示出现了某种异常。</li>
+</ul>
+<h4 id="第五行：">第五行：<code>}</code></h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">&#125;<br></code></pre></td></tr></table></figure>
+<p>这个右花括号表示 <code>main</code> 函数结束。</p>
+<p>注意：<strong>花括号要成对出现。少一个 <code>}</code> 是很常见的编译错误。</strong></p>
+<h3 id="1-2-4-printf-的基本用法">1.2.4 <code>printf</code> 的基本用法</h3>
+<p><code>printf</code> 是 C 语言里最常用的输出函数之一。</p>
+<p>最简单的用法，就是直接输出一段文字：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;我喜欢学 C 语言。\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>一次输出多行，可以写多个 <code>printf</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第一行\n&quot;</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第二行\n&quot;</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第三行\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>也可以在一条 <code>printf</code> 里用多个 <code>\n</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第一行\n第二行\n第三行\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>运行结果都是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">第一行<br>第二行<br>第三行<br></code></pre></td></tr></table></figure>
+<p><code>printf</code> 的名字来自 “print formatted”，意思是“格式化输出”。</p>
+<p>后面咱们还会用它输出变量的值，例如整数、小数、字符等。本章先掌握最基础的文字输出就够了。</p>
+<h3 id="1-2-5-常用转义字符">1.2.5 常用转义字符</h3>
+<p>有些字符不能直接写在字符串里，或者写出来不容易看清楚，这时就要用<strong>转义序列</strong>。</p>
+<p>常见的转义序列有：</p>
+<table>
+<thead>
+<tr>
+<th>转义序列</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\n</code></td>
+<td>换行</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>水平制表符，常用于对齐</td>
+</tr>
+<tr>
+<td><code>\\</code></td>
+<td>输出一个反斜杠 <code>\</code></td>
+</tr>
+<tr>
+<td><code>\&quot;</code></td>
+<td>输出一个双引号 <code>&quot;</code></td>
+</tr>
+<tr>
+<td><code>\'</code></td>
+<td>输出一个单引号 <code>'</code></td>
+</tr>
+</tbody>
+</table>
+<p>比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名\t年龄\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;七平\t18\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;他说：\&quot;你好！\&quot;\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;反斜杠：\\\n&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果大致是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">姓名    年龄<br>七平    18<br>他说：&quot;你好！&quot;<br>反斜杠：\<br></code></pre></td></tr></table></figure>
+<p>这里要注意：</p>
+<ul>
+<li><code>\n</code> 是两个字符组成的转义序列，不是反斜杠加字母 <code>n</code> 两个字面字符。</li>
+<li>字符串里的 <code>&quot;</code> 如果直接出现，会和字符串边界冲突，所以要用 <code>\&quot;</code>。</li>
+<li>要输出反斜杠本身，要写 <code>\\</code>。</li>
+</ul>
+<h3 id="1-2-6-注释">1.2.6 注释</h3>
+<p>代码不只是写给计算机看的，也是写给人看的。</p>
+<p>注释可以帮助你记录思路、解释代码，也可以暂时屏蔽某些代码。</p>
+<p>C 语言有两种常见注释写法。</p>
+<h4 id="单行注释">单行注释</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 这是单行注释，从 // 开始到本行结束</span><br></code></pre></td></tr></table></figure>
+<h4 id="多行注释">多行注释</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*</span><br><span class="hljs-comment">这是多行注释。</span><br><span class="hljs-comment">可以写好几行。</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 输出欢迎语</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;欢迎学习 C 语言！\n&quot;</span>);<br><br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">    下面这行代码暂时不执行。</span><br><span class="hljs-comment">    printf(&quot;这一行不会输出。\n&quot;);</span><br><span class="hljs-comment">    */</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>关于注释，有个重要原则：</p>
+<blockquote>
+<p>注释应该解释“为什么”，而不是复述“做了什么”。</p>
+</blockquote>
+<p>比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 不好的注释：给成绩加 1</span><br>score = score + <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<p>这种注释只是把代码翻译了一遍，价值不大。</p>
+<p>更好的注释是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 补考及格后，把成绩统一提高到 60 分</span><br><span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">60</span>)<br>&#123;<br>    score = <span class="hljs-number">60</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>它解释了代码背后的业务规则。</p>
+<h3 id="1-2-7-基础篇小练习">1.2.7 基础篇小练习</h3>
+<ol>
+<li>写一个程序，输出你的名字。</li>
+<li>写一个程序，输出三行你喜欢的句子。</li>
+<li>用 <code>\t</code> 输出一个两列的简单表格。</li>
+<li>用 <code>\&quot;</code> 输出一句带双引号的话。</li>
+<li>写一行注释，解释你的程序是做什么的。</li>
+</ol>
+<hr>
+<h2 id="1-3-进阶篇：再懂原理">1.3 进阶篇：再懂原理</h2>
+<p>基础篇让你把程序跑起来了。接下来，咱们把“为什么这么写”讲清楚。</p>
+<h3 id="1-3-1-include-和标准库">1.3.1 <code>#include</code> 和标准库</h3>
+<p>C 语言的核心语法里，并没有直接提供“在屏幕上输出文字”的语句。</p>
+<p>那 <code>printf</code> 是从哪里来的？</p>
+<p>答案是：<strong>C 标准库</strong>。</p>
+<p>C 标准库提供了一批常用函数，例如：</p>
+<ul>
+<li><code>printf</code>：格式化输出；</li>
+<li><code>scanf</code>：格式化输入；</li>
+<li><code>malloc</code>、<code>free</code>：动态内存管理；</li>
+<li><code>strlen</code>、<code>strcpy</code>：字符串处理。</li>
+</ul>
+<p>这些函数的声明通常放在对应的头文件里：</p>
+<table>
+<thead>
+<tr>
+<th>头文件</th>
+<th>常见内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stdio.h</code></td>
+<td>输入输出函数</td>
+</tr>
+<tr>
+<td><code>stdlib.h</code></td>
+<td>内存管理、程序控制、类型转换等</td>
+</tr>
+<tr>
+<td><code>string.h</code></td>
+<td>字符串处理函数</td>
+</tr>
+<tr>
+<td><code>math.h</code></td>
+<td>数学函数</td>
+</tr>
+<tr>
+<td><code>ctype.h</code></td>
+<td>字符分类与转换</td>
+</tr>
+</tbody>
+</table>
+<p><code>#include &lt;stdio.h&gt;</code> 的作用，就是让编译器在编译当前源文件时知道 <code>printf</code> 的声明。</p>
+<p>这里要注意一个容易混淆的点：</p>
+<blockquote>
+<p>包含头文件，不等于把 <code>printf</code> 的实现复制进你的源文件。头文件主要提供声明，真正的函数实现通常在标准库中，由链接器在链接阶段接上。</p>
+</blockquote>
+<p>这也解释了第 0 章的知识：</p>
+<ul>
+<li>编译阶段需要知道 <code>printf</code> 的声明；</li>
+<li>链接阶段才需要找到 <code>printf</code> 的实现。</li>
+</ul>
+<h3 id="1-3-2-main-函数到底特殊在哪里？">1.3.2 <code>main</code> 函数到底特殊在哪里？</h3>
+<p>对绝大多数 C 程序来说，<code>main</code> 函数是程序的入口。</p>
+<p>一个标准写法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>还可以写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>还有一种较老的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>int main()</code> 没有写明参数类型，参数信息不够明确。虽然有些编译器允许这样写，但本教程推荐：不接收参数时，写 <code>int main(void)</code>。</p>
+<p>第二种写法 <code>int main(int argc, char *argv[])</code> 用于接收命令行参数，现在不用深入，先混个眼熟即可。</p>
+<p>初学阶段记住三件事：</p>
+<ol>
+<li><code>main</code> 的返回类型通常写 <code>int</code>。</li>
+<li>不接收参数时，参数列表写 <code>void</code>。</li>
+<li><code>return 0;</code> 通常表示正常结束。</li>
+</ol>
+<p>另外，C 语言标准还允许在 <code>main</code> 函数执行到最后的 <code>}</code> 时，如果没有写 <code>return</code>，效果等同于返回 <code>0</code>。但初学阶段建议还是显式写出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<p>这样意图更清楚，也更符合规范。</p>
+<h3 id="1-3-3-printf-的返回值和格式串">1.3.3 <code>printf</code> 的返回值和格式串</h3>
+<p><code>printf</code> 不只能输出文字，还能输出数据。</p>
+<p>它的第一个参数叫<strong>格式串</strong>。格式串里可以用格式说明符占位，例如：</p>
+<table>
+<thead>
+<tr>
+<th>格式说明符</th>
+<th>用于输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%d</code></td>
+<td>十进制整数</td>
+</tr>
+<tr>
+<td><code>%f</code></td>
+<td>浮点数</td>
+</tr>
+<tr>
+<td><code>%c</code></td>
+<td>单个字符</td>
+</tr>
+<tr>
+<td><code>%s</code></td>
+<td>字符串</td>
+</tr>
+</tbody>
+</table>
+<p>浮点数暂时可以理解为带小数的数字。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br>    <span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br>    <span class="hljs-type">char</span> name[] = <span class="hljs-string">&quot;七平&quot;</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名：%s\n&quot;</span>, name);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;年龄：%d\n&quot;</span>, age);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩：%f\n&quot;</span>, score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等级：%c\n&quot;</span>, level);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果大致是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">姓名：七平<br>年龄：18<br>成绩：95.500000<br>等级：A<br></code></pre></td></tr></table></figure>
+<p><code>%f</code> 默认会输出 6 位小数。后面讲到数据类型时，咱们再详细研究怎么控制小数位数。</p>
+<p><code>printf</code> 本身也有返回值：</p>
+<ul>
+<li>输出成功时，返回实际写出的字符数量；</li>
+<li>输出失败时，返回一个负值。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> count = <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hi\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>这里的 <code>count</code> 通常会得到 <code>3</code>，因为 <code>H</code>、<code>i</code>、换行各算一个字符。</p>
+<p>注意：对于中文等多字节字符，具体返回数量与字符编码和实现有关。初学阶段只需要知道 <code>printf</code> 会返回一个整数，不需要依赖它判断程序逻辑是否正确。</p>
+<h3 id="1-3-4-从源文件到可执行文件，再走一遍">1.3.4 从源文件到可执行文件，再走一遍</h3>
+<p>第 0 章讲过通用流程，现在结合第一个程序再走一遍：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">main.c<br>   ↓ 预处理<br>展开头文件等内容<br>   ↓ 编译<br>生成汇编代码<br>   ↓ 汇编<br>生成目标文件 main.o 或 main.obj<br>   ↓ 链接<br>连接标准库中的 printf 等实现<br>   ↓<br>生成可执行文件<br></code></pre></td></tr></table></figure>
+<p>所以，当你运行程序时，实际发生了这些事：</p>
+<ol>
+<li>预处理：把 <code>#include &lt;stdio.h&gt;</code> 展开；</li>
+<li>编译：检查语法，把 C 代码翻译成更低层的形式；</li>
+<li>汇编：生成目标文件；</li>
+<li>链接：把目标文件和标准库连接起来；</li>
+<li>运行：操作系统加载可执行文件，从 <code>main</code> 开始执行。</li>
+</ol>
+<p>如果其中某一步失败，程序就无法正常运行。</p>
+<h3 id="1-3-5-中文输出与编码">1.3.5 中文输出与编码</h3>
+<p>标准 C 并不规定源文件必须使用哪种编码，但实际开发中常见的是 UTF-8。</p>
+<p>如果你输出中文时出现乱码，通常不是 <code>printf</code> 本身的问题，而是编码不一致，例如：</p>
+<ul>
+<li>源文件保存成了 GBK，但编辑器或终端按 UTF-8 读取；</li>
+<li>源文件是 UTF-8，但终端使用其他编码显示；</li>
+<li>控制台字体不支持某些字符。</li>
+</ul>
+<p>本教程示例默认使用 UTF-8 编码。</p>
+<p>如果遇到中文乱码，可以优先检查：</p>
+<ol>
+<li>源文件保存的编码；</li>
+<li>编辑器或 IDE 的默认编码；</li>
+<li>运行终端的编码设置。</li>
+</ol>
+<p>解决编码问题时，要保持“源文件编码”和“读取端编码”一致。</p>
+<p>如果暂时不知道怎么排查，也可以向熟悉的同学、老师或社区求助，说明自己的编辑器、操作系统和完整的错误信息。</p>
+<p>有些 Windows 环境在把源文件保存为 UTF-8 with BOM 后，中文输出会正常一些；但这并不是通用解决方案，可能给跨平台和后续工具链带来新的麻烦。更稳妥的做法仍然是让源文件、编译器和终端使用一致的编码。</p>
+<h3 id="1-3-6-第一个程序也可能遇到的错误">1.3.6 第一个程序也可能遇到的错误</h3>
+<h4 id="错误-1：忘记-include-stdio-h">错误 1：忘记 <code>#include &lt;stdio.h&gt;</code></h4>
+<p>代码中用了 <code>printf</code>，却没有包含 <code>stdio.h</code>，编译器可能报出“未声明”之类的错误或警告。</p>
+<h4 id="错误-2：漏掉分号">错误 2：漏掉分号</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>这一行末尾少了 <code>;</code>，会引发编译错误。</p>
+<h4 id="错误-3：用了中文标点">错误 3：用了中文标点</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>)；<br></code></pre></td></tr></table></figure>
+<p>注意最后的 <code>；</code> 是中文分号，不是英文分号 <code>;</code>。</p>
+<p>C 代码中的语法符号必须使用英文半角符号。</p>
+<h4 id="错误-4：把-main-写成了-Main">错误 4：把 <code>main</code> 写成了 <code>Main</code></h4>
+<p>C 语言区分大小写。</p>
+<p><code>main</code> 和 <code>Main</code> 是两个不同的名字。程序入口通常要写 <code>main</code>。</p>
+<h4 id="错误-5：转义字符写错">错误 5：转义字符写错</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;/n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>这会输出 <code>/n</code> 两个字面字符，而不是换行。</p>
+<p>正确的换行是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<h4 id="错误-6：花括号不配对">错误 6：花括号不配对</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>);<br><span class="hljs-comment">// 少了一个右花括号</span><br></code></pre></td></tr></table></figure>
+<p>花括号必须成对出现。</p>
+<h3 id="1-3-7-第一个程序的代码规范">1.3.7 第一个程序的代码规范</h3>
+<p>从第一个程序开始，就可以养成好习惯。</p>
+<h4 id="1-使用一致的缩进">1. 使用一致的缩进</h4>
+<p>推荐使用 4 个空格缩进：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>不要一会儿缩进 2 格，一会儿缩进 8 格。</p>
+<h4 id="2-花括号风格保持一致">2. 花括号风格保持一致</h4>
+<p>本教程采用这种风格：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 函数体</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>左花括号单独一行，这是常见风格之一。你也可以选择其他主流风格，但同一个项目中要保持一致。</p>
+<h4 id="3-一行只放一条语句">3. 一行只放一条语句</h4>
+<p>不推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>); <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<p>推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>);<br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="4-函数名和变量名要有意义">4. 函数名和变量名要有意义</h4>
+<p><code>main</code> 是规定好的入口名，不能随便改。</p>
+<p>但以后你自己命名的函数和变量，要尽量让人一眼看懂用途。比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> student_count;<br><span class="hljs-type">double</span> average_score;<br></code></pre></td></tr></table></figure>
+<p>比：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a;<br><span class="hljs-type">double</span> b;<br></code></pre></td></tr></table></figure>
+<p>好得多。</p>
+<h4 id="5-不要依赖-system-pause-或-getch">5. 不要依赖 <code>system(&quot;pause&quot;)</code> 或 <code>getch()</code></h4>
+<p>有些入门教程会用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">system(<span class="hljs-string">&quot;pause&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">getch();<br></code></pre></td></tr></table></figure>
+<p>来让窗口暂停。</p>
+<p>这类写法往往依赖特定平台或非标准库，不适合作为可移植代码的教学主线。本教程不会用它们。</p>
+<hr>
+<h2 id="1-4-项目回扣：学生管理系统-v0-1">1.4 项目回扣：学生管理系统 v0.1</h2>
+<p>本章学到的 <code>printf</code>，已经可以让学生管理系统迈出第一步了。</p>
+<p>v0.1 的目标是：<strong>打印欢迎界面和功能菜单</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;       学生管理系统 v0.1\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1. 添加学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2. 删除学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;3. 修改学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;4. 查询学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;5. 显示全部学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">==============================<br>       学生管理系统 v0.1<br>==============================<br>1. 添加学生<br>2. 删除学生<br>3. 修改学生<br>4. 查询学生<br>5. 显示全部学生<br>0. 退出<br>==============================<br></code></pre></td></tr></table></figure>
+<p>目前它只是把菜单“显示”出来，还不能真正执行这些功能。</p>
+<p>没关系，这正是项目成长的过程：</p>
+<ul>
+<li>第 1 章，先让它会“说话”；</li>
+<li>后面的章节，再让它会“做事”。</li>
+</ul>
+<hr>
+<h2 id="1-5-本章代码规范提示">1.5 本章代码规范提示</h2>
+<ul>
+<li>源文件使用 <code>.c</code> 扩展名。</li>
+<li><code>#include</code> 指令末尾不写分号。</li>
+<li>每条普通语句末尾写分号。</li>
+<li>花括号成对出现，缩进保持一致。</li>
+<li>C 代码中的语法符号使用英文半角符号，例如分号写 <code>;</code>，不要写中文分号 <code>；</code>。字符串和注释里的内容可以包含中文标点。</li>
+<li>转义字符不要写错，例如换行是 <code>\n</code>。</li>
+<li>注释解释“为什么”，而不是简单复述代码。</li>
+<li>变量和函数命名要有意义。</li>
+<li>不使用 <code>void main()</code> 作为标准写法。</li>
+<li>不依赖平台专属的暂停函数。</li>
+</ul>
+<hr>
+<h2 id="1-6-常见错误">1.6 常见错误</h2>
+<h3 id="错误-1：把-printf-写成-Printf">错误 1：把 <code>printf</code> 写成 <code>Printf</code></h3>
+<p>C 语言区分大小写，<code>printf</code> 必须小写。</p>
+<h3 id="错误-2：忘记包含-stdio-h">错误 2：忘记包含 <code>stdio.h</code></h3>
+<p>使用 <code>printf</code> 之前，通常需要：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="错误-3：分号写成中文分号">错误 3：分号写成中文分号</h3>
+<p><code>;</code> 是英文分号，<code>；</code> 是中文分号。C 代码中要使用前者。</p>
+<h3 id="错误-4：把-n-写成-n">错误 4：把 <code>\n</code> 写成 <code>/n</code></h3>
+<p><code>/</code> 是斜杠，<code>\</code> 是反斜杠。换行转义序列是反斜杠加 <code>n</code>。</p>
+<h3 id="错误-5：运行窗口一闪而过">错误 5：运行窗口一闪而过</h3>
+<p>如果是在某些图形环境中直接双击运行，程序输出完就结束了，窗口可能一闪而过。这通常不是代码错误，而是运行方式的问题。</p>
+<p>在 IDE 中运行，或者从终端、命令行运行，通常可以看到输出。</p>
+<h3 id="错误-6：中文乱码">错误 6：中文乱码</h3>
+<p>先检查源文件编码和终端编码是否一致。本教程示例默认使用 UTF-8。</p>
+<hr>
+<h2 id="1-7-总结与自测">1.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>第一个 C 程序通过 <code>#include &lt;stdio.h&gt;</code> 引入标准输入输出声明，在 <code>main</code> 函数中调用 <code>printf</code> 输出文字，最后用 <code>return 0;</code> 正常结束。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li><code>#include &lt;stdio.h&gt;</code> 的作用是什么？</li>
+<li><code>main</code> 函数的返回类型通常是什么？</li>
+<li><code>printf</code> 是 C 语言关键字吗？</li>
+<li><code>\n</code> 表示什么？</li>
+<li>单行注释和多行注释分别怎么写？</li>
+<li>为什么本教程不建议写 <code>void main()</code>？</li>
+<li>编译错误、链接错误、运行时错误分别可能出现在什么阶段？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>它是一条预处理指令，用于包含标准输入输出头文件，让编译器知道 <code>printf</code> 等函数的声明。</li>
+<li>通常写作 <code>int</code>。</li>
+<li>不是。<code>printf</code> 是标准库函数，不是 C 语言关键字。</li>
+<li>表示换行字符。</li>
+<li>单行注释用 <code>//</code>；多行注释用 <code>/* ... */</code>。</li>
+<li>因为标准 C 中 <code>main</code> 的返回类型通常应为 <code>int</code>，<code>void main()</code> 不是标准推荐写法。</li>
+<li>编译错误发生在编译阶段；链接错误发生在链接阶段；运行时错误发生在程序执行阶段。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>写一个程序，输出一份格式整洁的自我介绍。</p>
+<p>要求：</p>
+<ol>
+<li>至少使用 5 行 <code>printf</code>；</li>
+<li>使用 <code>\n</code> 换行；</li>
+<li>使用 <code>\t</code> 对齐姓名、年龄、爱好；</li>
+<li>使用 <code>\&quot;</code> 输出一句带双引号的话；</li>
+<li>至少写 2 条注释，解释程序的关键部分；</li>
+<li>运行程序，并检查输出是否整齐。</li>
+</ol>
+<p>思考：如果不小心把某个双引号写成中文引号，编译器会报什么错？</p>
+<hr>
+<h2 id="1-8-下一章">1.8 下一章</h2>
+<p>现在你已经能输出文字了，但程序还不会“记东西”。</p>
+<p>下一章，咱们要让程序学会保存数据：学号、姓名、成绩，这些内容都要先放进变量里。</p>
+<p>关键词是：</p>
+<blockquote>
+<p>变量与数据类型。</p>
+</blockquote>
+<p><strong>下一章：第 2 章《变量与数据类型》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

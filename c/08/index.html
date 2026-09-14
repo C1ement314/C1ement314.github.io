@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 8 章：代码规范与程序阅读
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>掌握命名、格式、注释、常量等基础代码规范。</li>
+<li>理解可读性、可维护性、函数拆分、重构和防御性编程。</li>
+<li>学会阅读编译错误信息，也学会阅读别人的代码。</li>
+<li>回看前七章的代码，进行一次小重构。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你知道“怎样写更清楚”。进阶篇会讲“为什么要这样写”“怎样改得更清楚”，以及“怎样读别人的代码”，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。到这里，咱们已经学过了变量、输入输出、分支、循环和函数。</p>
+<p>前面七章主要在学“怎么写才能让程序跑起来”。这一章要停下来做一件更重要的事：</p>
+<blockquote>
+<p>怎么写，才能让代码更像给人看的，而不是只给机器执行的？</p>
+</blockquote>
+<p>代码规范不是花架子。它决定了你一个星期后还能不能看懂自己的代码，也决定了别人愿不愿意和你一起做项目。</p>
+<hr>
+<h2 id="8-1-先导：为什么代码规范不是“花架子”？">8.1 先导：为什么代码规范不是“花架子”？</h2>
+<p>先看两段功能相同、风格不同的代码。</p>
+<p>第一段：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a=<span class="hljs-number">0</span>;<span class="hljs-type">int</span> b=<span class="hljs-number">0</span>;<span class="hljs-type">int</span> c=<span class="hljs-number">0</span>;<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;a);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;b);<br>c=a+b;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>,c);<br></code></pre></td></tr></table></figure>
+<p>第二段：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> first_score = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> second_score = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> total_score = <span class="hljs-number">0</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第一项成绩：&quot;</span>);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;first_score);<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第二项成绩：&quot;</span>);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;second_score);<br><br>total_score = first_score + second_score;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总分：%d\n&quot;</span>, total_score);<br></code></pre></td></tr></table></figure>
+<p>第二段更长，但更容易看懂、修改和检查。</p>
+<p>代码规范的目的不是“让代码看起来漂亮”，而是：</p>
+<ul>
+<li>减少出错；</li>
+<li>减少重复；</li>
+<li>方便自己以后回来看；</li>
+<li>方便别人读懂；</li>
+<li>方便团队协作；</li>
+<li>方便测试和维护。</li>
+</ul>
+<p>一句话：</p>
+<blockquote>
+<p>代码首先是写给人看的，其次才是给机器执行的。</p>
+</blockquote>
+<p>当然，规范不是越复杂越好。初学阶段先做到“清楚、一致、不别扭”就够了。</p>
+<hr>
+<h2 id="8-2-基础篇：先会用">8.2 基础篇：先会用</h2>
+<h3 id="8-2-1-命名规范">8.2.1 命名规范</h3>
+<p>命名是最容易影响可读性的地方之一。</p>
+<h4 id="变量名">变量名</h4>
+<p>变量名应该尽量使用有意义的名词或名词短语。</p>
+<p>推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> student_count;<br><span class="hljs-type">double</span> average_score;<br><span class="hljs-type">char</span> student_level;<br><span class="hljs-type">int</span> max_score;<br></code></pre></td></tr></table></figure>
+<p>不推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a;<br><span class="hljs-type">double</span> b;<br><span class="hljs-type">char</span> c;<br><span class="hljs-type">int</span> data1;<br></code></pre></td></tr></table></figure>
+<p>对比一下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">30</span>;<br><span class="hljs-type">double</span> b = <span class="hljs-number">95.5</span>;<br></code></pre></td></tr></table></figure>
+<p>和：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> student_count = <span class="hljs-number">30</span>;<br><span class="hljs-type">double</span> average_score = <span class="hljs-number">95.5</span>;<br></code></pre></td></tr></table></figure>
+<p>第二种明显更容易理解。</p>
+<p>变量命名建议：</p>
+<ul>
+<li>使用小写字母加下划线，也就是 <code>snake_case</code>；</li>
+<li>名字要能说明它保存的是什么；</li>
+<li>布尔含义的变量可以用 <code>is_</code>、<code>has_</code>、<code>can_</code> 开头；</li>
+<li>循环计数变量用 <code>i</code>、<code>j</code>、<code>k</code> 可以接受；</li>
+<li>不要用单独的 <code>l</code> 或 <code>O</code>，容易和数字 <code>1</code>、<code>0</code> 混淆；</li>
+<li>不要用毫无意义的名字，例如 <code>aaa</code>、<code>data1</code>、<code>temp2</code>。</li>
+</ul>
+<p>布尔含义的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> is_valid;<br><span class="hljs-type">int</span> has_next;<br><span class="hljs-type">int</span> can_continue;<br></code></pre></td></tr></table></figure>
+<h4 id="函数名">函数名</h4>
+<p>函数名应该使用“动词 + 名词”的形式。</p>
+<p>推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">print_menu()<br>read_score()<br>calculate_average()<br>is_pass()<br></code></pre></td></tr></table></figure>
+<p>不推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">menu()<br>score()<br>average()<br>pass()<br></code></pre></td></tr></table></figure>
+<p>函数名用动词开头，可以让调用者一眼看出这个函数在做什么。</p>
+<h4 id="常量名">常量名</h4>
+<p>常量名通常使用全大写加下划线：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_STUDENTS = <span class="hljs-number">100</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MIN_SCORE = <span class="hljs-number">0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> PI = <span class="hljs-number">3.1415926</span>;<br></code></pre></td></tr></table></figure>
+<p>这样一眼就能看出它是常量，不是普通变量。</p>
+<h4 id="命名的一致性">命名的一致性</h4>
+<p>同一个项目里，命名风格要一致。</p>
+<p>不要一会儿用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">student_count<br></code></pre></td></tr></table></figure>
+<p>一会儿用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">studentCount<br></code></pre></td></tr></table></figure>
+<p>一会儿又用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">StudentCount<br></code></pre></td></tr></table></figure>
+<p>选一种风格，然后保持一致。C 语言社区更常见的是 <code>snake_case</code>。</p>
+<h4 id="一个可运行示例">一个可运行示例</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> student_count = <span class="hljs-number">3</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生人数：%d\n&quot;</span>, student_count);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">学生人数：3<br></code></pre></td></tr></table></figure>
+<h3 id="8-2-2-格式规范">8.2.2 格式规范</h3>
+<p>格式规范的目标，是让代码结构一目了然。</p>
+<h4 id="缩进">缩进</h4>
+<p>推荐使用 4 个空格缩进。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>不要一会儿缩进 2 格，一会儿缩进 8 格。</p>
+<h4 id="花括号">花括号</h4>
+<p>本教程使用这种风格：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>左花括号单独一行，右花括号与对应的关键字对齐。</p>
+<p>你也可以选择其他主流风格，但同一个项目中要保持一致。</p>
+<h4 id="一行一条语句">一行一条语句</h4>
+<p>不推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>); <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<p>推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好\n&quot;</span>);<br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="运算符两边加空格">运算符两边加空格</h4>
+<p>不推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> total=a+b*c;<br></code></pre></td></tr></table></figure>
+<p>推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> total = a + b * c;<br></code></pre></td></tr></table></figure>
+<p>逗号后面也建议加空格：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d, %d\n&quot;</span>, a, b);<br></code></pre></td></tr></table></figure>
+<h4 id="用空行分隔逻辑块">用空行分隔逻辑块</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> level = <span class="hljs-number">0</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;score);<br><br><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    level = <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>空行能让代码的层次更清楚。</p>
+<h4 id="每行别太长">每行别太长</h4>
+<p>如果一行太长，可以适当换行。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (chinese &lt; <span class="hljs-number">0</span> || chinese &gt; <span class="hljs-number">100</span> ||<br>    math &lt; <span class="hljs-number">0</span> || math &gt; <span class="hljs-number">100</span> ||<br>    english &lt; <span class="hljs-number">0</span> || english &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩必须在 0 到 100 之间。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>换行时，让运算符或逗号留在行尾，方便阅读。</p>
+<h3 id="8-2-3-注释规范">8.2.3 注释规范</h3>
+<p>注释不是越多越好，关键是写到点子上。</p>
+<h4 id="注释解释“为什么”">注释解释“为什么”</h4>
+<p>不好的注释：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 给成绩加 1</span><br>score = score + <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<p>这个注释只是复述代码，没有增加信息。</p>
+<p>更好的注释：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 补考及格后，把成绩统一提高到 60 分</span><br><span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">60</span>)<br>&#123;<br>    score = <span class="hljs-number">60</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个注释解释了业务规则。</p>
+<h4 id="注释要及时更新">注释要及时更新</h4>
+<p>如果代码改了，注释没改，错误注释比没有注释更危险。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 下面计算平均分</span><br>total = chinese + math + english;   <span class="hljs-comment">// 注释与代码不符</span><br></code></pre></td></tr></table></figure>
+<p>这种注释会误导读者。</p>
+<h4 id="函数注释">函数注释</h4>
+<p>对稍微复杂的函数，可以在函数上方说明：</p>
+<ul>
+<li>这个函数做什么；</li>
+<li>参数是什么意思；</li>
+<li>返回值是什么；</li>
+<li>有没有副作用。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 计算平均分。</span><br><span class="hljs-comment"> * total：总分</span><br><span class="hljs-comment"> * count：人数</span><br><span class="hljs-comment"> * 返回：平均分；如果 count 小于等于 0，则返回 0.0</span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0.0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> (<span class="hljs-type">double</span>)total / count;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="不要用注释屏蔽大段代码">不要用注释屏蔽大段代码</h4>
+<p>不推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// int a = 1;</span><br><span class="hljs-comment">// int b = 2;</span><br><span class="hljs-comment">// printf(&quot;%d\n&quot;, a + b);</span><br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
+<p>如果代码暂时不用，应该删掉；需要找回时用版本控制工具。不要靠注释把旧代码一直留在文件里。</p>
+<h3 id="8-2-4-常量与魔法数字">8.2.4 常量与魔法数字</h3>
+<p>代码里突然出现一个意义不明的数字，叫<strong>魔法数字</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里的 <code>60</code> 其实有明确含义，但读者需要猜。</p>
+<p>更好的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> PASS_SCORE = <span class="hljs-number">60</span>;<br><br><span class="hljs-keyword">if</span> (score &gt;= PASS_SCORE)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这样一看就知道 <code>60</code> 是及格线。</p>
+<p>再比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_STUDENTS = <span class="hljs-number">100</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MIN_SCORE = <span class="hljs-number">0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_SCORE = <span class="hljs-number">100</span>;<br></code></pre></td></tr></table></figure>
+<p>使用常量的好处：</p>
+<ul>
+<li>含义清楚；</li>
+<li>修改方便；</li>
+<li>避免同一数字到处复制；</li>
+<li>减少改漏的情况。</li>
+</ul>
+<p>注意：C 语言里的 <code>const</code> 变量是只读变量，通常有类型；<code>#define</code> 是预处理宏，没有类型检查。预处理器会在后面的章节详细讲。</p>
+<h3 id="8-2-5-错误信息阅读">8.2.5 错误信息阅读</h3>
+<p>写代码一定会遇到错误。会读错误信息，比会背语法更重要。</p>
+<p>编译器报错通常包含：</p>
+<ul>
+<li>文件名；</li>
+<li>行号；</li>
+<li>列号；</li>
+<li>错误级别（error 或 warning）；</li>
+<li>错误说明。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">main.c:12:5: error: expected &#x27;;&#x27; before &#x27;return&#x27;<br></code></pre></td></tr></table></figure>
+<p>可以这样读：</p>
+<ul>
+<li>文件：<code>main.c</code>；</li>
+<li>第 12 行；</li>
+<li>第 5 列附近；</li>
+<li>错误：<code>return</code> 前面少了分号。</li>
+</ul>
+<h4 id="阅读错误信息的顺序">阅读错误信息的顺序</h4>
+<ol>
+<li>
+<p><strong>从第一条错误开始看</strong></p>
+<ul>
+<li>后面的错误可能只是第一条错误引起的连锁反应。</li>
+</ul>
+</li>
+<li>
+<p><strong>看文件名和行号</strong></p>
+<ul>
+<li>定位到代码附近。</li>
+</ul>
+</li>
+<li>
+<p><strong>不要只盯着报错那一行</strong></p>
+<ul>
+<li>错误可能出在上一行或上一个语句。</li>
+</ul>
+</li>
+<li>
+<p><strong>看清 error 还是 warning</strong></p>
+<ul>
+<li>error 通常必须修；</li>
+<li>warning 也不能随便忽略。</li>
+</ul>
+</li>
+<li>
+<p><strong>只看关键信息</strong></p>
+<ul>
+<li>编译器输出可能很长，先看第一个 error。</li>
+</ul>
+</li>
+</ol>
+<h4 id="常见错误关键词">常见错误关键词</h4>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>大概意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>expected ';'</code></td>
+<td>可能少了分号</td>
+</tr>
+<tr>
+<td><code>undeclared identifier</code></td>
+<td>使用了未声明的名字</td>
+</tr>
+<tr>
+<td><code>implicit declaration</code></td>
+<td>函数没有声明就被使用</td>
+</tr>
+<tr>
+<td><code>conflicting types</code></td>
+<td>类型声明冲突</td>
+</tr>
+<tr>
+<td><code>unused variable</code></td>
+<td>变量声明了但没使用</td>
+</tr>
+<tr>
+<td><code>format '%d' expects</code></td>
+<td>格式说明符和参数类型不匹配</td>
+</tr>
+<tr>
+<td><code>control reaches end of non-void function</code></td>
+<td>非 <code>void</code> 函数可能没有返回值</td>
+</tr>
+</tbody>
+</table>
+<p>遇到错误时，不要急着改一大堆代码。先看第一条错误，改掉，再重新编译。</p>
+<h3 id="8-2-6-基础篇小练习">8.2.6 基础篇小练习</h3>
+<ol>
+<li>把下面的变量名改得更有意义：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a;<br><span class="hljs-type">double</span> b;<br><span class="hljs-type">char</span> c;<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>给下面的代码加上规范缩进和空格：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;<span class="hljs-type">int</span> score=<span class="hljs-number">0</span>;<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;score);<span class="hljs-keyword">if</span>(score&gt;=<span class="hljs-number">60</span>)&#123;<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;pass\n&quot;</span>);&#125;<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;<br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>给一个计算平均分的函数写注释。</li>
+<li>把下面的魔法数字改成常量：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="5">
+<li>找一段自己以前写的代码，看看有没有可以改进的命名或格式。</li>
+<li>随便写一段错误代码，观察编译器报错，并说出错误信息包含哪些部分。</li>
+</ol>
+<hr>
+<h2 id="8-3-进阶篇：再懂原理">8.3 进阶篇：再懂原理</h2>
+<p>基础篇讲的是“怎么写更顺眼”。进阶篇要讲“怎样让代码长期可维护”。</p>
+<h3 id="8-3-1-可读性与可维护性">8.3.1 可读性与可维护性</h3>
+<p>可读性是指：</p>
+<blockquote>
+<p>别人能不能比较容易地看懂你的代码。</p>
+</blockquote>
+<p>可维护性是指：</p>
+<blockquote>
+<p>以后修改、扩展、修复代码时，成本高不高。</p>
+</blockquote>
+<p>可读性差会直接影响可维护性。</p>
+<p>常见降低可读性的做法：</p>
+<ul>
+<li>变量名无意义；</li>
+<li>函数太长；</li>
+<li>嵌套太深；</li>
+<li>重复代码太多；</li>
+<li>魔法数字太多；</li>
+<li>注释和代码不一致；</li>
+<li>格式混乱。</li>
+</ul>
+<p>提高可读性的方向：</p>
+<ul>
+<li>名字清楚；</li>
+<li>函数短小；</li>
+<li>一个函数只做一件事；</li>
+<li>减少重复；</li>
+<li>用常量代替魔法数字；</li>
+<li>保持格式一致；</li>
+<li>注释解释为什么。</li>
+</ul>
+<p>有一个重要原则：</p>
+<blockquote>
+<p>不要只考虑“现在我能不能写出来”，还要考虑“以后我还能不能改”。</p>
+</blockquote>
+<h3 id="8-3-2-函数拆分">8.3.2 函数拆分</h3>
+<p>函数太长，是初学者常见的问题。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">process_student_data</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">double</span> average = <span class="hljs-number">0.0</span>;<br><br>    <span class="hljs-comment">// 读人数</span><br>    <span class="hljs-comment">// 读成绩</span><br>    <span class="hljs-comment">// 判断合法性</span><br>    <span class="hljs-comment">// 计算总分</span><br>    <span class="hljs-comment">// 计算平均分</span><br>    <span class="hljs-comment">// 计算等级</span><br>    <span class="hljs-comment">// 打印结果</span><br>    <span class="hljs-comment">// 保存文件</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个函数虽然能写，但职责太多。</p>
+<p>更好的方式是拆成：</p>
+<ul>
+<li><code>read_student_count</code></li>
+<li><code>read_total_score</code></li>
+<li><code>calculate_average</code></li>
+<li><code>calculate_grade</code></li>
+<li><code>print_result</code></li>
+</ul>
+<p>每个函数只做一件事。</p>
+<p>什么时候应该考虑拆分函数？</p>
+<ul>
+<li>函数超过一屏；</li>
+<li>函数里有多个“阶段”；</li>
+<li>函数里嵌套太深；</li>
+<li>函数名很难起，因为做了太多事；</li>
+<li>一段代码在多个地方重复出现；</li>
+<li>你需要写很多注释才能说明某一段在做什么。</li>
+</ul>
+<p>拆分函数的好处：</p>
+<ul>
+<li>更容易阅读；</li>
+<li>更容易测试；</li>
+<li>更容易复用；</li>
+<li>更容易定位问题。</li>
+</ul>
+<p>当然，也不要走极端。一个只有一两行、含义非常清楚的功能，不一定非要拆成函数。</p>
+<h3 id="8-3-3-重构">8.3.3 重构</h3>
+<p><strong>重构</strong>是指：</p>
+<blockquote>
+<p>在不改变程序外部行为的前提下，改进代码的内部结构。</p>
+</blockquote>
+<p>简单说就是：功能不变，代码变好。</p>
+<p>常见重构方法：</p>
+<ol>
+<li>
+<p><strong>重命名</strong></p>
+<ul>
+<li>把 <code>a</code>、<code>b</code> 改成有意义的名字。</li>
+</ul>
+</li>
+<li>
+<p><strong>提取函数</strong></p>
+<ul>
+<li>把一段重复或复杂的代码抽成函数。</li>
+</ul>
+</li>
+<li>
+<p><strong>替换魔法数字</strong></p>
+<ul>
+<li>用 <code>const</code> 常量代替无意义的数字。</li>
+</ul>
+</li>
+<li>
+<p><strong>减少嵌套</strong></p>
+<ul>
+<li>用提前返回、拆分条件等方式减少层级。</li>
+</ul>
+</li>
+<li>
+<p><strong>消除重复</strong></p>
+<ul>
+<li>把重复代码合并到一个函数里。</li>
+</ul>
+</li>
+<li>
+<p><strong>简化条件</strong></p>
+<ul>
+<li>把复杂条件拆成多个简单条件，或者抽成函数。</li>
+</ul>
+</li>
+</ol>
+<p>重构的原则：</p>
+<ul>
+<li>小步进行；</li>
+<li>每次只改一点；</li>
+<li>每改一次就重新编译、运行；</li>
+<li>不要一边重构一边加新功能；</li>
+<li>最好有测试或可验证的输入输出。</li>
+</ul>
+<h3 id="8-3-4-防御性编程">8.3.4 防御性编程</h3>
+<p>防御性编程是指：</p>
+<blockquote>
+<p>不要假设输入一定合法，不要假设函数调用一定成功。</p>
+</blockquote>
+<p>常见做法：</p>
+<ol>
+<li>检查输入范围；</li>
+<li>检查除数是否为 0；</li>
+<li>检查数组下标是否越界；</li>
+<li>检查函数返回值；</li>
+<li>检查文件是否成功打开；</li>
+<li>检查内存申请是否成功；</li>
+<li>对 <code>switch</code> 加 <code>default</code>；</li>
+<li>错误时给出清楚提示并安全退出。</li>
+</ol>
+<p>例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span> || score &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩必须在 0 到 100 之间。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>再比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (count != <span class="hljs-number">0</span>)<br>&#123;<br>    average = (<span class="hljs-type">double</span>)total / count;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>防御性编程不是让代码变得疑神疑鬼，而是提前处理合理的错误情况。</p>
+<h3 id="8-3-5-如何阅读别人的代码">8.3.5 如何阅读别人的代码</h3>
+<p>阅读代码是一项重要能力。</p>
+<p>面对一个陌生项目，可以按下面的顺序：</p>
+<ol>
+<li>
+<p><strong>先看项目说明</strong></p>
+<ul>
+<li>README、注释、文档。</li>
+</ul>
+</li>
+<li>
+<p><strong>找到程序入口</strong></p>
+<ul>
+<li>通常是 <code>main</code> 函数。</li>
+</ul>
+</li>
+<li>
+<p><strong>从 main 开始，顺着调用关系往下看</strong></p>
+<ul>
+<li>先看主流程，不要一头扎进细节。</li>
+</ul>
+</li>
+<li>
+<p><strong>看函数名和函数签名</strong></p>
+<ul>
+<li>先猜函数做什么，再进去看实现。</li>
+</ul>
+</li>
+<li>
+<p><strong>使用调试器</strong></p>
+<ul>
+<li>打断点、单步执行、看调用栈、看变量变化。</li>
+</ul>
+</li>
+<li>
+<p><strong>运行程序</strong></p>
+<ul>
+<li>观察输入输出，建立直观印象。</li>
+</ul>
+</li>
+<li>
+<p><strong>修改一小处，再运行</strong></p>
+<ul>
+<li>通过实验理解代码行为。</li>
+</ul>
+</li>
+<li>
+<p><strong>做笔记</strong></p>
+<ul>
+<li>画出模块关系、数据流、函数调用关系。</li>
+</ul>
+</li>
+<li>
+<p><strong>不要一开始就追求全部看懂</strong></p>
+<ul>
+<li>先理解主流程，再逐步深入细节。</li>
+</ul>
+</li>
+</ol>
+<p>阅读代码的核心是：</p>
+<blockquote>
+<p>先看结构，再看细节；先跑起来，再改一处看结果。</p>
+</blockquote>
+<h4 id="代码阅读练习：找出三个问题">代码阅读练习：找出三个问题</h4>
+<p>阅读下面这段代码，先不要运行，尝试找出三个问题：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> a = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> b = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;a);<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, b);<br><br>    <span class="hljs-keyword">if</span> (a = b)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;相等\n&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>参考方向：</p>
+<ol>
+<li>第二个 <code>scanf</code> 缺少 <code>&amp;</code>；</li>
+<li><code>if (a = b)</code> 使用了赋值，而不是比较；</li>
+<li>程序没有处理 <code>scanf</code> 的返回值；</li>
+<li>代码缺少注释和输入提示。</li>
+</ol>
+<p>再想一想：如果用户输入的不是整数，这段程序会怎样？</p>
+<p>修正后，输入 <code>3 3</code> 时，运行结果应为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">请输入两个整数：3 3<br>相等<br></code></pre></td></tr></table></figure>
+<h3 id="8-3-6-代码审查清单">8.3.6 代码审查清单</h3>
+<p>每次完成一个功能后，可以对照下面的清单检查：</p>
+<ul>
+<li>[ ] 变量名、函数名是否有意义？</li>
+<li>[ ] 函数是否只做一件事？</li>
+<li>[ ] 有没有重复代码？</li>
+<li>[ ] 有没有魔法数字？</li>
+<li>[ ] 注释是否解释“为什么”，并且和代码一致？</li>
+<li>[ ] 缩进、空格、花括号是否一致？</li>
+<li>[ ] 是否检查了输入和返回值？</li>
+<li>[ ] 是否有除数为 0 的风险？</li>
+<li>[ ] 数组或缓冲区是否可能越界？</li>
+<li>[ ] 循环边界是否正确？</li>
+<li>[ ] <code>switch</code> 是否处理了 <code>default</code>？</li>
+<li>[ ] 编译是否有 warning？</li>
+<li>[ ] 错误信息是否对用户友好？</li>
+<li>[ ] 代码是否容易测试？</li>
+<li>[ ] 一周后自己还能看懂吗？</li>
+</ul>
+<p>这份清单不需要每次都全部背诵。初学阶段，能养成其中一半的习惯，代码质量就会明显提高。</p>
+<h4 id="编译警告和常用工具">编译警告和常用工具</h4>
+<p>从第一阶段开始，就可以使用编译器的警告选项：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -Wall -Wextra -Werror main.c -o main<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>-Wall</code>：开启常见警告；</li>
+<li><code>-Wextra</code>：开启更多警告；</li>
+<li><code>-Werror</code>：把警告当成错误，强迫自己处理。</li>
+</ul>
+<p>Clang 也有类似的选项：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">clang -Wall -Wextra -Werror main.c -o main<br></code></pre></td></tr></table></figure>
+<p>调试时还可以加上：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -g main.c -o main<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>-g</code>：生成调试信息，方便 GDB、CLion 等调试器使用。</li>
+</ul>
+<p>后面的第 17 章还会介绍：</p>
+<ul>
+<li><code>gdb</code>：命令行调试器；</li>
+<li><code>valgrind</code>：检查内存问题；</li>
+<li><code>clang-format</code>：自动格式化代码；</li>
+<li><code>clang-tidy</code>、<code>cppcheck</code>：静态检查工具；</li>
+<li>Sanitizer：<code>-fsanitize=address,undefined</code> 等。</li>
+</ul>
+<p>初学阶段先知道 <code>-Wall -Wextra</code> 就够了。</p>
+<h3 id="8-3-7-本章代码规范：集中建立，后续持续应用">8.3.7 本章代码规范：集中建立，后续持续应用</h3>
+<p>这一章是代码规范的集中整理。把最重要的规则汇总一下：</p>
+<table>
+<thead>
+<tr>
+<th>方面</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>命名</td>
+<td>变量用名词，函数用动词，常量全大写，保持 <code>snake_case</code></td>
+</tr>
+<tr>
+<td>格式</td>
+<td>4 个空格缩进，花括号成对，一行一条语句，运算符两边加空格</td>
+</tr>
+<tr>
+<td>注释</td>
+<td>解释为什么，不要复述代码；注释要和代码同步</td>
+</tr>
+<tr>
+<td>常量</td>
+<td>用 <code>const</code> 替换魔法数字</td>
+</tr>
+<tr>
+<td>函数</td>
+<td>单一职责，函数名清楚，参数和返回值明确</td>
+</tr>
+<tr>
+<td>防御</td>
+<td>检查输入、返回值、除零、越界等情况</td>
+</tr>
+<tr>
+<td>重构</td>
+<td>小步修改，行为不变，改完就运行</td>
+</tr>
+<tr>
+<td>阅读</td>
+<td>先看结构，再看细节；先跑起来，再改一处</td>
+</tr>
+</tbody>
+</table>
+<p>最后记住：</p>
+<blockquote>
+<p>规范是为了让人看懂，不是为了束缚人。</p>
+</blockquote>
+<p>如果某个写法能让代码更清楚，就采用它；如果只是为了“符合规则”而让代码更别扭，那就要重新想一想。</p>
+<hr>
+<h3 id="8-3-8-前七章知识地图">8.3.8 前七章知识地图</h3>
+<p>到这里，第一阶段的知识已经能连成一条线了：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs text">00 程序与开发流程<br>   |<br>01 输出<br>   |<br>02 变量与类型<br>   |<br>03 输入<br>   |<br>04 运算<br>   |<br>05 分支<br>   |<br>06 循环<br>   |<br>07 函数<br>   |<br>08 代码规范与程序阅读<br></code></pre></td></tr></table></figure>
+<p>再配一张项目演进图：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs text">v0.0 空项目<br>  |<br>v0.1 欢迎界面<br>  |<br>v0.2 存一位学生<br>  |<br>v0.3 键盘录入<br>  |<br>v0.4 总分和平均分<br>  |<br>v0.5 等级评定<br>  |<br>v0.6 循环录入<br>  |<br>v0.7 菜单函数化<br></code></pre></td></tr></table></figure>
+<p>下一阶段会继续：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">数组 -&gt; 字符串 -&gt; 指针 -&gt; 结构体 -&gt; 动态内存 -&gt; 链表<br></code></pre></td></tr></table></figure>
+<h2 id="8-4-项目回扣：回看前七章，进行一次小重构">8.4 项目回扣：回看前七章，进行一次小重构</h2>
+<p>这一章不新增学生管理系统的功能版本，而是回头看第 7 章的 v0.7，做一次小重构。</p>
+<h3 id="8-4-1-重构前的问题">8.4.1 重构前的问题</h3>
+<p>第 7 章的项目代码已经能工作，但还有一些可以改进的地方：</p>
+<ol>
+<li><code>read_total_score</code> 中直接写了 <code>0</code> 和 <code>100</code>；</li>
+<li><code>calculate_grade</code> 中直接写了 <code>90.0</code>、<code>80.0</code>、<code>70.0</code>、<code>60.0</code>；</li>
+<li>这些数字含义不明确，属于魔法数字；</li>
+<li>如果以后修改及格线或等级线，需要到处找数字；</li>
+<li>输入合法性检查可以抽成一个函数。</li>
+</ol>
+<h3 id="8-4-2-第一步：提取常量">8.4.2 第一步：提取常量</h3>
+<p>在文件开头增加：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MIN_SCORE = <span class="hljs-number">0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_SCORE = <span class="hljs-number">100</span>;<br><br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_A_MIN = <span class="hljs-number">90.0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_B_MIN = <span class="hljs-number">80.0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_C_MIN = <span class="hljs-number">70.0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_D_MIN = <span class="hljs-number">60.0</span>;<br></code></pre></td></tr></table></figure>
+<p>这样，代码中的数字就有了名字。</p>
+<p>这里补一句：在 C 语言中，文件作用域的 <code>const</code> 变量默认具有外部链接，多文件项目里如果都想定义同名常量，可能会出现重复定义或链接问题。单文件示例先这样写没问题，等到第 16 章讲多文件和头文件时，再讨论更稳妥的组织方式。</p>
+<h3 id="8-4-3-第二步：提取函数">8.4.3 第二步：提取函数</h3>
+<p>增加一个合法性检查函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">is_valid_score</span><span class="hljs-params">(<span class="hljs-type">int</span> score)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> score &gt;= MIN_SCORE &amp;&amp; score &lt;= MAX_SCORE;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>修改 <code>read_total_score</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">read_total_score</span><span class="hljs-params">(<span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第 %d 位学生的成绩：&quot;</span>, i);<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;score) != <span class="hljs-number">1</span>)<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (!is_valid_score(score))<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        total = total + score;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> total;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>修改 <code>calculate_grade</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> <span class="hljs-title function_">calculate_grade</span><span class="hljs-params">(<span class="hljs-type">double</span> average)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (average &gt;= GRADE_A_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;A&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= GRADE_B_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;B&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= GRADE_C_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;C&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= GRADE_D_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;D&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;F&#x27;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="8-4-4-重构后的完整代码">8.4.4 重构后的完整代码</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MIN_SCORE = <span class="hljs-number">0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_SCORE = <span class="hljs-number">100</span>;<br><br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_A_MIN = <span class="hljs-number">90.0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_B_MIN = <span class="hljs-number">80.0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_C_MIN = <span class="hljs-number">70.0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> GRADE_D_MIN = <span class="hljs-number">60.0</span>;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_student_count</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_total_score</span><span class="hljs-params">(<span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">is_valid_score</span><span class="hljs-params">(<span class="hljs-type">int</span> score)</span>;<br><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">char</span> <span class="hljs-title function_">calculate_grade</span><span class="hljs-params">(<span class="hljs-type">double</span> average)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_result</span><span class="hljs-params">(<span class="hljs-type">int</span> count, <span class="hljs-type">int</span> total, <span class="hljs-type">double</span> average, <span class="hljs-type">char</span> grade)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> choice = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        print_menu();<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请选择：&quot;</span>);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;choice) != <span class="hljs-number">1</span>)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">switch</span> (choice)<br>        &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>            &#123;<br>                <span class="hljs-type">int</span> count = read_student_count();<br><br>                <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生人数无效。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">int</span> total = read_total_score(count);<br><br>                <span class="hljs-keyword">if</span> (total &lt; <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩输入失败。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">double</span> average = calculate_average(total, count);<br>                <span class="hljs-type">char</span> grade = calculate_grade(average);<br><br>                print_result(count, total, average, grade);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出学生管理系统。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择，请重新输入。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>    &#125; <span class="hljs-keyword">while</span> (choice != <span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生管理系统 v0.7（重构版） =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1. 录入成绩并统计\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;======================================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">read_student_count</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入学生人数：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;count) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> count;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">read_total_score</span><span class="hljs-params">(<span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第 %d 位学生的成绩：&quot;</span>, i);<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;score) != <span class="hljs-number">1</span>)<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (!is_valid_score(score))<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br><br>        total = total + score;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> total;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">is_valid_score</span><span class="hljs-params">(<span class="hljs-type">int</span> score)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> score &gt;= MIN_SCORE &amp;&amp; score &lt;= MAX_SCORE;<br>&#125;<br><br><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0.0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> (<span class="hljs-type">double</span>)total / count;<br>&#125;<br><br><span class="hljs-type">char</span> <span class="hljs-title function_">calculate_grade</span><span class="hljs-params">(<span class="hljs-type">double</span> average)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (average &gt;= GRADE_A_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;A&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= GRADE_B_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;B&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= GRADE_C_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;C&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= GRADE_D_MIN)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;D&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;F&#x27;</span>;<br>    &#125;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_result</span><span class="hljs-params">(<span class="hljs-type">int</span> count, <span class="hljs-type">int</span> total, <span class="hljs-type">double</span> average, <span class="hljs-type">char</span> grade)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 成绩统计结果 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生人数：%d\n&quot;</span>, count);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总分：%d\n&quot;</span>, total);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分：%.2f\n&quot;</span>, average);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等级：%c\n&quot;</span>, grade);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;========================\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行示例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生管理系统 v0.7（重构版） =====<br>1. 录入成绩并统计<br>0. 退出<br>==============================<br>请选择：1<br>请输入学生人数：3<br>请输入第 1 位学生的成绩：90<br>请输入第 2 位学生的成绩：95<br>请输入第 3 位学生的成绩：88<br><br>===== 成绩统计结果 =====<br>学生人数：3<br>总分：273<br>平均分：91.00<br>等级：A<br>========================<br></code></pre></td></tr></table></figure>
+<h3 id="8-4-5-这次重构改了什么？">8.4.5 这次重构改了什么？</h3>
+<p>这次重构没有增加新功能，但代码更清楚了：</p>
+<ol>
+<li>用 <code>MIN_SCORE</code>、<code>MAX_SCORE</code> 代替了 <code>0</code>、<code>100</code>；</li>
+<li>用等级常量代替了 <code>90.0</code>、<code>80.0</code>、<code>70.0</code>、<code>60.0</code>；</li>
+<li>新增 <code>is_valid_score</code>，把合法性判断单独封装；</li>
+<li>函数职责更清楚；</li>
+<li>以后修改分数范围或等级线时，只需要改常量，不用到处找数字。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>重构前</th>
+<th>重构后</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分数范围</td>
+<td>直接写 <code>0</code> 和 <code>100</code></td>
+<td>使用 <code>MIN_SCORE</code>、<code>MAX_SCORE</code></td>
+</tr>
+<tr>
+<td>等级线</td>
+<td>直接写 <code>90.0</code>、<code>80.0</code> 等</td>
+<td>使用 <code>GRADE_A_MIN</code> 等常量</td>
+</tr>
+<tr>
+<td>合法性检查</td>
+<td>写在 <code>read_total_score</code> 里</td>
+<td>抽成 <code>is_valid_score</code></td>
+</tr>
+<tr>
+<td>可维护性</td>
+<td>修改时要到处找数字</td>
+<td>只改常量即可</td>
+</tr>
+</tbody>
+</table>
+<p>这就是一次典型的小重构：</p>
+<blockquote>
+<p>行为不变，结构变好。</p>
+</blockquote>
+<hr>
+<h2 id="8-5-本章代码规范提示">8.5 本章代码规范提示</h2>
+<ul>
+<li>变量名用有意义的名词，函数名用动词，常量名全大写。</li>
+<li>保持统一的 <code>snake_case</code> 风格。</li>
+<li>使用 4 个空格缩进，花括号成对，一行一条语句。</li>
+<li>运算符两边加空格，逗号后面加空格。</li>
+<li>注释解释“为什么”，并且和代码保持一致。</li>
+<li>用 <code>const</code> 代替魔法数字。</li>
+<li>函数保持单一职责，不要过长。</li>
+<li>复杂功能拆成小函数，再由主函数组合。</li>
+<li>重构时小步进行，不要改变程序行为。</li>
+<li>检查输入、返回值、除零、越界等情况。</li>
+<li>养成阅读编译错误和警告的习惯。</li>
+<li>阅读别人的代码时，先看结构，再看细节。</li>
+<li>规范是为了更清楚，而不是为了形式主义。</li>
+</ul>
+<hr>
+<h2 id="8-6-常见错误">8.6 常见错误</h2>
+<h3 id="错误-1：变量名没有意义">错误 1：变量名没有意义</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">30</span>;<br><span class="hljs-type">double</span> b = <span class="hljs-number">95.5</span>;<br></code></pre></td></tr></table></figure>
+<p>更好的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> student_count = <span class="hljs-number">30</span>;<br><span class="hljs-type">double</span> average_score = <span class="hljs-number">95.5</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：函数做了太多事">错误 2：函数做了太多事</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">do_everything</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 读输入、计算、打印、保存文件……</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>更好的做法是拆成多个单一职责的函数。</p>
+<h3 id="错误-3：魔法数字到处都是">错误 3：魔法数字到处都是</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>更好的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> PASS_SCORE = <span class="hljs-number">60</span>;<br><br><span class="hljs-keyword">if</span> (score &gt;= PASS_SCORE)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-4：注释和代码不一致">错误 4：注释和代码不一致</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// 下面计算平均分</span><br>total = chinese + math + english;<br></code></pre></td></tr></table></figure>
+<p>注释说平均分，代码算的是总分。错误注释比没有注释更误导人。</p>
+<h3 id="错误-5：格式混乱">错误 5：格式混乱</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;<span class="hljs-type">int</span> a=<span class="hljs-number">1</span>;<span class="hljs-keyword">if</span>(a&gt;<span class="hljs-number">0</span>)&#123;<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;正数\n&quot;</span>);&#125;<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;&#125;<br></code></pre></td></tr></table></figure>
+<p>虽然能编译，但很难读。应该加上缩进、空格和换行。</p>
+<h3 id="错误-6：嵌套太深">错误 6：嵌套太深</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (...)<br>&#123;<br>    <span class="hljs-keyword">if</span> (...)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (...)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (...)<br>            &#123;<br>                <span class="hljs-comment">// ...</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>嵌套太深会增加理解成本。可以用提前返回、拆分函数、整理条件来减少嵌套。</p>
+<h3 id="错误-7：忽略编译警告">错误 7：忽略编译警告</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">warning: unused variable &#x27;score&#x27;<br></code></pre></td></tr></table></figure>
+<p>警告不是摆设。它可能提示你写错了变量名，或者有代码没有真正使用。</p>
+<h3 id="错误-8：重构时改变了程序行为">错误 8：重构时改变了程序行为</h3>
+<p>重构的前提是：</p>
+<blockquote>
+<p>不改变程序的对外行为。</p>
+</blockquote>
+<p>如果一边重构一边改功能，出了问题就很难判断是重构引入的，还是新功能引入的。</p>
+<h3 id="错误-9：重复代码不提取">错误 9：重复代码不提取</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第一项成绩：&quot;</span>);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;first_score);<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第二项成绩：&quot;</span>);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;second_score);<br></code></pre></td></tr></table></figure>
+<p>如果某段代码反复出现，或者结构非常相似，可以考虑提取成函数。</p>
+<h3 id="错误-10：防御性检查缺失">错误 10：防御性检查缺失</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = total / count;<br></code></pre></td></tr></table></figure>
+<p>如果 <code>count</code> 可能为 0，就会出现除零问题。</p>
+<p>更稳妥：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">0</span>)<br>&#123;<br>    average = (<span class="hljs-type">double</span>)total / count;<br>&#125;<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="8-7-总结与自测">8.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>代码规范的核心是让人看懂、让程序好改；命名要清楚，格式要一致，注释解释为什么，常量代替魔法数字，函数保持单一职责，重构时小步前进，读写代码都要先看结构再看细节。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li>为什么说“代码首先是写给人看的”？</li>
+<li>变量名、函数名、常量名分别有什么命名建议？</li>
+<li>注释应该解释“为什么”还是“做了什么”？</li>
+<li>什么是魔法数字？怎样改进？</li>
+<li>函数拆分的常见信号有哪些？</li>
+<li>什么是重构？</li>
+<li>重构时最重要的原则是什么？</li>
+<li>防御性编程有哪些常见做法？</li>
+<li>阅读别人的代码时，建议按什么顺序进行？</li>
+<li>为什么编译警告不能随便忽略？</li>
+<li>命名、格式、注释、常量这四类规范，哪一类对你目前的代码影响最大？</li>
+<li>回看自己写过的一段代码，你最想先改哪一点？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>因为代码会被自己、同事和未来的自己阅读、修改和维护，清楚比“炫技”更重要。</li>
+<li>变量名用有意义的名词；函数名用动词；常量名通常全大写加下划线；整体保持 <code>snake_case</code> 风格。</li>
+<li>应该优先解释“为什么”，而不是简单复述代码做了什么。</li>
+<li>魔法数字是代码中含义不明确的数字；可以用 <code>const</code> 常量给它起名字。</li>
+<li>函数太长、嵌套太深、职责太多、重复代码多、很难起名、需要很多注释说明时，都可以考虑拆分。</li>
+<li>重构是在不改变程序外部行为的前提下，改进代码内部结构。</li>
+<li>小步进行，每改一点就重新编译、运行，确保行为不变。</li>
+<li>检查输入范围、返回值、除零、越界、文件打开失败、内存申请失败等情况，并给出清楚提示。</li>
+<li>先看项目说明，再找 <code>main</code>，顺着调用关系看主流程，然后看函数签名、调试运行、修改一小处、做笔记，不要一上来就陷进细节。</li>
+<li>因为警告往往提示潜在 bug、类型不匹配、未使用变量或未定义行为，忽略警告可能让问题以后才爆发。</li>
+<li>开放题，按自己的实际情况回答即可。</li>
+<li>开放题，能说出具体一点的理由即可。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>对第 7 章或第 6 章的任意一段代码做一次小重构。</p>
+<p>要求：</p>
+<ol>
+<li>找出至少 3 个可以改进的地方；</li>
+<li>至少完成一次重命名；</li>
+<li>至少提取 1 个常量；</li>
+<li>至少提取 1 个函数；</li>
+<li>重构前后程序行为必须一致；</li>
+<li>对照 8.3.6 的代码审查清单，写出你改了什么、为什么这样改。</li>
+</ol>
+<hr>
+<h2 id="8-8-下一章">8.8 下一章</h2>
+<p>第 8 章是一个阶段总结。到这里，C 语言基础语法的第一阶段就告一段落了。</p>
+<p>下一章，咱们要进入第二阶段：学习数组，让程序可以批量保存和处理数据。</p>
+<p>关键词是：</p>
+<blockquote>
+<p>数组。</p>
+</blockquote>
+<p><strong>下一章：第 9 章《数组》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

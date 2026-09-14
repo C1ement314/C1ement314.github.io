@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 0 章：学习地图与通用开发流程
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>知道程序是什么、C 语言大概能做什么。</li>
+<li>理解写 C 程序的通用流程，不被某一个软件或操作系统绑住。</li>
+<li>学会基础篇和进阶篇的阅读方式，知道卡住时怎么办。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>第一次读，先看基础篇，把流程弄明白就够了。进阶篇可以快速扫一眼，等学完第 1 章再回来精读。</p>
+</blockquote>
+<p>嘿，我是七平，欢迎来到 C 语言世界！</p>
+<p>先别紧张，这一章不要求你立刻写出多厉害的程序。咱们先把地图摊开，看看接下来要往哪儿走、路上会遇到什么，以及怎么走不容易迷路。</p>
+<hr>
+<h2 id="0-1-先导：不会编程，完全没关系">0.1 先导：不会编程，完全没关系</h2>
+<p>如果你现在对“程序”“代码”“编译”这些词完全没有概念，那太正常了。本教程就是为零基础读者写的。</p>
+<p>你不需要提前通过英语四级，不需要数学特别好，也不需要一上来就懂电脑的所有原理。你只需要：</p>
+<ul>
+<li>会打字；</li>
+<li>愿意动手试一试；</li>
+<li>遇到报错先别慌，咱们一起读错误信息。</li>
+</ul>
+<p>编程不是“背咒语”，更像是学习一种表达方式：你把想法拆成一步一步的指令，然后让计算机照着执行。</p>
+<hr>
+<h2 id="0-2-基础篇：先会用">0.2 基础篇：先会用</h2>
+<h3 id="0-2-1-程序到底是什么？">0.2.1 程序到底是什么？</h3>
+<p>先来一个很朴素的解释：</p>
+<blockquote>
+<p><strong>程序 = 一组有顺序的指令 + 数据。</strong></p>
+</blockquote>
+<p>计算机本身不会“自己想”，它只会按你写的指令做事。程序就是你对它下的命令清单。</p>
+<p>几乎所有程序都可以看成这样一个过程：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">输入 → 处理 → 输出<br></code></pre></td></tr></table></figure>
+<p>比如一个计算器：</p>
+<ul>
+<li>输入：你按下 <code>3 + 5</code>；</li>
+<li>处理：程序计算结果；</li>
+<li>输出：屏幕上显示 <code>8</code>。</li>
+</ul>
+<p>再比如一个闹钟：</p>
+<ul>
+<li>输入：你设置时间；</li>
+<li>处理：程序一直检查当前时间；</li>
+<li>输出：到点了就响。</li>
+</ul>
+<p>你看，编程并不神秘，它就是把“你想让电脑做的事”拆成清晰的步骤。</p>
+<h3 id="0-2-2-C-语言是什么？">0.2.2 C 语言是什么？</h3>
+<p>C 语言是一门<strong>通用的、面向过程的编程语言</strong>。</p>
+<p>它大约在 1972 年由 <strong>丹尼斯·里奇（Dennis Ritchie）</strong> 在贝尔实验室开发，最初与 UNIX 操作系统的开发关系密切。</p>
+<p>C 语言有几个很适合初学者的特点：</p>
+<ul>
+<li><strong>接近底层</strong>：能让你理解计算机内存、数据表示等基础概念。</li>
+<li><strong>效率高</strong>：很多操作系统、编译器、数据库和嵌入式设备都会用到 C。</li>
+<li><strong>可移植性好</strong>：标准 C 代码通常可以在 Windows、macOS、Linux 等不同平台上编译运行。</li>
+<li><strong>标准库实用</strong>：输入输出、字符串、内存管理等都有标准库支持。</li>
+<li><strong>影响深远</strong>：C++、Java、C#、Go、Rust 等很多语言都或多或少受到 C 的影响。</li>
+</ul>
+<p>本教程以 <strong>C11</strong> 标准为基准。C23 是较新的标准，但入门阶段不用追新，C11 已经足够学习核心知识，而且编译器支持广泛。</p>
+<p>更准确地说：<strong>掌握 C 语言之后，你会更容易理解其他编程语言和项目中的底层概念，但仍然需要针对具体语言和项目继续学习。</strong></p>
+<h3 id="0-2-3-通用-C-语言开发流程">0.2.3 通用 C 语言开发流程</h3>
+<p>这一段是本章最重要的内容。</p>
+<p>不管你用的是 CLion、Visual Studio、VS Code，还是直接在命令行里敲命令，写 C 程序都有一个大致的通用流程。咱们把它拆成八步。</p>
+<h4 id="第-1-步：先构思">第 1 步：先构思</h4>
+<p>先别急着写代码。先用中文回答自己三个问题：</p>
+<ol>
+<li>这个程序要接收什么输入？</li>
+<li>它要输出什么结果？</li>
+<li>中间大概分几步？</li>
+</ol>
+<p>如果问题比较简单，可以在脑子里想；如果步骤比较多，就画个流程图。比如“输入两个整数，输出它们的和”，可以先写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">输入：整数 a、整数 b<br>处理：计算 a + b<br>输出：显示结果<br></code></pre></td></tr></table></figure>
+<p>就像在生活中做一件事情需要先策划方案一样，编程也同样需要一个简单的方案。</p>
+<h4 id="第-2-步：创建项目和源文件">第 2 步：创建项目和源文件</h4>
+<p>项目可以理解成一个“代码的收纳盒”，里面放着源代码、配置文件和其他资源。</p>
+<p>C 语言的源代码文件通常以 <code>.c</code> 结尾，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">main.c<br>student.c<br></code></pre></td></tr></table></figure>
+<p>具体怎么创建项目，不同工具的操作不一样。本教程不绑定某个 IDE 的按钮位置；如果你使用 CLion，可以参考七平的 CLion 教程。</p>
+<h4 id="第-3-步：写代码">第 3 步：写代码</h4>
+<p>一开始不要追求“功能完整”。先把程序写成<strong>最小可运行版本</strong>：</p>
+<ul>
+<li>能编译；</li>
+<li>能运行；</li>
+<li>能输出一点东西。</li>
+</ul>
+<p>然后再一点一点加功能。每加一小步，就重新运行一次。这样出错时，你很容易知道是哪一步引入的问题。</p>
+<p>编程的过程和拼积木一样，一步一个脚印。</p>
+<h4 id="第-4-步：编译">第 4 步：编译</h4>
+<p>编译器会检查你的源代码，并把它翻译成计算机能理解的形式。</p>
+<p>这一步常见的结果有三种：</p>
+<ul>
+<li><strong>通过</strong>：没有错误，可以继续；</li>
+<li><strong>有警告(WARNING)</strong>：程序可能仍能生成，但某些写法有风险；</li>
+<li><strong>有错误(ERROR)</strong>：编译失败，必须先修好。</li>
+</ul>
+<p>初学阶段一定要记住：<strong>警告不是装饰品，不要学习某些程序员的“能跑就是没问题”的思想。</strong></p>
+<h4 id="第-5-步：链接">第 5 步：链接</h4>
+<p>编译通过之后，程序还不一定能直接运行，还需要“链接”。</p>
+<p>当你有多个代码文件和多个运行库的时候，需要通过<strong>链接</strong>将所有的东西融合到一起，才会生成最后所使用的<strong>可执行文件</strong></p>
+<p>链接器会把你的目标文件、标准库和其他必要的部分拼在一起，最终形成可执行文件。</p>
+<p>所以：</p>
+<blockquote>
+<p>编译通过 ≠ 一定能链接成功。</p>
+</blockquote>
+<h4 id="第-6-步：运行">第 6 步：运行</h4>
+<p>终于可以运行了！</p>
+<p>运行的时候，不要只看“有没有输出”，还要检查：</p>
+<ul>
+<li>输出对不对？</li>
+<li>输入不同数据时，结果还对吗？</li>
+<li>边界情况会怎样？比如输入 <code>0</code>、负数、很大的数、空字符串等。</li>
+</ul>
+<h4 id="第-7-步：调试和修改">第 7 步：调试和修改</h4>
+<p>程序出错太正常了，不是“你不行”，而是编程本来就是一个不断修正的过程。</p>
+<p>遇到问题时，可以按这个顺序处理：</p>
+<ol>
+<li>读错误信息；</li>
+<li>找到错误信息里提到的文件名和行号；</li>
+<li>看看那一行附近在做什么；</li>
+<li>改一点，重新编译，重新运行；</li>
+<li>如果还没解决，就缩小范围，继续定位。</li>
+</ol>
+<h4 id="第-8-步：重复迭代">第 8 步：重复迭代</h4>
+<p>程序很少一次就写得完美。</p>
+<p>更常见的节奏是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">写一点 → 编译 → 运行 → 发现问题 → 修改 → 再编译 → 再运行<br></code></pre></td></tr></table></figure>
+<p>这就是程序员的日常。别怕重复，重复是进步的一部分。</p>
+<h3 id="0-2-4-为什么不绑定具体平台？">0.2.4 为什么不绑定具体平台？</h3>
+<p>因为<strong>编程语言和开发工具不是一回事</strong>。</p>
+<ul>
+<li>C 语言是编程语言；</li>
+<li>编译器负责翻译 C 代码；</li>
+<li>编辑器负责写代码；</li>
+<li>IDE 把编辑、编译、调试等工具整合在一起；</li>
+<li>构建系统负责管理编译和链接的命令。</li>
+</ul>
+<p>不同操作系统、不同 IDE，按钮长得不一样，但核心流程是一样的：</p>
+<blockquote>
+<p>写代码 → 编译 → 链接 → 运行 → 调试。</p>
+</blockquote>
+<p>本教程默认用 CLion 作为演示环境，但正文不会依赖 CLion 的专属功能。代码示例以标准 C 为主，尽量保证多平台可用。</p>
+<p>CLion 的下载、安装和基础操作，本教程不重复；你可以参考七平的 CLion 教程。</p>
+<h3 id="0-2-5-如何读本教程？">0.2.5 如何读本教程？</h3>
+<p>每一章都分成 <strong>基础篇</strong> 和 <strong>进阶篇</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>作用</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础篇</td>
+<td>先会用</td>
+<td>第一次必读，跟着敲、跟着跑</td>
+</tr>
+<tr>
+<td>进阶篇</td>
+<td>再懂原理</td>
+<td>第一遍可快速浏览，第二遍精读</td>
+</tr>
+<tr>
+<td>小练习</td>
+<td>巩固</td>
+<td>至少做完基础题</td>
+</tr>
+<tr>
+<td>挑战题</td>
+<td>提升</td>
+<td>卡住可以先跳过</td>
+</tr>
+<tr>
+<td>项目回扣</td>
+<td>串联</td>
+<td>看知识如何进入学生管理系统</td>
+</tr>
+<tr>
+<td>规范提示</td>
+<td>习惯</td>
+<td>每章顺手积累一点好习惯</td>
+</tr>
+<tr>
+<td>总结与自测</td>
+<td>检查</td>
+<td>能讲出来才算真的会</td>
+</tr>
+</tbody>
+</table>
+<p>推荐的阅读节奏是：</p>
+<ol>
+<li>
+<p><strong>第一遍：先跑起来。</strong></p>
+<ul>
+<li>读基础篇；</li>
+<li>亲手敲一遍示例；</li>
+<li>运行成功，获得一点小成就感。</li>
+</ul>
+</li>
+<li>
+<p><strong>第二遍：再补原理。</strong></p>
+<ul>
+<li>精读进阶篇；</li>
+<li>重点看“为什么”和“常见坑”；</li>
+<li>完成练习。</li>
+</ul>
+</li>
+<li>
+<p><strong>复习时：抓主线。</strong></p>
+<ul>
+<li>看总结、自测和项目回扣。</li>
+</ul>
+</li>
+<li>
+<p><strong>卡住时：别硬扛。</strong></p>
+<ul>
+<li>先看错误信息；</li>
+<li>再看本章常见错误；</li>
+<li>记录代码和报错，带着具体问题去提问。</li>
+</ul>
+</li>
+</ol>
+<p>可以把阅读节奏记成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">第一遍：基础篇 -&gt; 敲代码 -&gt; 小练习<br>第二遍：进阶篇 -&gt; 常见坑 -&gt; 自测<br>第三遍：项目回扣 -&gt; 重构 -&gt; 挑战题<br></code></pre></td></tr></table></figure>
+<h3 id="0-2-6-第一阶段学习地图">0.2.6 第一阶段学习地图</h3>
+<p>第一阶段从第 0 章到第 8 章，目标是让读者能跑、能算、能判断、能组织代码。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs text">00 学习地图与开发流程<br>   |<br>   v<br>01 第一个 C 程序：会输出<br>   |<br>   v<br>02 变量与数据类型：会存数据<br>   |<br>   v<br>03 输入与输出：会读数据<br>   |<br>   v<br>04 运算符与表达式：会算数据<br>   |<br>   v<br>05 分支结构：会做选择<br>   |<br>   v<br>06 循环结构：会重复做事<br>   |<br>   v<br>07 函数：会把代码打包<br>   |<br>   v<br>08 代码规范与程序阅读：会把代码写清楚<br></code></pre></td></tr></table></figure>
+<p>对应的项目版本：</p>
+<ul>
+<li>00：v0.0 空项目；</li>
+<li>01：v0.1 欢迎界面；</li>
+<li>02：v0.2 存储一位学生；</li>
+<li>03：v0.3 键盘录入；</li>
+<li>04：v0.4 总分与平均分；</li>
+<li>05：v0.5 等级评定；</li>
+<li>06：v0.6 循环录入；</li>
+<li>07：v0.7 菜单与功能函数化；</li>
+<li>08：第 7 章项目的小重构。</li>
+</ul>
+<h3 id="0-2-7-遇到问题怎么提问">0.2.7 遇到问题怎么提问</h3>
+<p>以后写代码一定会遇到问题。提问的方式越清楚，别人越容易帮你。</p>
+<p>提问前先做三件事：</p>
+<ol>
+<li>读一遍错误信息；</li>
+<li>把出错的代码缩短到最小；</li>
+<li>自己先猜一下“哪一行、哪个变量、哪个条件可能不对”。</li>
+</ol>
+<p>一个好的提问模板：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">我想做什么：<br><br>我写了什么代码：<br><br>我期望的结果：<br><br>实际结果或完整错误信息：<br><br>我已经尝试过什么：<br><br>我的环境（操作系统、编辑器/IDE、编译器）：<br></code></pre></td></tr></table></figure>
+<p>提问时尽量避免：</p>
+<ul>
+<li>只说“代码不对”“运行不了”；</li>
+<li>只发一张截图，不贴文字；</li>
+<li>贴几百行代码，却不说明问题在哪里；</li>
+<li>不提供错误信息；</li>
+<li>不说明自己已经尝试过什么。</li>
+</ul>
+<p>记住：</p>
+<blockquote>
+<p>能提出一个清楚的问题，本身就是一种能力。</p>
+</blockquote>
+<h3 id="0-2-8-基础篇小练习">0.2.8 基础篇小练习</h3>
+<ol>
+<li>用自己的话解释：程序、输入、处理、输出分别是什么。</li>
+<li>把“输入两个整数，输出较大的那个”写成中文步骤。</li>
+<li>说出编译和链接的区别，用一句话即可。</li>
+<li>判断对错：只要程序能编译通过，它就一定正确。</li>
+</ol>
+<hr>
+<h2 id="0-3-进阶篇：再懂原理">0.3 进阶篇：再懂原理</h2>
+<p>基础篇让你知道“大概怎么走”。进阶篇要把路面下面的结构也讲清楚。</p>
+<h3 id="0-3-1-从源代码到可执行文件">0.3.1 从源代码到可执行文件</h3>
+<p>你写的 <code>.c</code> 文件叫<strong>源代码</strong>。源代码不能直接由 CPU 执行，它需要经过一系列翻译步骤。</p>
+<p>日常口语里，我们常把整个过程统称为“编译”。但严格来说，从源代码到可执行文件，通常会经历四个阶段：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">源代码 .c<br>   ↓ 预处理<br>预处理后的代码<br>   ↓ 编译<br>汇编代码<br>   ↓ 汇编<br>目标文件 .o / .obj<br>   ↓ 链接<br>可执行文件<br></code></pre></td></tr></table></figure>
+<h4 id="预处理">预处理</h4>
+<p>预处理器会处理以 <code>#</code> 开头的指令，例如：</p>
+<ul>
+<li><code>#include</code>：把头文件内容包含进来；</li>
+<li><code>#define</code>：进行宏替换；</li>
+<li>条件编译等。</li>
+</ul>
+<p>预处理阶段主要做“文本级别的准备”，还不是真正的机器代码翻译。</p>
+<h4 id="编译">编译</h4>
+<p>狭义的“编译”指把预处理后的 C 代码翻译成汇编代码。</p>
+<p>编译器会做语法检查、类型检查、部分优化等工作。你常见的“语法错误”“类型不匹配”通常会在这一阶段被发现。</p>
+<h4 id="汇编">汇编</h4>
+<p>汇编器把汇编代码翻译成<strong>目标文件</strong>。</p>
+<p>目标文件里已经是机器相关的代码，但还不是完整程序，通常不能直接双击运行。</p>
+<p>常见的扩展名：</p>
+<ul>
+<li>Linux / macOS：<code>.o</code></li>
+<li>Windows：<code>.obj</code></li>
+</ul>
+<h4 id="链接">链接</h4>
+<p>链接器把目标文件和标准库、其他目标文件连接起来，解决函数和变量的地址问题，最终生成<strong>可执行文件</strong>。</p>
+<p>比如你调用了 <code>printf</code>，它的实现在标准库里。链接器负责把“调用 <code>printf</code> 的地方”和“<code>printf</code> 的实际实现”接起来。</p>
+<p>这就解释了一个常见现象：</p>
+<blockquote>
+<p>代码语法没问题，编译也通过了，但链接时报错：找不到某个函数。</p>
+</blockquote>
+<p>这通常不是语法错误，而是链接阶段缺少实现或配置。</p>
+<h3 id="0-3-2-编译器、IDE、构建系统，别混在一起">0.3.2 编译器、IDE、构建系统，别混在一起</h3>
+<p>这三个词经常被初学者混用，咱们把它们分开。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>负责什么</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编辑器</td>
+<td>写代码、改代码</td>
+<td>VS Code、Vim、记事本</td>
+</tr>
+<tr>
+<td>编译器</td>
+<td>把 C 代码翻译成机器相关代码</td>
+<td>GCC/MinGW、Clang、MSVC</td>
+</tr>
+<tr>
+<td>链接器</td>
+<td>把目标文件和库组合成可执行文件</td>
+<td>GNU ld、LLD 等</td>
+</tr>
+<tr>
+<td>构建系统</td>
+<td>自动管理编译、链接命令</td>
+<td>Make、CMake</td>
+</tr>
+<tr>
+<td>IDE</td>
+<td>集成编辑、编译、调试等功能的开发环境</td>
+<td>CLion、Visual Studio</td>
+</tr>
+</tbody>
+</table>
+<p>CLion 属于 IDE。它内部通常会使用 CMake 管理构建过程，再调用具体的编译器。</p>
+<p>一些环境里可以用命令行编译，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc main.c -o main<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">clang main.c -o main<br></code></pre></td></tr></table></figure>
+<p>不同平台、不同编译器，命令可能略有区别。本教程不要求你死记命令，但希望你理解：</p>
+<blockquote>
+<p><strong>IDE 只是工具，C 语言本身不等于任何一个 IDE。</strong></p>
+</blockquote>
+<h3 id="0-3-3-编译错误、链接错误、运行时错误">0.3.3 编译错误、链接错误、运行时错误</h3>
+<p>初学者最容易把这三类问题混为一谈。其实它们发生在不同阶段。</p>
+<h4 id="1-编译错误">1. 编译错误</h4>
+<p>发生在编译阶段，通常是：</p>
+<ul>
+<li>少了分号；</li>
+<li>括号不匹配；</li>
+<li>变量名写错；</li>
+<li>类型不匹配；</li>
+<li>使用了未声明的函数或变量。</li>
+</ul>
+<p>特点：<strong>程序无法生成可执行文件。</strong></p>
+<h4 id="2-链接错误">2. 链接错误</h4>
+<p>发生在链接阶段，通常是：</p>
+<ul>
+<li>声明了函数，但没有写函数定义；</li>
+<li>多个文件重复定义同一个函数；</li>
+<li>缺少某个库。</li>
+</ul>
+<p>特点：<strong>编译能过，但最终生成可执行文件失败。</strong></p>
+<h4 id="3-运行时错误">3. 运行时错误</h4>
+<p>发生在程序运行阶段，例如：</p>
+<ul>
+<li>整数除以零；</li>
+<li>数组越界；</li>
+<li>使用了空指针；</li>
+<li>读取了不存在的文件；</li>
+<li>内存泄漏。</li>
+</ul>
+<p>特点：<strong>程序能启动，但可能崩溃、输出错误结果或行为异常。</strong></p>
+<h4 id="4-警告">4. 警告</h4>
+<p>警告不是错误，但它往往意味着代码存在潜在风险。</p>
+<p>例如：把 <code>double</code> 类型的值赋给 <code>int</code> 变量，可能丢失小数部分。编译器可能只给个警告，程序照样能跑，但结果未必是你想要的。</p>
+<p><strong>不要养成“能跑就行、警告不管”的习惯。</strong></p>
+<h3 id="0-3-4-main-函数和返回值">0.3.4 <code>main</code> 函数和返回值</h3>
+<p>在常规的 C 程序中，执行通常从 <code>main</code> 函数开始。</p>
+<p>一个最简单的 <code>main</code> 函数长这样：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里有两个关键点：</p>
+<ul>
+<li><code>int</code> 表示 <code>main</code> 返回一个整数；</li>
+<li><code>return 0;</code> 通常表示程序正常结束。</li>
+</ul>
+<p>为什么要有返回值？因为操作系统或其他调用程序的程序，可能想知道“这个程序到底成功结束了没有”。</p>
+<p>一般来说：</p>
+<ul>
+<li><code>0</code> 表示正常结束；</li>
+<li>非 <code>0</code> 值通常表示某种错误或异常状态。</li>
+</ul>
+<p>初学阶段，你只要先记住：</p>
+<blockquote>
+<p><code>main</code> 是常规 C 程序的入口；<code>return 0;</code> 表示正常退出。</p>
+</blockquote>
+<h3 id="0-3-5-Debug-和-Release">0.3.5 Debug 和 Release</h3>
+<p>构建程序时，常见两种模式：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>特点</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debug</td>
+<td>保留调试信息，优化较少，方便定位问题</td>
+<td>学习和开发阶段</td>
+</tr>
+<tr>
+<td>Release</td>
+<td>开启优化，程序可能更快、更小，但不易调试</td>
+<td>发布和最终交付</td>
+</tr>
+</tbody>
+</table>
+<p>初学者建议先用 Debug 模式，因为调试体验更友好。</p>
+<p>有时候同一个程序，Debug 模式跑得好好的，Release 模式却出现奇怪问题。这通常说明代码里有未定义行为或隐含 bug，而不是“电脑在针对你”。</p>
+<h3 id="0-3-6-为什么现在就要有代码规范意识？">0.3.6 为什么现在就要有代码规范意识？</h3>
+<p>这一章不展开全部规范，但你必须先建立一个意识：</p>
+<blockquote>
+<p><strong>代码首先是写给人看的，其次才是给机器执行的。</strong></p>
+</blockquote>
+<p>计算机不在乎你叫 <code>a</code> 还是 <code>student_score</code>，但你的老师，你的同学，你的同事和未来的你在乎。</p>
+<p><strong>请不要让自己写的代码放一周再回来看就看不懂了！</strong></p>
+<p>好的代码规范能帮你：</p>
+<ul>
+<li>少写错；</li>
+<li>更容易发现自己写错；</li>
+<li>更容易看懂别人写的代码；</li>
+<li>以后和别人合作时不被嫌弃；</li>
+<li>项目变大时还能维护。</li>
+</ul>
+<p>本教程会在前面几章顺手提醒一点小习惯，然后在第 8 章集中讲代码规范。现在你只要记住两条：</p>
+<ol>
+<li>名字要尽量有意义；</li>
+<li>认真读错误信息。</li>
+</ol>
+<hr>
+<h2 id="0-4-项目回扣：学生管理系统-v0-0">0.4 项目回扣：学生管理系统 v0.0</h2>
+<p>本章还没有进入正式编码，所以我们先完成 <strong>v0.0：准备好项目容器</strong>。</p>
+<p>你可以做这些事：</p>
+<ul>
+<li>确认自己有一个可以写 C 代码的环境；</li>
+<li>新建一个空项目或空源文件；</li>
+<li>知道从哪里编译、从哪里运行；</li>
+<li>试着建立一个最简单的源文件，暂时不写复杂代码也可以。</li>
+</ul>
+<p>如果你使用 CLion，具体按钮请参考你的 CLion 教程。本章关心的是：</p>
+<blockquote>
+<p>你知道“写代码 → 编译 → 链接 → 运行”这条链子是怎么走的。</p>
+</blockquote>
+<hr>
+<h2 id="0-5-本章代码规范提示">0.5 本章代码规范提示</h2>
+<ul>
+<li>源文件扩展名用 <code>.c</code>。</li>
+<li>文件名尽量有意义，例如 <code>main.c</code>，不要用 <code>aaa.c</code>。</li>
+<li>一次只做一小步，不要一上来写完几百行。</li>
+<li>遇到警告不要直接忽略。</li>
+<li>报错时先看文件和行号。</li>
+</ul>
+<hr>
+<h2 id="0-6-常见错误">0.6 常见错误</h2>
+<h3 id="错误-1：把-IDE-当成-C-语言">错误 1：把 IDE 当成 C 语言</h3>
+<p>CLion 是 IDE，不是编程语言。换一个编辑器或 IDE，C 语言本身不会变。</p>
+<h3 id="错误-2：以为编译通过就万事大吉">错误 2：以为编译通过就万事大吉</h3>
+<p>编译通过只说明语法和类型检查大体上没问题，不代表逻辑正确，也不代表运行时不会崩溃。</p>
+<h3 id="错误-3：忽略警告">错误 3：忽略警告</h3>
+<p>警告常常是未来 bug 的预告。初学阶段就应该养成处理警告的习惯。</p>
+<h3 id="错误-4：一上来就写大项目">错误 4：一上来就写大项目</h3>
+<p>程序越大，错误越难找。正确做法是：先写最小可运行版本，再逐步添加功能。</p>
+<h3 id="错误-5：卡住时只盯着代码发呆">错误 5：卡住时只盯着代码发呆</h3>
+<p>遇到错误，先读错误信息。错误信息通常会告诉你：</p>
+<ul>
+<li>哪个文件；</li>
+<li>哪一行；</li>
+<li>大概是什么问题。</li>
+</ul>
+<hr>
+<h2 id="0-7-总结与自测">0.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>C 程序的通用流程是：<strong>构思 → 写代码 → 编译 → 链接 → 运行 → 调试 → 重复迭代</strong>；基础篇让你先会用，进阶篇让你懂原理。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li>用自己的话说出“程序”是什么。</li>
+<li>C 语言有哪些适合入门学习的特点？</li>
+<li>从 <code>.c</code> 源文件到可执行文件，通常经过哪四个阶段？</li>
+<li>编译错误、链接错误、运行时错误有什么区别？</li>
+<li>基础篇和进阶篇分别应该怎么读？</li>
+<li>为什么说“编译通过不等于程序正确”？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>程序是一组有顺序的指令和数据，用来让计算机完成特定任务。</li>
+<li>通用、面向过程、接近底层、效率较高、可移植性较好、标准库实用、影响深远。</li>
+<li>预处理 → 编译 → 汇编 → 链接。</li>
+<li>编译错误发生在翻译阶段；链接错误发生在目标文件和库连接阶段；运行时错误发生在程序执行阶段。</li>
+<li>基础篇第一次必读，先把程序跑起来；进阶篇第一遍可快速浏览，第二遍精读原理、边界和常见坑。</li>
+<li>编译只检查语法和类型等层面；程序逻辑是否正确、运行时是否会越界或崩溃，还需要测试和调试。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>用自然语言设计一个“学生管理系统”的第一版流程，不要求写 C 代码。</p>
+<p>至少回答：</p>
+<ol>
+<li>程序要接收哪些输入？</li>
+<li>程序要输出什么？</li>
+<li>数据要经过哪些步骤？</li>
+<li>如果用户输入错误，程序应该怎么处理？</li>
+<li>你打算先实现哪一个最小功能？</li>
+</ol>
+<p>可以用中文步骤、流程图或伪代码表示。这个挑战没有标准答案，重点是练习“先构思，再写代码”。</p>
+<hr>
+<h2 id="0-8-下一章">0.8 下一章</h2>
+<p>下一章，咱们就正式写出第一个 C 程序。</p>
+<p>代码会很短，但就是从这一小步开始，你会慢慢拥有把想法变成程序的能力。</p>
+<p><strong>你好，世界！</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 2 章：变量与数据类型
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>理解变量是什么，以及变量为什么需要类型。</li>
+<li>掌握 <code>int</code>、<code>float</code>、<code>double</code>、<code>char</code> 四种基本类型的用法。</li>
+<li>学会声明变量、初始化变量、给变量赋值，并用 <code>printf</code> 输出变量。</li>
+<li>建立“变量命名要有意义”的规范意识。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你会声明、会赋值、会输出。进阶篇会讲类型大小、整数表示、补码、浮点精度、<code>const</code> 和 <code>sizeof</code>，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。上一章咱们让程序学会了“说话”，但它还不会“记事”。</p>
+<p>这一章，咱们要让程序学会保存数据：学号、姓名、成绩、年龄……这些内容都需要先放进变量里。</p>
+<hr>
+<h2 id="2-1-先导：程序为什么需要变量？">2.1 先导：程序为什么需要变量？</h2>
+<p>假设你要写一个学生管理系统。</p>
+<p>程序至少需要记住这些信息：</p>
+<ul>
+<li>学号：2025114514</li>
+<li>姓名：七平</li>
+<li>成绩：95.5</li>
+<li>等级：A</li>
+</ul>
+<p>如果程序不能把这些数据保存起来，那它每处理一步就要重新问一遍，显然不现实。</p>
+<p>所以，程序需要一种“有名字的存储空间”，把数据放进去，之后随时可以通过名字取出来使用。</p>
+<p>这个“有名字的存储空间”，就是<strong>变量</strong>。</p>
+<p>你可以把变量想象成一个贴了标签的盒子：</p>
+<ul>
+<li>标签：变量名，例如 <code>score</code>；</li>
+<li>盒子形状：数据类型，例如 <code>int</code> 或 <code>double</code>；</li>
+<li>盒子里的东西：变量的值，例如 <code>95.5</code>。</li>
+</ul>
+<p>变量通常包含三个要素：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">类型 + 名字 + 值<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>int</code> 是类型；</li>
+<li><code>age</code> 是名字；</li>
+<li><code>18</code> 是值。</li>
+</ul>
+<hr>
+<h2 id="2-2-基础篇：先会用">2.2 基础篇：先会用</h2>
+<h3 id="2-2-1-声明变量">2.2.1 声明变量</h3>
+<p>在 C 语言中，使用变量之前通常要先声明它。</p>
+<p>声明变量的基本格式是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">类型 变量名;<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> age;<br><span class="hljs-type">double</span> score;<br><span class="hljs-type">char</span> level;<br></code></pre></td></tr></table></figure>
+<p>这三行分别声明了：</p>
+<ul>
+<li>一个 <code>int</code> 类型的变量 <code>age</code>；</li>
+<li>一个 <code>double</code> 类型的变量 <code>score</code>；</li>
+<li>一个 <code>char</code> 类型的变量 <code>level</code>。</li>
+</ul>
+<p>声明的作用是告诉编译器：</p>
+<blockquote>
+<p>我要创建一个名叫 <code>age</code> 的变量，它的类型是 <code>int</code>。</p>
+</blockquote>
+<h3 id="2-2-2-赋值与初始化">2.2.2 赋值与初始化</h3>
+<p>声明变量之后，可以给它赋值：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">age = <span class="hljs-number">18</span>;<br>score = <span class="hljs-number">95.5</span>;<br>level = <span class="hljs-string">&#x27;A&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>这里的 <code>=</code> 是<strong>赋值运算符</strong>，意思是“把右边的值放进左边的变量”。</p>
+<p>注意：<code>=</code> 不是数学上的“等于”，而是“赋值”。数学上的相等在 C 语言里用 <code>==</code> 表示，这个后面会详细讲。</p>
+<p>你也可以在声明变量的同时直接赋值，这叫<strong>初始化</strong>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;<br><span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br><span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>初始化与赋值的区别：</p>
+<ul>
+<li><strong>初始化</strong>：创建变量时顺便给初值；</li>
+<li><strong>赋值</strong>：变量已经存在，修改它的值。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;   <span class="hljs-comment">// 初始化</span><br>age = <span class="hljs-number">19</span>;       <span class="hljs-comment">// 赋值：把 age 的值改成 19</span><br></code></pre></td></tr></table></figure>
+<p>初学阶段，建议尽量在声明变量时就初始化：</p>
+<blockquote>
+<p>能初始化，就不要让它先空着。</p>
+</blockquote>
+<p>因为读取未初始化的局部变量属于未定义行为。直接拿它参与计算，可能出现莫名其妙的错误。</p>
+<h3 id="2-2-3-基本数据类型：int、float、double、char">2.2.3 基本数据类型：int、float、double、char</h3>
+<p>C 语言有很多数据类型，入门阶段先掌握四个最常用的。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>用途</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>整数</td>
+<td><code>18</code>、<code>-3</code>、<code>1000</code></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>单精度浮点数</td>
+<td><code>3.14f</code>、<code>-0.5f</code></td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td>双精度浮点数</td>
+<td><code>3.1415926</code>、<code>95.5</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>单个字符</td>
+<td><code>'A'</code>、<code>'7'</code>、<code>'\n'</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="int：整数类型">int：整数类型</h4>
+<p><code>int</code> 用来保存整数，例如人数、年龄、学号、数量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> student_count = <span class="hljs-number">30</span>;<br><span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;<br><span class="hljs-type">int</span> score = <span class="hljs-number">95</span>;<br></code></pre></td></tr></table></figure>
+<p>这里的 <code>95</code> 是整数，不包含小数部分。</p>
+<h4 id="float-和-double：浮点数类型">float 和 double：浮点数类型</h4>
+<p>浮点数可以简单理解为“带小数的数字”。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">float</span> price = <span class="hljs-number">3.14f</span>;<br><span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br></code></pre></td></tr></table></figure>
+<p>为什么有两个浮点类型？</p>
+<ul>
+<li><code>float</code> 是单精度浮点数，占用的空间通常比 <code>double</code> 少，精度也低一些；</li>
+<li><code>double</code> 是双精度浮点数，精度通常更高，日常写小数建议优先使用 <code>double</code>。</li>
+</ul>
+<p>注意 <code>3.14f</code> 末尾的 <code>f</code>：</p>
+<ul>
+<li><code>3.14f</code> 的类型是 <code>float</code>；</li>
+<li><code>3.14</code> 的类型是 <code>double</code>；</li>
+<li>如果写 <code>float price = 3.14;</code>，编译器可能会给出警告，因为 <code>3.14</code> 是 <code>double</code>，赋给 <code>float</code> 可能损失精度。</li>
+</ul>
+<p>初学阶段可以这样记：</p>
+<blockquote>
+<p>普通小数优先用 <code>double</code>；确实需要 <code>float</code> 时，字面量后面加 <code>f</code>。</p>
+</blockquote>
+<h4 id="char：字符类型">char：字符类型</h4>
+<p><code>char</code> 用来保存单个字符，例如字母、数字字符、符号。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br><span class="hljs-type">char</span> grade = <span class="hljs-string">&#x27;B&#x27;</span>;<br><span class="hljs-type">char</span> newline = <span class="hljs-string">&#x27;\n&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>字符字面量用单引号，例如 <code>'A'</code>；</li>
+<li>字符串字面量用双引号，例如 <code>&quot;A&quot;</code>；</li>
+<li><code>'A'</code> 是一个字符；</li>
+<li><code>&quot;A&quot;</code> 是一个字符串，不是 <code>char</code>。</li>
+</ul>
+<p>这是初学者非常容易混淆的一点。</p>
+<h3 id="2-2-4-用-printf-输出变量">2.2.4 用 printf 输出变量</h3>
+<p>上一章咱们用 <code>printf</code> 输出文字，现在可以用它输出变量。</p>
+<p>常见格式说明符如下：</p>
+<table>
+<thead>
+<tr>
+<th>格式说明符</th>
+<th>对应的类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%d</code></td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>%f</code></td>
+<td><code>float</code>、<code>double</code>（输出时）</td>
+</tr>
+<tr>
+<td><code>%c</code></td>
+<td><code>char</code></td>
+</tr>
+<tr>
+<td><code>%s</code></td>
+<td>字符串（后面章节详细讲）</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br>    <span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;年龄：%d\n&quot;</span>, age);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩：%f\n&quot;</span>, score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等级：%c\n&quot;</span>, level);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果大致是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">年龄：18<br>成绩：95.500000<br>等级：A<br></code></pre></td></tr></table></figure>
+<p>这里 <code>%f</code> 默认输出 6 位小数。</p>
+<p>如果只想输出两位小数，可以写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩：%.2f\n&quot;</span>, score);<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">成绩：95.50<br></code></pre></td></tr></table></figure>
+<p>关于小数位数控制，后面还会再讲。现在先记住：</p>
+<blockquote>
+<p><code>printf</code> 的格式说明符要和变量类型匹配。</p>
+</blockquote>
+<p>比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);   <span class="hljs-comment">// 不推荐：score 是 double，却用 %d</span><br></code></pre></td></tr></table></figure>
+<p>这种类型不匹配的写法可能输出错误结果，甚至导致未定义行为。</p>
+<h3 id="2-2-5-变量命名要有意义">2.2.5 变量命名要有意义</h3>
+<p>变量名不是随便起的。虽然 <code>a</code>、<code>b</code>、<code>c</code> 也能编译通过，但可读性很差。</p>
+<p>对比一下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">30</span>;<br><span class="hljs-type">double</span> b = <span class="hljs-number">95.5</span>;<br><span class="hljs-type">char</span> c = <span class="hljs-string">&#x27;A&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>和：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> student_count = <span class="hljs-number">30</span>;<br><span class="hljs-type">double</span> average_score = <span class="hljs-number">95.5</span>;<br><span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>第二种明显更容易看懂。</p>
+<p>C 语言中变量命名的基本规则：</p>
+<ol>
+<li>只能使用字母、数字和下划线；</li>
+<li>不能以数字开头；</li>
+<li>区分大小写，<code>age</code> 和 <code>Age</code> 是两个不同的名字；</li>
+<li>不能使用 C 语言关键字，例如 <code>int</code>、<code>return</code>、<code>if</code>；</li>
+<li>名字要有意义，尽量做到“见名知意”。</li>
+</ol>
+<p>C 语言社区常见的变量命名风格是 <strong>snake_case</strong>，也就是：</p>
+<ul>
+<li>全部小写；</li>
+<li>单词之间用下划线分隔。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> student_count;<br><span class="hljs-type">double</span> average_score;<br><span class="hljs-type">char</span> first_letter;<br></code></pre></td></tr></table></figure>
+<p>注意不要用 <code>l</code> 和 <code>O</code> 这种容易和数字 <code>1</code>、<code>0</code> 混淆的名字。</p>
+<h3 id="2-2-6-基础篇小练习">2.2.6 基础篇小练习</h3>
+<ol>
+<li>声明一个 <code>int</code> 变量保存你的年龄，并初始化。</li>
+<li>声明一个 <code>double</code> 变量保存你的身高，并初始化。</li>
+<li>声明一个 <code>char</code> 变量保存你名字的首字母，并初始化。</li>
+<li>用 <code>printf</code> 把上面三个变量的值输出出来。</li>
+<li>修改年龄的值，再次输出。</li>
+<li>判断下面哪些变量名不合法：<code>2age</code>、<code>student_count</code>、<code>double</code>、<code>_score</code>、<code>MyName</code>。</li>
+</ol>
+<hr>
+<h2 id="2-3-进阶篇：再懂原理">2.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会用了，进阶篇咱们把类型背后的规则讲清楚。</p>
+<h3 id="2-3-1-类型大小与-sizeof">2.3.1 类型大小与 sizeof</h3>
+<p>不同类型的变量，在内存中占用的空间可能不同。</p>
+<p>C 语言提供了一个运算符 <code>sizeof</code>，用来获取类型或对象占用的字节数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;char:   %zu 字节\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">char</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;int:    %zu 字节\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;float:  %zu 字节\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">float</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;double: %zu 字节\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">double</span>));<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在常见平台上，结果可能是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">char:   1 字节<br>int:    4 字节<br>float:  4 字节<br>double: 8 字节<br></code></pre></td></tr></table></figure>
+<p>为什么说“可能”？</p>
+<p>因为 C 标准并没有规定 <code>int</code> 必须是 4 字节，也没有规定 <code>double</code> 必须是 8 字节。它只规定了每种类型至少要能表示什么范围，以及各种类型之间的相对大小关系。</p>
+<p>不过有一个重要保证：</p>
+<blockquote>
+<p><code>sizeof(char)</code> 一定等于 <code>1</code>。</p>
+</blockquote>
+<p>C 语言中的“字节”不一定等于 8 位，具体由实现决定。只是在大多数常见平台上，1 字节等于 8 位。</p>
+<p><code>sizeof</code> 是运算符，不是函数。它可以用于类型：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>)<br></code></pre></td></tr></table></figure>
+<p>也可以用于变量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span> age);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(age));<br></code></pre></td></tr></table></figure>
+<p>两种写法都可以。<code>sizeof</code> 返回的类型是 <code>size_t</code>，所以用 <code>printf</code> 输出时推荐使用 <code>%zu</code>。</p>
+<p>如果你想知道某种类型能表示的最大值、最小值，可以包含 <code>&lt;limits.h&gt;</code> 或 <code>&lt;float.h&gt;</code>，使用其中的宏，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;limits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;int 最大值：%d\n&quot;</span>, INT_MAX);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;int 最小值：%d\n&quot;</span>, INT_MIN);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>不要凭空假设 <code>int</code> 一定是 32 位。写可移植代码时，优先使用标准提供的信息，而不是硬编码大小。</p>
+<h4 id="类型、格式符、大小、地址速查（预告）">类型、格式符、大小、地址速查（预告）</h4>
+<p>把前面学过的类型放到一起看：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>输入格式</th>
+<th>输出格式</th>
+<th>常见大小</th>
+<th>后面会用到</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td><code>%d</code></td>
+<td><code>%d</code></td>
+<td>4 字节</td>
+<td>数组、指针</td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td><code>%f</code></td>
+<td><code>%f</code></td>
+<td>4 字节</td>
+<td>浮点计算</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td><code>%lf</code></td>
+<td><code>%f</code></td>
+<td>8 字节</td>
+<td>成绩、平均分</td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td><code>%c</code></td>
+<td><code>%c</code></td>
+<td>1 字节</td>
+<td>字符、字符串</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>不能整体输入</td>
+<td>不能整体输出</td>
+<td>连续多个元素</td>
+<td>第 9 章</td>
+</tr>
+<tr>
+<td>指针</td>
+<td>不能直接输入</td>
+<td><code>%p</code></td>
+<td>常见 4 或 8 字节</td>
+<td>第 11 章</td>
+</tr>
+</tbody>
+</table>
+<p>这张表先混个眼熟。后面学到输入、数组和指针时，会反复回到“类型、格式符、大小、地址”这四个词。</p>
+<h3 id="2-3-2-整数在内存里怎么存？">2.3.2 整数在内存里怎么存？</h3>
+<p>计算机内部使用二进制表示数据，也就是只认识 0 和 1。</p>
+<p>对于一个 8 位的无符号整数：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">00000000 表示 0<br>00000001 表示 1<br>00000010 表示 2<br>...<br>11111111 表示 255<br></code></pre></td></tr></table></figure>
+<p>所以 8 位无符号整数的范围是 0 到 255。</p>
+<p>那负数怎么表示？</p>
+<p>在大多数现代平台上，有符号整数使用<strong>补码</strong>表示。</p>
+<p>以 8 位补码为例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">00000000 表示 0<br>00000001 表示 1<br>01111111 表示 127<br>10000000 表示 -128<br>11111111 表示 -1<br></code></pre></td></tr></table></figure>
+<p>因此，8 位有符号整数的范围是 -128 到 127。</p>
+<p>这里要注意：</p>
+<ul>
+<li>C11 标准并没有强制所有平台都必须使用补码，但现实中绝大多数平台使用补码；</li>
+<li><code>char</code> 到底是有符号还是无符号，由具体实现决定；</li>
+<li>如果你需要明确的有符号或无符号字符，可以写 <code>signed char</code> 或 <code>unsigned char</code>。</li>
+</ul>
+<p>整数还有一个必须知道的问题：<strong>溢出</strong>。</p>
+<ul>
+<li>无符号整数溢出时，结果会按 2 的 N 次方取模，也就是“绕回去”；</li>
+<li>有符号整数溢出是未定义行为，不要依赖它产生任何特定结果。</li>
+</ul>
+<p>所以，写代码时不要假设整数可以无限大。选择类型时，要考虑数据可能达到的范围。</p>
+<p>关于这一点，如果你玩过一些游戏，可能见过 127 或 2147483647 这类数字相关的 bug。这通常是因为某些类型能表示的范围有限。比如在常见的 8 位有符号字符、32 位有符号整数实现中，char 的范围可能是 -128 到 127，int 的范围可能是 -2147483648 到 2147483647。但要注意：char 是否有符号由实现决定，int 也不一定是 32 位。写程序时不能把这些范围当成 C 语言在所有平台上的保证。</p>
+<h4 id="常见整数类型范围速查">常见整数类型范围速查</h4>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>常见宽度</th>
+<th>常见范围</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char</code></td>
+<td>8 位</td>
+<td>-128 到 127 或 0 到 255</td>
+<td>是否有符号由实现决定</td>
+</tr>
+<tr>
+<td><code>unsigned char</code></td>
+<td>8 位</td>
+<td>0 到 255</td>
+<td>无符号字符</td>
+</tr>
+<tr>
+<td><code>short</code></td>
+<td>16 位</td>
+<td>-32768 到 32767</td>
+<td>至少 16 位</td>
+</tr>
+<tr>
+<td><code>unsigned short</code></td>
+<td>16 位</td>
+<td>0 到 65535</td>
+<td>无符号短整数</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td>32 位</td>
+<td>-2147483648 到 2147483647</td>
+<td>常见平台；标准只保证至少 16 位</td>
+</tr>
+<tr>
+<td><code>unsigned int</code></td>
+<td>32 位</td>
+<td>0 到 4294967295</td>
+<td>无符号整数</td>
+</tr>
+<tr>
+<td><code>long</code></td>
+<td>32 或 64 位</td>
+<td>随平台变化</td>
+<td>Windows 常为 32 位，Linux/macOS 常为 64 位</td>
+</tr>
+<tr>
+<td><code>long long</code></td>
+<td>64 位</td>
+<td>约 -9.22e18 到 9.22e18</td>
+<td>至少 64 位</td>
+</tr>
+</tbody>
+</table>
+<p>注意：表里的“常见宽度”只是常见实现，不是 C 标准的硬性规定。真正需要精确宽度时，可以用 <code>&lt;stdint.h&gt;</code>。</p>
+<h4 id="stdint-h-预览">stdint.h 预览</h4>
+<p>如果不想猜类型大小，可以包含 <code>&lt;stdint.h&gt;</code>，使用固定宽度类型：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><br><span class="hljs-type">int32_t</span> score = <span class="hljs-number">95</span>;<br><span class="hljs-type">uint64_t</span> student_id = <span class="hljs-number">2025114514ULL</span>;<br></code></pre></td></tr></table></figure>
+<p>常见固定宽度类型：</p>
+<ul>
+<li><code>int8_t</code>、<code>uint8_t</code></li>
+<li><code>int16_t</code>、<code>uint16_t</code></li>
+<li><code>int32_t</code>、<code>uint32_t</code></li>
+<li><code>int64_t</code>、<code>uint64_t</code></li>
+</ul>
+<p>如果某个平台不支持正好 8 位、16 位、32 位、64 位的类型，这些类型可能不存在。还有 <code>int_least8_t</code>、<code>int_fast8_t</code> 等“至少宽度”和“最快宽度”类型，后面需要时再查。</p>
+<p>用 <code>printf</code> 输出这些类型时，可以配合 <code>&lt;inttypes.h&gt;</code> 中的 <code>PRId32</code>、<code>PRIu64</code> 等宏；具体以后遇到再讲。</p>
+<h4 id="有符号和无符号混用">有符号和无符号混用</h4>
+<p>有符号和无符号整数放在一起运算时，可能发生让人意外的转换：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">-1</span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> b = <span class="hljs-number">1</span>;<br><br><span class="hljs-keyword">if</span> (a &lt; b)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &lt; b\n&quot;</span>);<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &gt;= b\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这类常见平台上，比较时 <code>a</code> 会被转换成 <code>unsigned int</code>，<code>-1</code> 变成一个非常大的无符号数，所以输出可能是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">a &gt;= b<br></code></pre></td></tr></table></figure>
+<p>因此，初学阶段尽量不要随意把有符号和无符号整数混在一起比较或运算。</p>
+<h3 id="2-3-3-浮点数为什么有时算不准？">2.3.3 浮点数为什么有时算不准？</h3>
+<p>很多初学者会惊讶地发现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> value = <span class="hljs-number">0.1</span> + <span class="hljs-number">0.2</span>;<br></code></pre></td></tr></table></figure>
+<p>结果可能不是精确的 <code>0.3</code>。</p>
+<p>这不是 C 语言“坏了”，而是因为计算机使用二进制表示小数。</p>
+<p>有些十进制小数，例如 <code>0.1</code>，在二进制中是无限循环小数，无法用有限位数精确表示。于是，程序只能保存一个非常接近的近似值。</p>
+<p>由此带来两个结论：</p>
+<ol>
+<li>浮点数适合表示带小数的数据，但不一定精确；</li>
+<li>不要直接用 <code>==</code> 比较两个浮点数是否相等。</li>
+</ol>
+<p>比如，不推荐这样写：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (a == b)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>更稳妥的做法是判断它们的差值是否足够小，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;math.h&gt;</span></span><br><br><span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(a - b) &lt; <span class="hljs-number">1e-9</span>)<br>&#123;<br>    <span class="hljs-comment">// 认为两者足够接近</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>关于 <code>if</code> 的细节，后面章节会继续讲；<code>fabs</code> 是 <code>&lt;math.h&gt;</code> 中的数学函数，在部分环境下还需要在构建配置中链接数学库。这里先知道“浮点数比较不能太天真”就够了。</p>
+<p>另外，<code>float</code> 和 <code>double</code> 的精度不同：</p>
+<ul>
+<li><code>float</code> 通常能提供大约 6 到 7 位有效十进制数字；</li>
+<li><code>double</code> 通常能提供大约 15 到 16 位有效十进制数字。</li>
+</ul>
+<p>C 标准并不强制要求使用 IEEE 754 浮点格式，但大多数常见平台都采用它。</p>
+<h3 id="2-3-4-类型转换">2.3.4 类型转换</h3>
+<p>不同类型的数据放在一起运算时，C 语言会进行类型转换。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> count = <span class="hljs-number">5</span>;<br><span class="hljs-type">double</span> average = count / <span class="hljs-number">2.0</span>;<br></code></pre></td></tr></table></figure>
+<p>这里 <code>count</code> 会先转换成 <code>double</code>，然后和 <code>2.0</code> 进行浮点除法，结果是 <code>2.5</code>。</p>
+<p>但如果写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> count = <span class="hljs-number">5</span>;<br><span class="hljs-type">double</span> average = count / <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<p>因为 <code>count</code> 和 <code>2</code> 都是整数，所以会先进行<strong>整数除法</strong>，结果是 <code>2</code>，然后再转换成 <code>double</code> 赋给 <code>average</code>。</p>
+<p>这又是一个初学者常踩的坑：</p>
+<blockquote>
+<p>整数除以整数，结果还是整数，小数部分会被丢弃。</p>
+</blockquote>
+<p>如果想得到小数结果，可以让其中一个操作数变成浮点数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = count / <span class="hljs-number">2.0</span>;<br></code></pre></td></tr></table></figure>
+<p>也可以使用强制类型转换：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = (<span class="hljs-type">double</span>)count / <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<p>从浮点数转换成整数时，小数部分会被截断，而不是四舍五入。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">3.9</span>;    <span class="hljs-comment">// a 得到 3</span><br><span class="hljs-type">int</span> b = <span class="hljs-number">-3.9</span>;   <span class="hljs-comment">// b 得到 -3</span><br></code></pre></td></tr></table></figure>
+<p>注意，这种转换可能丢失信息。如果不是你明确想要的效果，就不要随意转换类型。</p>
+<h4 id="类型转换综合例子">类型转换综合例子</h4>
+<p>类型转换是初学者很容易踩坑的地方，集中看几个例子。</p>
+<h4 id="1-整数除法">1. 整数除法</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><br><span class="hljs-type">double</span> r1 = a / b;         <span class="hljs-comment">// 2.0</span><br><span class="hljs-type">double</span> r2 = a / <span class="hljs-number">2.0</span>;       <span class="hljs-comment">// 2.5</span><br><span class="hljs-type">double</span> r3 = (<span class="hljs-type">double</span>)a / b; <span class="hljs-comment">// 2.5</span><br></code></pre></td></tr></table></figure>
+<p>原因：</p>
+<ul>
+<li><code>a / b</code> 两边都是整数，先做整数除法；</li>
+<li>只要其中一个操作数是浮点数，就会做浮点除法；</li>
+<li>强制类型转换可以临时改变类型。</li>
+</ul>
+<h4 id="2-浮点数转整数会截断">2. 浮点数转整数会截断</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> x = <span class="hljs-number">3.9</span>;    <span class="hljs-comment">// x 得到 3</span><br><span class="hljs-type">int</span> y = <span class="hljs-number">-3.9</span>;   <span class="hljs-comment">// y 得到 -3</span><br></code></pre></td></tr></table></figure>
+<p>浮点转整数不是四舍五入，而是丢弃小数部分。</p>
+<h4 id="3-整数转浮点">3. 整数转浮点</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><span class="hljs-type">double</span> average = score;   <span class="hljs-comment">// 90.0</span><br></code></pre></td></tr></table></figure>
+<p>整数转浮点通常不会丢失整数部分，但超出浮点精度范围时仍可能出问题。</p>
+<h4 id="4-有符号和无符号混用">4. 有符号和无符号混用</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">-1</span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> b = <span class="hljs-number">1</span>;<br><br><span class="hljs-keyword">if</span> (a &lt; b)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &lt; b\n&quot;</span>);<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &gt;= b\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这类常见平台上，<code>a</code> 会被转换成无符号数，结果可能不是数学上的 <code>-1 &lt; 1</code>。</p>
+<h4 id="5-格式符必须匹配类型">5. 格式符必须匹配类型</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);   <span class="hljs-comment">// 错误</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f\n&quot;</span>, score);   <span class="hljs-comment">// 正确</span><br></code></pre></td></tr></table></figure>
+<p>格式符和实际类型不匹配，结果不可靠。</p>
+<h4 id="6-类型转换速查">6. 类型转换速查</h4>
+<table>
+<thead>
+<tr>
+<th>转换方向</th>
+<th>可能发生什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code> 转 <code>double</code></td>
+<td>通常安全</td>
+</tr>
+<tr>
+<td><code>double</code> 转 <code>int</code></td>
+<td>小数部分被丢弃</td>
+</tr>
+<tr>
+<td>有符号转无符号</td>
+<td>负数可能变成很大的正数</td>
+</tr>
+<tr>
+<td>大范围转小范围</td>
+<td>可能溢出或截断</td>
+</tr>
+<tr>
+<td>不同类型混合运算</td>
+<td>按类型规则转换</td>
+</tr>
+</tbody>
+</table>
+<p>初学阶段记住：</p>
+<blockquote>
+<p>不确定时，显式写强制类型转换，并确认格式符与类型匹配。</p>
+</blockquote>
+<h3 id="2-3-5-const：让变量变成只读">2.3.5 const：让变量变成只读</h3>
+<p>有些值在程序运行过程中不应该被修改，例如最大学生人数、固定税率等。</p>
+<p>这时可以用 <code>const</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_STUDENTS = <span class="hljs-number">100</span>;<br></code></pre></td></tr></table></figure>
+<p><code>const</code> 表示这个变量的值不能被修改。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">MAX_STUDENTS = <span class="hljs-number">200</span>;   <span class="hljs-comment">// 错误：不能修改 const 变量</span><br></code></pre></td></tr></table></figure>
+<p>建议给常量使用有意义的名字，常见风格是全大写加下划线：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_STUDENTS = <span class="hljs-number">100</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">double</span> PI = <span class="hljs-number">3.1415926</span>;<br></code></pre></td></tr></table></figure>
+<p><code>const</code> 和 <code>#define</code> 都可以用来表示“不变的值”，但它们的机制不同：</p>
+<ul>
+<li><code>const</code> 定义的是只读变量，有类型；</li>
+<li><code>#define</code> 是预处理宏替换，没有类型检查。</li>
+</ul>
+<p>预处理器会在后面的章节详细讲。现在先知道：</p>
+<blockquote>
+<p>如果一个值不应该被修改，就尽量用 <code>const</code> 表达出来。</p>
+</blockquote>
+<h3 id="2-3-6-未初始化、溢出和精度损失">2.3.6 未初始化、溢出和精度损失</h3>
+<p>这三种问题，是初学者最容易遇到的“数值类 bug”。</p>
+<h4 id="1-未初始化">1. 未初始化</h4>
+<p>函数内部的普通局部变量不会自动变成 0。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);   <span class="hljs-comment">// 危险：读取未初始化变量属于未定义行为</span><br></code></pre></td></tr></table></figure>
+<p>正确做法是初始化：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="2-溢出">2. 溢出</h4>
+<p>每种整数类型都有范围限制。</p>
+<p>如果计算结果超过范围，就可能发生溢出：</p>
+<ul>
+<li>无符号整数溢出会按模运算“绕回去”；</li>
+<li>有符号整数溢出属于未定义行为。</li>
+</ul>
+<p>所以，选择类型时不要只图方便，要考虑数据范围。</p>
+<h4 id="3-精度损失">3. 精度损失</h4>
+<p>浮点数不能精确表示所有小数。</p>
+<p>另外，把 <code>double</code> 赋给 <code>float</code>，或者把浮点数赋给整数，也可能丢失精度。</p>
+<p>写程序时，要清楚每一次类型转换可能带来什么后果。</p>
+<h3 id="2-3-7-本章代码规范：命名与初始化">2.3.7 本章代码规范：命名与初始化</h3>
+<p>这一章先集中记住两条规范：</p>
+<ol>
+<li>
+<p><strong>变量名要有意义</strong></p>
+<ul>
+<li>推荐：<code>student_count</code>、<code>average_score</code>、<code>first_letter</code></li>
+<li>不推荐：<code>a</code>、<code>b</code>、<code>c</code>、<code>x1</code>、<code>data2</code></li>
+</ul>
+</li>
+<li>
+<p><strong>能初始化就初始化</strong></p>
+<ul>
+<li>推荐：<code>int score = 0;</code></li>
+<li>不推荐：<code>int score;</code> 然后过很久才赋值</li>
+</ul>
+</li>
+</ol>
+<p>另外还有几个小习惯：</p>
+<ul>
+<li>一行声明一个变量，通常比 <code>int a, b, c;</code> 更容易阅读；</li>
+<li>常量名用全大写加下划线，例如 <code>MAX_STUDENTS</code>；</li>
+<li>不要用容易和数字混淆的名字，例如单独的 <code>l</code> 或 <code>O</code>；</li>
+<li>类型不匹配时，不要靠编译器“帮你猜”，要显式转换或修改类型。</li>
+</ul>
+<hr>
+<h2 id="2-4-项目回扣：学生管理系统-v0-2">2.4 项目回扣：学生管理系统 v0.2</h2>
+<p>本章的目标是让学生管理系统能存下一位学生的信息。</p>
+<p>为了保存完整姓名，这里先用字符数组存一串字符。字符数组和字符串的完整规则会在第 10 章系统学习，现在先混个眼熟即可。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> student_id = <span class="hljs-number">20250001</span>;<br>    <span class="hljs-type">char</span> name[] = <span class="hljs-string">&quot;七平&quot;</span>;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;===== 学生信息 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d\n&quot;</span>, student_id);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名：%s\n&quot;</span>, name);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩：%.2f\n&quot;</span>, score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<code>20250001</code> 在常见 32 位 <code>int</code> 平台上没有问题；如果某个平台的 <code>int</code> 只有 16 位，就应改用 <code>long</code>，并把格式符改成 <code>%ld</code>。</p>
+</blockquote>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生信息 =====<br>学号：20250001<br>姓名：七平<br>成绩：95.50<br>====================<br></code></pre></td></tr></table></figure>
+<p>这段代码已经体现出变量的基本用法：</p>
+<ul>
+<li>用 <code>int</code> 保存学号；</li>
+<li>用字符数组保存姓名；</li>
+<li>用 <code>double</code> 保存成绩；</li>
+<li>用 <code>printf</code> 把变量输出出来。</li>
+</ul>
+<p>这里用到的 <code>char name[]</code> 和 <code>%s</code>，现在只需要知道“它能保存并输出一串字符”就够了。背后的字符串规则，第 10 章会详细讲。</p>
+<p>目前它只能保存一位学生，而且数据写死在代码里。</p>
+<p>下一步，第 3 章会让程序学会从键盘接收输入，这样就能真正“录入”学生信息了。</p>
+<hr>
+<h2 id="2-5-本章代码规范提示">2.5 本章代码规范提示</h2>
+<ul>
+<li>变量名要有意义，尽量做到见名知意。</li>
+<li>能初始化就初始化，不要使用未初始化的局部变量。</li>
+<li>一行通常只声明一个变量。</li>
+<li><code>int</code> 和 <code>double</code> 不要混用时想当然，注意整数除法陷阱。</li>
+<li><code>char</code> 用单引号，字符串用双引号。</li>
+<li><code>printf</code> 的格式说明符要和变量类型匹配。</li>
+<li>不要直接用 <code>==</code> 比较两个浮点数。</li>
+<li>不需要修改的值尽量用 <code>const</code>。</li>
+<li>不要假设 <code>int</code>、<code>double</code> 的固定大小，必要时用 <code>sizeof</code>。</li>
+<li>常量建议使用全大写加下划线的命名方式。</li>
+</ul>
+<hr>
+<h2 id="2-6-常见错误">2.6 常见错误</h2>
+<h3 id="错误-1：使用未初始化的变量">错误 1：使用未初始化的变量</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);<br></code></pre></td></tr></table></figure>
+<p>局部变量 <code>score</code> 没有初始化，读取它属于未定义行为。正确做法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：整数除法丢掉小数">错误 2：整数除法丢掉小数</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><span class="hljs-type">double</span> result = a / b;<br></code></pre></td></tr></table></figure>
+<p><code>result</code> 得到的是 <code>2.0</code>，不是 <code>2.5</code>。因为 <code>a / b</code> 先按整数除法计算。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> result = a / <span class="hljs-number">2.0</span>;<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> result = (<span class="hljs-type">double</span>)a / b;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-3：printf-格式说明符和类型不匹配">错误 3：printf 格式说明符和类型不匹配</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);<br></code></pre></td></tr></table></figure>
+<p><code>score</code> 是 <code>double</code>，却使用 <code>%d</code>，结果不可靠，甚至可能触发未定义行为。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%f\n&quot;</span>, score);<br></code></pre></td></tr></table></figure>
+<p>或者只保留两位小数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%.2f\n&quot;</span>, score);<br></code></pre></td></tr></table></figure>
+<h3 id="错误-4：char-和字符串混淆">错误 4：char 和字符串混淆</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> level = <span class="hljs-string">&quot;A&quot;</span>;   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p><code>&quot;A&quot;</code> 是字符串字面量，不能直接赋给 <code>char</code>。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-5：变量名大小写写错">错误 5：变量名大小写写错</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> Age = <span class="hljs-number">18</span>;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, age);<br></code></pre></td></tr></table></figure>
+<p><code>Age</code> 和 <code>age</code> 是两个不同的变量名。C 语言区分大小写。</p>
+<h3 id="错误-6：有符号整数溢出">错误 6：有符号整数溢出</h3>
+<p>有符号整数溢出是未定义行为，不要依赖它产生某个固定结果。</p>
+<p>选择类型时要考虑数据范围。如果数据可能超过 <code>int</code> 范围，可以考虑 <code>long long</code> 等更宽的类型，或者重新审视数据设计。</p>
+<h3 id="错误-7：直接比较浮点数">错误 7：直接比较浮点数</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> a = <span class="hljs-number">0.1</span> + <span class="hljs-number">0.2</span>;<br><span class="hljs-keyword">if</span> (a == <span class="hljs-number">0.3</span>)<br>&#123;<br>    <span class="hljs-comment">// 可能不会按你期待的方式执行</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>浮点数存在精度误差，比较时通常判断差值是否足够小，而不是直接判断相等。</p>
+<hr>
+<h2 id="2-7-总结与自测">2.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>变量是“有名字、有类型、有值”的存储空间；<code>int</code> 存整数，<code>float</code> 和 <code>double</code> 存小数，<code>char</code> 存单个字符，使用前要先声明，最好在声明时初始化。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li>变量通常包含哪三个要素？</li>
+<li><code>int</code>、<code>double</code>、<code>char</code> 分别适合存储什么数据？</li>
+<li>初始化和赋值有什么区别？</li>
+<li><code>sizeof</code> 是函数还是运算符？<code>sizeof(char)</code> 一定等于多少？</li>
+<li>为什么浮点数有时算不准？</li>
+<li>整数除法 <code>5 / 2</code> 的结果是什么？怎样得到 <code>2.5</code>？</li>
+<li><code>const</code> 的作用是什么？</li>
+<li>为什么变量名要有意义？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>类型、名字、值。</li>
+<li><code>int</code> 适合整数；<code>double</code> 适合一般小数；<code>char</code> 适合单个字符。</li>
+<li>初始化是在创建变量时给初值；赋值是修改已经存在的变量的值。</li>
+<li><code>sizeof</code> 是运算符，不是函数；<code>sizeof(char)</code> 一定等于 <code>1</code>。</li>
+<li>因为有些十进制小数无法用二进制有限位数精确表示，计算机只能保存近似值。</li>
+<li><code>5 / 2</code> 的结果是整数 <code>2</code>；写成 <code>5 / 2.0</code> 或 <code>(double)5 / 2</code> 才能得到 <code>2.5</code>。</li>
+<li>让变量的值在初始化后不能被修改。</li>
+<li>因为代码是写给人看的，有意义的变量名能减少出错，也方便自己和别人读懂代码。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>写一个程序，保存并输出一位学生的信息。</p>
+<p>要求：</p>
+<ol>
+<li>用 <code>int</code> 保存学号或年龄；</li>
+<li>用 <code>double</code> 保存成绩；</li>
+<li>用 <code>char</code> 保存等级；</li>
+<li>用字符数组保存姓名，并先用 <code>%s</code> 输出；</li>
+<li>用 <code>const</code> 定义一个 <code>MAX_SCORE</code>；</li>
+<li>用 <code>sizeof</code> 输出 <code>int</code>、<code>double</code>、<code>char</code> 的字节数；</li>
+<li>用 <code>(double)</code> 做一次类型转换，计算平均分；</li>
+<li>至少写一条注释，解释为什么用 <code>double</code> 保存平均分。</li>
+</ol>
+<hr>
+<h2 id="2-8-下一章">2.8 下一章</h2>
+<p>现在程序已经能保存数据了，但这些数据还是写死在代码里的。</p>
+<p>下一章，咱们要让程序学会从键盘接收输入，这样用户就可以自己输入学号、姓名和成绩了。</p>
+<p>关键词是：</p>
+<blockquote>
+<p>输入与输出。</p>
+</blockquote>
+<p><strong>下一章：第 3 章《输入与输出》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

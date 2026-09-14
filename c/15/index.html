@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 15 章：文件操作
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>理解文件、文件指针、文本文件和二进制文件的基本概念。</li>
+<li>掌握 <code>fopen</code>、<code>fclose</code>、<code>fprintf</code>、<code>fscanf</code>、<code>fgets</code>、<code>fputs</code>。</li>
+<li>理解文件缓冲区、错误处理和可移植路径。</li>
+<li>用文件保存和读取学生数据，完成学生管理系统 v0.14。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你会打开文件、写入内容、读取内容、关闭文件。进阶篇会讲文本/二进制、文件缓冲区、错误处理和可移植路径，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。前面咱们已经能用链表管理学生数据了。</p>
+<p>但程序一退出，链表里的数据就没了。下一次运行，又要重新输入。</p>
+<p>这一章，咱们要把数据保存到<strong>文件</strong>里，让程序关闭后数据仍然存在。</p>
+<hr>
+<h2 id="15-1-先导：为什么需要文件？">15.1 先导：为什么需要文件？</h2>
+<p>程序里的数据通常有两种生命周期：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">内存中的数据：<br>程序运行时有，程序退出后消失<br><br>文件中的数据：<br>程序退出后仍然保存在磁盘上<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<ul>
+<li>学生成绩保存到 <code>students.txt</code>；</li>
+<li>游戏存档保存到 <code>save.dat</code>；</li>
+<li>配置保存到 <code>config.ini</code>；</li>
+<li>日志保存到 <code>app.log</code>。</li>
+</ul>
+<p>文件操作的基本流程是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">打开文件 -&gt; 读或写 -&gt; 关闭文件<br></code></pre></td></tr></table></figure>
+<p>在 C 语言中，文件通过<strong>文件指针</strong> <code>FILE *</code> 来操作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp;<br></code></pre></td></tr></table></figure>
+<p>可以画成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">程序<br>  |<br>  v<br>FILE *fp  ---&gt; 文件缓冲区 ---&gt; 磁盘文件<br></code></pre></td></tr></table></figure>
+<h3 id="15-1-1-RAM-和-ROM-是什么？">15.1.1 RAM 和 ROM 是什么？</h3>
+<p>理解文件为什么能保存数据，先要知道程序运行时和断电后的区别。</p>
+<h4 id="RAM">RAM</h4>
+<p>RAM 是随机访问存储器，通常就叫“内存”。</p>
+<p>特点：</p>
+<ul>
+<li>程序运行时使用；</li>
+<li>读写速度快；</li>
+<li>断电后数据会丢失；</li>
+<li>局部变量、函数调用、<code>malloc</code> 申请的内存通常都在 RAM 中。</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">程序运行中：<br>CPU &lt;-&gt; RAM<br></code></pre></td></tr></table></figure>
+<h4 id="ROM-和持久化存储">ROM 和持久化存储</h4>
+<p>ROM 是只读存储器，通常用来保存固件、启动程序等。</p>
+<p>不过在日常开发里，我们更常说的是“磁盘、SSD、Flash 等非易失性存储”。</p>
+<p>特点：</p>
+<ul>
+<li>断电后数据仍然存在；</li>
+<li>读写速度通常比 RAM 慢；</li>
+<li>文件保存在这些存储设备上；</li>
+<li>程序关闭后，文件内容还在。</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">程序运行时：<br>CPU &lt;-&gt; RAM &lt;-&gt; 文件缓冲区 &lt;-&gt; 磁盘 / SSD / Flash<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<blockquote>
+<p>不要简单地把 ROM 和硬盘完全画等号。ROM 是非易失性存储器的一类；现代文件通常保存在硬盘、SSD、Flash 等设备上。</p>
+</blockquote>
+<h3 id="15-1-2-文件为什么能保存数据？">15.1.2 文件为什么能保存数据？</h3>
+<p>因为文件的数据最终写在非易失性存储上：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">变量（RAM）<br>   |<br>   |  fprintf / fwrite / fputs<br>   v<br>文件缓冲区<br>   |<br>   |  操作系统负责<br>   v<br>磁盘 / SSD / Flash<br></code></pre></td></tr></table></figure>
+<p>程序退出后，RAM 中的变量消失，但文件还在。</p>
+<p>所以文件非常适合保存：</p>
+<ul>
+<li>学生成绩；</li>
+<li>游戏存档；</li>
+<li>配置信息；</li>
+<li>日志记录。</li>
+</ul>
+<hr>
+<h2 id="15-2-基础篇：先会用">15.2 基础篇：先会用</h2>
+<h3 id="15-2-1-打开文件：fopen">15.2.1 打开文件：fopen</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *<span class="hljs-title function_">fopen</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *mode)</span>;<br></code></pre></td></tr></table></figure>
+<p>参数：</p>
+<ul>
+<li><code>filename</code>：文件名；</li>
+<li><code>mode</code>：打开模式。</li>
+</ul>
+<p>返回值：</p>
+<ul>
+<li>成功：返回文件指针；</li>
+<li>失败：返回 <code>NULL</code>。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br><br><span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件打开失败。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="15-2-2-常用打开模式">15.2.2 常用打开模式</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+<th>文件不存在时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&quot;r&quot;</code></td>
+<td>只读</td>
+<td>打开失败</td>
+</tr>
+<tr>
+<td><code>&quot;w&quot;</code></td>
+<td>只写，会清空原内容</td>
+<td>创建新文件</td>
+</tr>
+<tr>
+<td><code>&quot;a&quot;</code></td>
+<td>追加写</td>
+<td>创建新文件</td>
+</tr>
+<tr>
+<td><code>&quot;r+&quot;</code></td>
+<td>读写</td>
+<td>打开失败</td>
+</tr>
+<tr>
+<td><code>&quot;w+&quot;</code></td>
+<td>读写，会清空原内容</td>
+<td>创建新文件</td>
+</tr>
+<tr>
+<td><code>&quot;a+&quot;</code></td>
+<td>读和追加写</td>
+<td>创建新文件</td>
+</tr>
+</tbody>
+</table>
+<p>二进制模式在后面加 <code>b</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-string">&quot;rb&quot;</span>、<span class="hljs-string">&quot;wb&quot;</span>、<span class="hljs-string">&quot;ab&quot;</span>、<span class="hljs-string">&quot;r+b&quot;</span>、<span class="hljs-string">&quot;w+b&quot;</span>、<span class="hljs-string">&quot;a+b&quot;</span><br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<blockquote>
+<p><code>&quot;w&quot;</code> 会清空文件原内容，使用前要特别小心。</p>
+</blockquote>
+<h4 id="三种常见模式的使用场景">三种常见模式的使用场景</h4>
+<ul>
+<li><code>&quot;r&quot;</code>：读取配置文件、读取存档；</li>
+<li><code>&quot;w&quot;</code>：重新保存整个文件，会清空旧内容；</li>
+<li><code>&quot;a&quot;</code>：追加日志，不会清空旧内容。</li>
+</ul>
+<p>追加写入示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;log.txt&quot;</span>, <span class="hljs-string">&quot;a&quot;</span>);<br><br><span class="hljs-keyword">if</span> (fp != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;程序启动\n&quot;</span>);<br><br>    fclose(fp);<br>    fp = <span class="hljs-literal">NULL</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="15-2-3-关闭文件：fclose">15.2.3 关闭文件：fclose</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fclose(fp);<br></code></pre></td></tr></table></figure>
+<p><code>fclose</code> 会：</p>
+<ul>
+<li>把缓冲区里的数据写回文件；</li>
+<li>释放文件相关资源；</li>
+<li>返回 0 表示成功，返回 <code>EOF</code> 表示失败。</li>
+</ul>
+<p>完整流程：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br><br><span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件打开失败。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;hello\n&quot;</span>);<br><br>fclose(fp);<br>fp = <span class="hljs-literal">NULL</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="15-2-4-写文件：fprintf">15.2.4 写文件：fprintf</h3>
+<p><code>fprintf</code> 的用法和 <code>printf</code> 类似，只是多了一个文件指针。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;学号：%d，成绩：%d\n&quot;</span>, id, score);<br></code></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件打开失败。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;20250001 七平 90\n&quot;</span>);<br>    <span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;20250002 小明 85\n&quot;</span>);<br><br>    fclose(fp);<br>    fp = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行后，<code>students.txt</code> 里会有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">20250001 七平 90<br>20250002 小明 85<br></code></pre></td></tr></table></figure>
+<h3 id="15-2-5-读文件：fgets">15.2.5 读文件：fgets</h3>
+<p><code>fgets</code> 可以一行一行地读。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br><br><span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, line);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>fgets</code> 的特点：</p>
+<ul>
+<li>最多读取 <code>size - 1</code> 个字符；</li>
+<li>读到换行符时通常保留换行；</li>
+<li>到达文件末尾或出错时返回 <code>NULL</code>。</li>
+</ul>
+<p>完整示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>    <span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件打开失败。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, line);<br>    &#125;<br><br>    fclose(fp);<br>    fp = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="15-2-6-读文件：fscanf">15.2.6 读文件：fscanf</h3>
+<p><code>fscanf</code> 的用法和 <code>scanf</code> 类似，只是从文件读取。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> id = <span class="hljs-number">0</span>;<br><span class="hljs-type">char</span> name[<span class="hljs-number">50</span>];<br><span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">while</span> (<span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%d %49s %d&quot;</span>, &amp;id, name, &amp;score) == <span class="hljs-number">3</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%d\n&quot;</span>, id, name, score);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：如果文件格式不符合 <code>%d %49s %d</code>，<code>fscanf</code> 会返回小于 3 的值。此时必须停止循环并处理错误，否则输入位置可能不再前进，造成死循环。</p>
+<p>注意：</p>
+<ul>
+<li><code>%49s</code> 限制字符串长度，给 <code>'\0'</code> 留位置；</li>
+<li><code>fscanf</code> 返回成功读取的项数；</li>
+<li>返回值不是 3 时，通常说明格式不匹配或到达文件末尾。</li>
+</ul>
+<h3 id="15-2-7-读写各种类型的例子">15.2.7 读写各种类型的例子</h3>
+<p>前面分别讲了整数、字符串和字符，这里集中看一组混合类型的读写例子。</p>
+<h4 id="1-类型和格式符对照">1. 类型和格式符对照</h4>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>写入格式</th>
+<th>读取格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td><code>%d</code></td>
+<td><code>%d</code></td>
+<td>整数</td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td><code>%f</code></td>
+<td><code>%f</code></td>
+<td>单精度浮点</td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td><code>%f</code></td>
+<td><code>%lf</code></td>
+<td>注意读取时要写 <code>%lf</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td><code>%c</code></td>
+<td><code>%c</code></td>
+<td>读取时要注意空白字符</td>
+</tr>
+<tr>
+<td>字符串</td>
+<td><code>%s</code></td>
+<td><code>%s</code></td>
+<td>读取时建议限制宽度</td>
+</tr>
+<tr>
+<td>字符串整行</td>
+<td><code>fputs</code></td>
+<td><code>fgets</code></td>
+<td>适合带空格的文本</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-写入混合类型">2. 写入混合类型</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    FILE *fp = fopen(<span class="hljs-string">&quot;mixed.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件打开失败。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> age = <span class="hljs-number">18</span>;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br>    <span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br>    <span class="hljs-type">char</span> name[] = <span class="hljs-string">&quot;七平&quot;</span>;<br><br>    <span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;%d %.2f %c %s\n&quot;</span>, age, score, level, name);<br><br>    fclose(fp);<br>    fp = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>文件内容：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">18 95.50 A 七平<br></code></pre></td></tr></table></figure>
+<h4 id="3-读取混合类型">3. 读取混合类型</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    FILE *fp = fopen(<span class="hljs-string">&quot;mixed.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件打开失败。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> age = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">0.0</span>;<br>    <span class="hljs-type">char</span> level = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%d %lf %c %49s&quot;</span>, &amp;age, &amp;score, &amp;level, name) == <span class="hljs-number">4</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;年龄：%d\n&quot;</span>, age);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩：%.2f\n&quot;</span>, score);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等级：%c\n&quot;</span>, level);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名：%s\n&quot;</span>, name);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件格式不正确。\n&quot;</span>);<br>    &#125;<br><br>    fclose(fp);<br>    fp = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><code>fscanf</code> 读取 <code>double</code> 要用 <code>%lf</code>；</li>
+<li><code>printf</code> 输出 <code>double</code> 用 <code>%f</code>；</li>
+<li><code>%49s</code> 限制字符串最多 49 个字符；</li>
+<li>格式串里的空格会跳过空白字符；</li>
+<li><code>%c</code> 本身不跳过空白，所以前面通常要有空格。</li>
+</ul>
+<h4 id="4-用-fgets-sscanf-读取一行">4. 用 fgets + sscanf 读取一行</h4>
+<p>如果文件格式比较复杂，可以先用 <code>fgets</code> 读整行，再用 <code>sscanf</code> 解析：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br><br><span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-type">int</span> id = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">0.0</span>;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d %49s %lf&quot;</span>, &amp;id, name, &amp;score) == <span class="hljs-number">3</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%.2f\n&quot;</span>, id, name, score);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这种方式更稳，因为它先读一整行，再解析字段。</p>
+<h4 id="5-单字符读写">5. 单字符读写</h4>
+<p>写入：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;chars.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br><br><span class="hljs-keyword">if</span> (fp != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    fputc(<span class="hljs-string">&#x27;A&#x27;</span>, fp);<br>    fputc(<span class="hljs-string">&#x27;B&#x27;</span>, fp);<br>    fputc(<span class="hljs-string">&#x27;C&#x27;</span>, fp);<br><br>    fclose(fp);<br>    fp = <span class="hljs-literal">NULL</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>读取：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;chars.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br><br><span class="hljs-keyword">if</span> (fp != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-type">int</span> ch;<br><br>    <span class="hljs-keyword">while</span> ((ch = fgetc(fp)) != EOF)<br>    &#123;<br>        <span class="hljs-built_in">putchar</span>(ch);<br>    &#125;<br><br>    fclose(fp);<br>    fp = <span class="hljs-literal">NULL</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">ABC<br></code></pre></td></tr></table></figure>
+<p>注意：<code>fgetc</code> 返回 <code>int</code>，不能用 <code>char</code> 接收后再判断 <code>EOF</code>。</p>
+<h3 id="15-2-8-写字符和写字符串">15.2.8 写字符和写字符串</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">fputc(<span class="hljs-string">&#x27;A&#x27;</span>, fp);<br><span class="hljs-built_in">fputs</span>(<span class="hljs-string">&quot;hello\n&quot;</span>, fp);<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>fputc</code>：写入一个字符；</li>
+<li><code>fputs</code>：写入一个字符串。</li>
+</ul>
+<h3 id="15-2-9-关闭文件并检查">15.2.9 关闭文件并检查</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (fclose(fp) != <span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;关闭文件失败。\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>写完文件后，建议检查 <code>fclose</code> 的返回值。</p>
+<h3 id="15-2-10-基础篇小练习">15.2.10 基础篇小练习</h3>
+<ol>
+<li>用 <code>&quot;w&quot;</code> 模式创建一个文件，写入一句问候。</li>
+<li>用 <code>&quot;a&quot;</code> 模式向文件追加一行。</li>
+<li>用 <code>fgets</code> 逐行读取文件并输出。</li>
+<li>用 <code>fprintf</code> 写入 3 位学生信息。</li>
+<li>用 <code>fscanf</code> 读取学生信息。</li>
+<li>思考：如果 <code>fopen</code> 返回 <code>NULL</code>，继续使用会发生什么？</li>
+</ol>
+<hr>
+<h2 id="15-3-进阶篇：再懂原理">15.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会读写了。进阶篇要讲清楚：文本和二进制有什么区别，文件为什么需要关闭，为什么错误处理必须认真做。</p>
+<h3 id="15-3-1-文本文件和二进制文件">15.3.1 文本文件和二进制文件</h3>
+<p>文本文件保存的是可读字符：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">20250001 七平 90<br>20250002 小明 85<br></code></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>人类可读；</li>
+<li>方便查看和修改；</li>
+<li>跨平台比较容易。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>占用空间可能更大；</li>
+<li>解析速度较慢；</li>
+<li>格式不严谨时容易出错。</li>
+</ul>
+<p>二进制文件直接保存内存中的二进制形式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">字节序列（不可直接阅读）<br></code></pre></td></tr></table></figure>
+<p>优点：</p>
+<ul>
+<li>读写快；</li>
+<li>空间紧凑；</li>
+<li>适合保存结构体数组等数据。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不可直接阅读；</li>
+<li>受平台、对齐、字节序影响；</li>
+<li>跨平台时可能不兼容。</li>
+</ul>
+<p>初学阶段先用文本文件。</p>
+<h3 id="15-3-2-文件缓冲区">15.3.2 文件缓冲区</h3>
+<p>为了提高效率，标准库通常不会每读写一个字符就访问磁盘。</p>
+<p>它会在内存里放一个<strong>文件缓冲区</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">程序 &lt;-&gt; 文件缓冲区 &lt;-&gt; 磁盘<br></code></pre></td></tr></table></figure>
+<p><code>fclose</code> 会把缓冲区里的数据刷新到文件。</p>
+<p>也可以手动刷新：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fflush(fp);<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<blockquote>
+<p><code>fflush</code> 主要用于输出流。不要把 <code>fflush(stdin)</code> 当成通用清空输入缓冲区的方法。</p>
+</blockquote>
+<h4 id="输入缓冲区和文件缓冲区的关系">输入缓冲区和文件缓冲区的关系</h4>
+<p>输入缓冲区和文件缓冲区本质上是同一类东西：</p>
+<blockquote>
+<p>都是标准库在内存中开的临时区域，用来减少频繁的底层读写。</p>
+</blockquote>
+<p>对比一下：</p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>输入缓冲区</th>
+<th>文件缓冲区</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据来源</td>
+<td>键盘、标准输入</td>
+<td>磁盘文件</td>
+</tr>
+<tr>
+<td>管理者</td>
+<td>C 标准库</td>
+<td>C 标准库</td>
+</tr>
+<tr>
+<td>主要目的</td>
+<td>减少频繁输入</td>
+<td>减少频繁磁盘读写</td>
+</tr>
+<tr>
+<td>读取函数</td>
+<td><code>scanf</code>、<code>fgets</code></td>
+<td><code>fgets</code>、<code>fscanf</code>、<code>fread</code></td>
+</tr>
+<tr>
+<td>写入函数</td>
+<td>无</td>
+<td><code>fprintf</code>、<code>fputs</code>、<code>fwrite</code></td>
+</tr>
+<tr>
+<td>刷新方式</td>
+<td>通常自动</td>
+<td><code>fflush</code>、<code>fclose</code></td>
+</tr>
+<tr>
+<td>相关函数</td>
+<td><code>getchar</code>、<code>scanf</code></td>
+<td><code>fgetc</code>、<code>fgets</code>、<code>fread</code></td>
+</tr>
+</tbody>
+</table>
+<p>相同点：</p>
+<ul>
+<li>都是内存中的临时区域；</li>
+<li>都会按自己的规则向前移动“读取位置”；</li>
+<li>都可能出现“剩余内容”问题；</li>
+<li><code>fflush(stdin)</code> 都不是标准做法。</li>
+</ul>
+<p>不同点：</p>
+<ul>
+<li>输入缓冲区主要和交互式输入有关；</li>
+<li>文件缓冲区主要和磁盘 I/O 有关；</li>
+<li>文件缓冲区有明确的打开、关闭、刷新流程；</li>
+<li>文件缓冲区可以定位、回退、移动到末尾。</li>
+</ul>
+<h4 id="标准输入输出和文件输入输出是一家人">标准输入输出和文件输入输出是一家人</h4>
+<p><code>printf</code>、<code>scanf</code> 这些函数，其实都有“文件版本”。</p>
+<table>
+<thead>
+<tr>
+<th>标准输入输出</th>
+<th>文件版本</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>printf</code></td>
+<td><code>fprintf</code></td>
+<td>格式化输出</td>
+</tr>
+<tr>
+<td><code>scanf</code></td>
+<td><code>fscanf</code></td>
+<td>格式化输入</td>
+</tr>
+<tr>
+<td><code>getchar</code></td>
+<td><code>fgetc</code></td>
+<td>读取一个字符</td>
+</tr>
+<tr>
+<td><code>putchar</code></td>
+<td><code>fputc</code></td>
+<td>输出一个字符</td>
+</tr>
+<tr>
+<td><code>fgets</code></td>
+<td><code>fgets</code></td>
+<td>读取一行</td>
+</tr>
+<tr>
+<td><code>puts</code></td>
+<td><code>fputs</code></td>
+<td>输出字符串</td>
+</tr>
+</tbody>
+</table>
+<p>更重要的是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(...)<br></code></pre></td></tr></table></figure>
+<p>本质上等价于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stdout</span>, ...);<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">scanf</span>(...)<br></code></pre></td></tr></table></figure>
+<p>本质上等价于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">fscanf</span>(<span class="hljs-built_in">stdin</span>, ...);<br></code></pre></td></tr></table></figure>
+<p>所以：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fgets(name, size, <span class="hljs-built_in">stdin</span>)<br></code></pre></td></tr></table></figure>
+<p>就是从标准输入读取一行；而：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fgets(line, size, fp)<br></code></pre></td></tr></table></figure>
+<p>就是从文件读取一行。</p>
+<h4 id="stdin、stdout、stderr">stdin、stdout、stderr</h4>
+<table>
+<thead>
+<tr>
+<th>流</th>
+<th>类型</th>
+<th>默认设备</th>
+<th>常见用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stdin</code></td>
+<td><code>FILE *</code></td>
+<td>键盘</td>
+<td>标准输入</td>
+</tr>
+<tr>
+<td><code>stdout</code></td>
+<td><code>FILE *</code></td>
+<td>屏幕</td>
+<td>标准输出</td>
+</tr>
+<tr>
+<td><code>stderr</code></td>
+<td><code>FILE *</code></td>
+<td>屏幕</td>
+<td>错误输出</td>
+</tr>
+</tbody>
+</table>
+<p>它们本质上都是 <code>FILE *</code>。</p>
+<p>因此：</p>
+<ul>
+<li><code>printf</code> 是往 <code>stdout</code> 写；</li>
+<li><code>scanf</code> 是从 <code>stdin</code> 读；</li>
+<li><code>fprintf(stderr, ...)</code> 可以专门输出错误信息；</li>
+<li><code>fgets(..., stdin)</code> 和 <code>fgets(..., fp)</code> 只是输入源不同。</li>
+</ul>
+<h4 id="EOF-和-feof">EOF 和 feof</h4>
+<p>第 3 章讲过：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span> ((c = getchar()) != EOF)<br></code></pre></td></tr></table></figure>
+<p>第 15 章讲过：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br></code></pre></td></tr></table></figure>
+<p>它们都在处理“读到结束”。</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>结束信号</th>
+<th>推荐循环写法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读键盘字符</td>
+<td><code>EOF</code></td>
+<td><code>while ((c = getchar()) != EOF)</code></td>
+</tr>
+<tr>
+<td>读键盘一行</td>
+<td><code>NULL</code></td>
+<td><code>while (fgets(line, size, stdin) != NULL)</code></td>
+</tr>
+<tr>
+<td>读文件一行</td>
+<td><code>NULL</code></td>
+<td><code>while (fgets(line, size, fp) != NULL)</code></td>
+</tr>
+<tr>
+<td>读文件格式化数据</td>
+<td>返回值不等于预期项数</td>
+<td><code>while (fscanf(fp, ...) == 3)</code></td>
+</tr>
+</tbody>
+</table>
+<p>注意：</p>
+<blockquote>
+<p>不要用 <code>while (!feof(fp))</code> 作为主要读取条件。读取函数的返回值更直接。</p>
+</blockquote>
+<h3 id="15-3-3-文件位置：fseek、ftell、rewind">15.3.3 文件位置：fseek、ftell、rewind</h3>
+<p>文件内部有一个“当前位置”。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> pos = ftell(fp);      <span class="hljs-comment">// 获取当前位置</span><br>fseek(fp, <span class="hljs-number">0</span>, SEEK_SET);    <span class="hljs-comment">// 移动到开头</span><br>rewind(fp);                <span class="hljs-comment">// 等价于移动到开头</span><br></code></pre></td></tr></table></figure>
+<p>常见定位参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SEEK_SET</code></td>
+<td>从文件开头算</td>
+</tr>
+<tr>
+<td><code>SEEK_CUR</code></td>
+<td>从当前位置算</td>
+</tr>
+<tr>
+<td><code>SEEK_END</code></td>
+<td>从文件末尾算</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">fseek(fp, <span class="hljs-number">0</span>, SEEK_END);<br><span class="hljs-type">long</span> size = ftell(fp);<br>rewind(fp);<br></code></pre></td></tr></table></figure>
+<p>这几组函数在二进制文件里更常用，初学阶段了解即可。</p>
+<h3 id="15-3-4-二进制读写：fread-和-fwrite">15.3.4 二进制读写：fread 和 fwrite</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">fread(buffer, size, count, fp);<br>fwrite(buffer, size, count, fp);<br></code></pre></td></tr></table></figure>
+<p>例如写入一个结构体数组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fwrite(students, <span class="hljs-keyword">sizeof</span>(Student), count, fp);<br></code></pre></td></tr></table></figure>
+<p>读取：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">size_t</span> read_count = fread(students, <span class="hljs-keyword">sizeof</span>(Student), count, fp);<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>二进制文件通常用 <code>&quot;wb&quot;</code>、<code>&quot;rb&quot;</code>；</li>
+<li>结构体可能有内存对齐和填充字节；</li>
+<li>不同平台、不同编译器的结构体布局可能不同；</li>
+<li>跨平台数据交换时，文本格式通常更安全。</li>
+</ul>
+<h3 id="15-3-5-文件结束和错误">15.3.5 文件结束和错误</h3>
+<p><code>feof(fp)</code> 在“已经尝试读到文件末尾之后”才为真。</p>
+<p>常见错误写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span> (!feof(fp))<br>&#123;<br>    fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, line);   <span class="hljs-comment">// 可能多输出一次</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>更推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, line);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>因为 <code>fgets</code>、<code>fscanf</code>、<code>fread</code> 的返回值本身就能告诉我们是否读取成功。</p>
+<p><code>ferror(fp)</code> 用来判断是否发生了读写错误：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (ferror(fp))<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件读写发生错误。\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="15-3-6-错误处理">15.3.6 错误处理</h3>
+<p>文件操作必须检查返回值。</p>
+<p>必须检查的地方：</p>
+<ol>
+<li><code>fopen</code> 是否返回 <code>NULL</code>；</li>
+<li><code>fscanf</code> 是否读取到预期数量；</li>
+<li><code>fgets</code> 是否返回 <code>NULL</code>；</li>
+<li><code>fprintf</code>、<code>fputs</code>、<code>fputc</code> 是否写入失败；</li>
+<li><code>fclose</code> 是否关闭失败；</li>
+<li><code>fread</code>、<code>fwrite</code> 是否读写了预期数量。</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br><br><span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>&#123;<br>    perror(<span class="hljs-string">&quot;fopen&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>perror</code> 会输出和错误相关的提示信息。</p>
+<h3 id="15-3-7-可移植路径">15.3.7 可移植路径</h3>
+<p>建议使用相对路径：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>fopen(<span class="hljs-string">&quot;data/students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>不要写死：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">fopen(<span class="hljs-string">&quot;C:\\Users\\someone\\students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>fopen(<span class="hljs-string">&quot;/home/someone/students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>因为不同操作系统的路径不同。</p>
+<p>在 C 字符串中，反斜杠需要转义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-string">&quot;C:\\data\\students.txt&quot;</span><br></code></pre></td></tr></table></figure>
+<p>更推荐使用正斜杠 <code>/</code>，在 Windows 和类 Unix 系统上通常都能使用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-string">&quot;data/students.txt&quot;</span><br></code></pre></td></tr></table></figure>
+<h4 id="相对路径是相对于工作目录">相对路径是相对于工作目录</h4>
+<p>相对路径不是相对于源代码文件所在目录，而是相对于“程序运行时的工作目录”。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>程序会去当前工作目录下找 <code>students.txt</code>。</p>
+<p>这能解释一个常见现象：</p>
+<blockquote>
+<p>在 IDE 里运行能找到文件，双击可执行文件却找不到。</p>
+</blockquote>
+<p>因为两者的工作目录可能不同。</p>
+<p>初学阶段建议：</p>
+<ul>
+<li>把数据文件和可执行文件放在同一个工作目录下；</li>
+<li>或者使用明确的相对路径，例如 <code>data/students.txt</code>；</li>
+<li>不要写死绝对路径。</li>
+</ul>
+<h3 id="15-3-8-保存学生数据的格式">15.3.8 保存学生数据的格式</h3>
+<p>常见的文本格式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">20250001 七平 90<br>20250002 小明 85<br></code></pre></td></tr></table></figure>
+<p>字段之间用空格分隔。</p>
+<p>优点：</p>
+<ul>
+<li>简单；</li>
+<li>容易用 <code>fscanf</code> 读取；</li>
+<li>方便查看。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>姓名不能包含空格；</li>
+<li>字段内容复杂时容易产生歧义。</li>
+</ul>
+<p>如果需要保存带空格的姓名，可以使用 CSV 或带引号的格式，后面可以再扩展。</p>
+<h4 id="用-fgets-sscanf-解析一行">用 fgets + sscanf 解析一行</h4>
+<p>如果文件格式比较复杂，可以先用 <code>fgets</code> 读一整行，再用 <code>sscanf</code> 解析：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br><br><span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-type">int</span> id = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">0.0</span>;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d %49s %lf&quot;</span>, &amp;id, name, &amp;score) == <span class="hljs-number">3</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%.2f\n&quot;</span>, id, name, score);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这种方式连接了第 10 章字符串和第 15 章文件：</p>
+<ul>
+<li><code>fgets</code> 负责读一整行；</li>
+<li><code>sscanf</code> 负责从字符串里解析字段；</li>
+<li>比直接用 <code>fscanf</code> 更容易处理格式不整齐的文件。</li>
+</ul>
+<h3 id="15-3-9-常用文件函数速查">15.3.9 常用文件函数速查</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+<th>典型用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fopen</code></td>
+<td>打开文件</td>
+<td><code>fopen(&quot;a.txt&quot;, &quot;r&quot;)</code></td>
+</tr>
+<tr>
+<td><code>fclose</code></td>
+<td>关闭文件</td>
+<td><code>fclose(fp)</code></td>
+</tr>
+<tr>
+<td><code>fprintf</code></td>
+<td>格式化写入</td>
+<td><code>fprintf(fp, &quot;%d&quot;, x)</code></td>
+</tr>
+<tr>
+<td><code>fscanf</code></td>
+<td>格式化读取</td>
+<td><code>fscanf(fp, &quot;%d&quot;, &amp;x)</code></td>
+</tr>
+<tr>
+<td><code>fgets</code></td>
+<td>读一行</td>
+<td><code>fgets(line, size, fp)</code></td>
+</tr>
+<tr>
+<td><code>fputs</code></td>
+<td>写字符串</td>
+<td><code>fputs(&quot;hello&quot;, fp)</code></td>
+</tr>
+<tr>
+<td><code>fgetc</code></td>
+<td>读一个字符</td>
+<td><code>fgetc(fp)</code></td>
+</tr>
+<tr>
+<td><code>fputc</code></td>
+<td>写一个字符</td>
+<td><code>fputc('A', fp)</code></td>
+</tr>
+<tr>
+<td><code>fread</code></td>
+<td>二进制读取</td>
+<td><code>fread(buf, size, n, fp)</code></td>
+</tr>
+<tr>
+<td><code>fwrite</code></td>
+<td>二进制写入</td>
+<td><code>fwrite(buf, size, n, fp)</code></td>
+</tr>
+<tr>
+<td><code>fseek</code></td>
+<td>移动文件位置</td>
+<td><code>fseek(fp, 0, SEEK_SET)</code></td>
+</tr>
+<tr>
+<td><code>ftell</code></td>
+<td>获取当前位置</td>
+<td><code>ftell(fp)</code></td>
+</tr>
+<tr>
+<td><code>rewind</code></td>
+<td>回到文件开头</td>
+<td><code>rewind(fp)</code></td>
+</tr>
+<tr>
+<td><code>feof</code></td>
+<td>判断文件结束</td>
+<td><code>feof(fp)</code></td>
+</tr>
+<tr>
+<td><code>ferror</code></td>
+<td>判断读写错误</td>
+<td><code>ferror(fp)</code></td>
+</tr>
+<tr>
+<td><code>fflush</code></td>
+<td>刷新输出缓冲区</td>
+<td><code>fflush(fp)</code></td>
+</tr>
+</tbody>
+</table>
+<p>初学阶段最常用的是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">fopen -&gt; fprintf / fgets / fscanf -&gt; fclose<br></code></pre></td></tr></table></figure>
+<h3 id="15-3-10-本章代码规范：文件操作必须检查返回值">15.3.10 本章代码规范：文件操作必须检查返回值</h3>
+<p>这一章最重要的规范是：</p>
+<blockquote>
+<p>文件操作必须检查返回值。</p>
+</blockquote>
+<p>其他建议：</p>
+<ul>
+<li><code>fopen</code> 失败时不要继续使用文件指针；</li>
+<li>用完文件及时 <code>fclose</code>；</li>
+<li>不要让文件指针悬空，关闭后置为 <code>NULL</code>；</li>
+<li>写入失败时给出提示；</li>
+<li>读取时检查返回项数或返回指针；</li>
+<li>使用相对路径，避免写死绝对路径；</li>
+<li>文本文件适合初学和跨平台交换；</li>
+<li>二进制文件要注意平台差异；</li>
+<li>不把 <code>fflush(stdin)</code> 当作通用清空输入的方法。</li>
+</ul>
+<hr>
+<h2 id="15-4-项目回扣：学生管理系统-v0-14">15.4 项目回扣：学生管理系统 v0.14</h2>
+<p>本章的目标是把链表中的学生数据保存到文件，并在下次运行时读取回来。</p>
+<p>文件格式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">学号 姓名 成绩<br>20250001 七平 90<br>20250002 小明 85<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：上面第一行“学号 姓名 成绩”只是字段说明，<code>save_students</code> 实际不会写入表头。</p>
+</blockquote>
+<p>新增函数：</p>
+<ul>
+<li><code>save_students</code>：把链表保存到文件；</li>
+<li><code>load_students</code>：从文件读取并创建链表。</li>
+</ul>
+<p>完整示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NAME_LEN 50</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MIN_SCORE 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_SCORE 100</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> DATA_FILE <span class="hljs-string">&quot;students.txt&quot;</span></span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">StudentNode</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> id;<br>    <span class="hljs-type">char</span> name[NAME_LEN];<br>    <span class="hljs-type">int</span> score;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">StudentNode</span> *<span class="hljs-title">next</span>;</span><br>&#125; StudentNode;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">insert_student</span><span class="hljs-params">(StudentNode **head)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_students</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head)</span>;<br>StudentNode *<span class="hljs-title function_">find_by_name</span><span class="hljs-params">(StudentNode *head, <span class="hljs-type">const</span> <span class="hljs-type">char</span> name[])</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">delete_by_id</span><span class="hljs-params">(StudentNode **head, <span class="hljs-type">int</span> id)</span>;<br>StudentNode *<span class="hljs-title function_">find_max_score</span><span class="hljs-params">(StudentNode *head)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">free_list</span><span class="hljs-params">(StudentNode **head)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">save_students</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename)</span>;<br>StudentNode *<span class="hljs-title function_">load_students</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    StudentNode *head = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">int</span> choice = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        print_menu();<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请选择：&quot;</span>);<br>        choice = read_int(<span class="hljs-number">0</span>, <span class="hljs-number">7</span>);<br><br>        <span class="hljs-keyword">if</span> (choice &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (feof(<span class="hljs-built_in">stdin</span>) || ferror(<span class="hljs-built_in">stdin</span>))<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n输入结束或发生错误，程序退出。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">switch</span> (choice)<br>        &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>                <span class="hljs-keyword">if</span> (insert_student(&amp;head))<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;添加成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;添加失败。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                print_students(head);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>                <span class="hljs-keyword">if</span> (save_students(head, DATA_FILE))<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;保存成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;保存失败。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>            &#123;<br>                StudentNode *loaded = load_students(DATA_FILE);<br><br>                <span class="hljs-keyword">if</span> (loaded != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    free_list(&amp;head);<br>                    head = loaded;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;读取成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;读取失败或文件中没有学生数据。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>            &#123;<br>                <span class="hljs-type">char</span> name[NAME_LEN];<br><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要查找的姓名：&quot;</span>);<br>                read_line(name, <span class="hljs-keyword">sizeof</span>(name));<br><br>                StudentNode *result = find_by_name(head, name);<br><br>                <span class="hljs-keyword">if</span> (result != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;找到：\n&quot;</span>);<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%d\n&quot;</span>,<br>                           result-&gt;id,<br>                           result-&gt;name,<br>                           result-&gt;score);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到 %s。\n&quot;</span>, name);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:<br>            &#123;<br>                StudentNode *max_node = find_max_score(head);<br><br>                <span class="hljs-keyword">if</span> (max_node != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分学生：\n&quot;</span>);<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%d\n&quot;</span>,<br>                           max_node-&gt;id,<br>                           max_node-&gt;name,<br>                           max_node-&gt;score);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要删除的学号：&quot;</span>);<br>                <span class="hljs-type">int</span> id = read_int(<span class="hljs-number">1</span>, <span class="hljs-number">99999999</span>);<br><br>                <span class="hljs-keyword">if</span> (id &lt; <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号无效。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-keyword">if</span> (delete_by_id(&amp;head, id))<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;删除成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到该学号。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出学生管理系统。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>    &#125; <span class="hljs-keyword">while</span> (choice != <span class="hljs-number">0</span>);<br><br>    free_list(&amp;head);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生管理系统 v0.14 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1. 添加学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2. 显示全部学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;3. 保存到文件\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;4. 从文件读取\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;5. 按姓名查找\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;6. 查看最高分学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;7. 按学号删除\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (fgets(buffer, size, <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        buffer[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    buffer[<span class="hljs-built_in">strcspn</span>(buffer, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span><br>&#123;<br>    <span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br>    <span class="hljs-type">int</span> value = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">if</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d&quot;</span>, &amp;value) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (value &lt; min || value &gt; max)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> value;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">insert_student</span><span class="hljs-params">(StudentNode **head)</span><br>&#123;<br>    StudentNode *node = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(StudentNode));<br><br>    <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;内存申请失败。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入学号：&quot;</span>);<br>    node-&gt;id = read_int(<span class="hljs-number">1</span>, <span class="hljs-number">99999999</span>);<br><br>    <span class="hljs-keyword">if</span> (node-&gt;id &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号无效。\n&quot;</span>);<br>        <span class="hljs-built_in">free</span>(node);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入姓名：&quot;</span>);<br>    read_line(node-&gt;name, NAME_LEN);<br><br>    <span class="hljs-keyword">if</span> (node-&gt;name[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;\0&#x27;</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名不能为空。\n&quot;</span>);<br>        <span class="hljs-built_in">free</span>(node);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>    node-&gt;score = read_int(MIN_SCORE, MAX_SCORE);<br><br>    <span class="hljs-keyword">if</span> (node-&gt;score &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩无效。\n&quot;</span>);<br>        <span class="hljs-built_in">free</span>(node);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    node-&gt;next = *head;<br>    *head = node;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_students</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head)</span><br>&#123;<br>    <span class="hljs-type">const</span> StudentNode *p = head;<br><br>    <span class="hljs-keyword">if</span> (p == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生名单 =====\n&quot;</span>);<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%d\n&quot;</span>,<br>               p-&gt;id,<br>               p-&gt;name,<br>               p-&gt;score);<br><br>        p = p-&gt;next;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br>&#125;<br><br>StudentNode *<span class="hljs-title function_">find_by_name</span><span class="hljs-params">(StudentNode *head, <span class="hljs-type">const</span> <span class="hljs-type">char</span> name[])</span><br>&#123;<br>    StudentNode *p = head;<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(p-&gt;name, name) == <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-keyword">return</span> p;<br>        &#125;<br><br>        p = p-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">delete_by_id</span><span class="hljs-params">(StudentNode **head, <span class="hljs-type">int</span> id)</span><br>&#123;<br>    StudentNode *cur = *head;<br>    StudentNode *prev = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">while</span> (cur != <span class="hljs-literal">NULL</span> &amp;&amp; cur-&gt;id != id)<br>    &#123;<br>        prev = cur;<br>        cur = cur-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (cur == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (prev == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        *head = cur-&gt;next;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        prev-&gt;next = cur-&gt;next;<br>    &#125;<br><br>    <span class="hljs-built_in">free</span>(cur);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br>StudentNode *<span class="hljs-title function_">find_max_score</span><span class="hljs-params">(StudentNode *head)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br><br>    StudentNode *max_node = head;<br>    StudentNode *p = head-&gt;next;<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (p-&gt;score &gt; max_node-&gt;score)<br>        &#123;<br>            max_node = p;<br>        &#125;<br><br>        p = p-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> max_node;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">free_list</span><span class="hljs-params">(StudentNode **head)</span><br>&#123;<br>    StudentNode *p = *head;<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        StudentNode *next = p-&gt;next;<br>        <span class="hljs-built_in">free</span>(p);<br>        p = next;<br>    &#125;<br><br>    *head = <span class="hljs-literal">NULL</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">save_students</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename)</span><br>&#123;<br>    FILE *fp = fopen(filename, <span class="hljs-string">&quot;w&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-type">const</span> StudentNode *p = head;<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;%d %s %d\n&quot;</span>, p-&gt;id, p-&gt;name, p-&gt;score) &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            fclose(fp);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br><br>        p = p-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (fclose(fp) != <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br>StudentNode *<span class="hljs-title function_">load_students</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename)</span><br>&#123;<br>    FILE *fp = fopen(filename, <span class="hljs-string">&quot;r&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br><br>    StudentNode *head = <span class="hljs-literal">NULL</span>;<br>    StudentNode *tail = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">char</span> line[<span class="hljs-number">256</span>];<br><br>    <span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-type">int</span> id = <span class="hljs-number">0</span>;<br>        <span class="hljs-type">char</span> name[NAME_LEN] = &#123;<span class="hljs-number">0</span>&#125;;<br>        <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d %49s %d&quot;</span>, &amp;id, name, &amp;score) != <span class="hljs-number">3</span>)<br>        &#123;<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        StudentNode *node = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(StudentNode));<br><br>        <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>)<br>        &#123;<br>            free_list(&amp;head);<br>            fclose(fp);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>        &#125;<br><br>        node-&gt;id = id;<br>        <span class="hljs-built_in">strcpy</span>(node-&gt;name, name);<br>        node-&gt;score = score;<br>        node-&gt;next = <span class="hljs-literal">NULL</span>;<br><br>        <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">NULL</span>)<br>        &#123;<br>            head = node;<br>            tail = node;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            tail-&gt;next = node;<br>            tail = node;<br>        &#125;<br>    &#125;<br><br>    fclose(fp);<br><br>    <span class="hljs-keyword">return</span> head;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行示例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生管理系统 v0.14 =====<br>1. 添加学生<br>2. 显示全部学生<br>3. 保存到文件<br>4. 从文件读取<br>5. 按姓名查找<br>6. 查看最高分学生<br>7. 按学号删除<br>0. 退出<br>==============================<br>请选择：3<br>保存成功。<br></code></pre></td></tr></table></figure>
+<p>保存后，<code>students.txt</code> 的内容类似：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">20250001 七平 90<br>20250002 小明 85<br></code></pre></td></tr></table></figure>
+<p>再次运行程序，选择“从文件读取”，就可以把数据恢复成链表。</p>
+<p>这个版本完成了：</p>
+<ul>
+<li>用 <code>fopen</code> 打开文件；</li>
+<li>用 <code>fprintf</code> 保存链表数据；</li>
+<li>用 <code>fgets</code> 和 <code>sscanf</code> 读取文件；</li>
+<li>用 <code>fclose</code> 关闭文件；</li>
+<li>用 <code>malloc</code> 重建链表节点；</li>
+<li>用 <code>free_list</code> 释放旧链表和新链表。</li>
+</ul>
+<hr>
+<h2 id="15-5-本章代码规范提示">15.5 本章代码规范提示</h2>
+<ul>
+<li>文件操作必须检查返回值。</li>
+<li><code>fopen</code> 失败后不要继续使用文件指针。</li>
+<li>文件用完及时 <code>fclose</code>。</li>
+<li>关闭文件后把文件指针置为 <code>NULL</code>。</li>
+<li>写入失败要给出提示。</li>
+<li>读取时检查 <code>fgets</code>、<code>fscanf</code>、<code>fread</code> 的返回值。</li>
+<li>不要用 <code>while (!feof(fp))</code> 作为主要读取条件。</li>
+<li>使用相对路径，避免写死绝对路径。</li>
+<li>文本文件适合初学和跨平台交换。</li>
+<li>二进制文件要注意平台、对齐和字节序。</li>
+<li>保存结构体数据时，优先考虑可读的文本格式。</li>
+<li>文件格式在项目里要保持统一。</li>
+</ul>
+<hr>
+<h2 id="15-6-常见错误">15.6 常见错误</h2>
+<h3 id="错误-1：忘记检查-fopen-返回值">错误 1：忘记检查 fopen 返回值</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp);   <span class="hljs-comment">// 如果 fp 是 NULL，会崩溃</span><br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br><br><span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;文件打开失败。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：用-“w”-打开重要文件">错误 2：用 “w” 打开重要文件</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p><code>&quot;w&quot;</code> 会清空原内容。如果只是想追加，应该用 <code>&quot;a&quot;</code>。</p>
+<h3 id="错误-3：忘记-fclose">错误 3：忘记 fclose</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">FILE *fp = fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br><span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;hello\n&quot;</span>);<br><span class="hljs-comment">// 忘记 fclose(fp);</span><br></code></pre></td></tr></table></figure>
+<p>程序结束时系统通常会回收，但显式关闭更可靠。</p>
+<h3 id="错误-4：使用已关闭的文件指针">错误 4：使用已关闭的文件指针</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">fclose(fp);<br><span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;hello\n&quot;</span>);   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>关闭后不要再使用，建议：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">fclose(fp);<br>fp = <span class="hljs-literal">NULL</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-5：用-while-feof-fp-读文件">错误 5：用 while (!feof(fp)) 读文件</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span> (!feof(fp))<br>&#123;<br>    fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, line);   <span class="hljs-comment">// 可能多输出一次</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>推荐：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s&quot;</span>, line);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-6：fscanf-格式和文件内容不匹配">错误 6：fscanf 格式和文件内容不匹配</h3>
+<p>文件内容：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">20250001 七平 90<br></code></pre></td></tr></table></figure>
+<p>错误读取：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%d,%s,%d&quot;</span>, &amp;id, name, &amp;score);   <span class="hljs-comment">// 分隔符不对</span><br></code></pre></td></tr></table></figure>
+<p>应该和文件格式保持一致。</p>
+<h3 id="错误-7：文件名路径写死">错误 7：文件名路径写死</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fopen(<span class="hljs-string">&quot;C:\\Users\\someone\\students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>换一台电脑就可能找不到。</p>
+<p>推荐使用相对路径：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fopen(<span class="hljs-string">&quot;students.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br></code></pre></td></tr></table></figure>
+<h3 id="错误-8：忘记给字符串预留结束符位置">错误 8：忘记给字符串预留结束符位置</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">10</span>];<br><span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%s&quot;</span>, name);   <span class="hljs-comment">// 危险</span><br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%9s&quot;</span>, name);<br></code></pre></td></tr></table></figure>
+<h3 id="错误-9：读取后不检查结果">错误 9：读取后不检查结果</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%d %s %d&quot;</span>, &amp;id, name, &amp;score);<br></code></pre></td></tr></table></figure>
+<p>如果读取失败，后面的数据可能是无效的。</p>
+<p>正确做法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">fscanf</span>(fp, <span class="hljs-string">&quot;%d %49s %d&quot;</span>, &amp;id, name, &amp;score) == <span class="hljs-number">3</span>)<br>&#123;<br>    <span class="hljs-comment">// 使用数据</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-10：把文件当数据库一样随意覆盖">错误 10：把文件当数据库一样随意覆盖</h3>
+<p>每次保存都直接把整个文件清空重写，数据量大时效率较低。</p>
+<p>初学项目可以这样，但真实项目要考虑：</p>
+<ul>
+<li>临时文件 + 重命名；</li>
+<li>追加写入；</li>
+<li>数据库；</li>
+<li>备份机制。</li>
+</ul>
+<hr>
+<h2 id="15-7-总结与自测">15.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>文件操作的基本流程是“打开、读或写、关闭”；<code>fopen</code> 失败返回 <code>NULL</code>，<code>fclose</code> 负责刷新并关闭文件；文本文件适合初学和跨平台；文件操作必须检查返回值。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li><code>FILE *</code> 有什么作用？</li>
+<li><code>fopen</code> 失败时返回什么？</li>
+<li><code>&quot;r&quot;</code>、<code>&quot;w&quot;</code>、<code>&quot;a&quot;</code> 三种模式有什么区别？</li>
+<li>为什么 <code>&quot;w&quot;</code> 模式要特别小心？</li>
+<li><code>fclose</code> 有什么作用？</li>
+<li><code>fprintf</code> 和 <code>printf</code> 有什么区别？</li>
+<li><code>fgets</code> 和 <code>fscanf</code> 读取文件时各适合什么场景？</li>
+<li>为什么推荐用 <code>while (fgets(...) != NULL)</code> 而不是 <code>while (!feof(...))</code>？</li>
+<li>文本文件和二进制文件有什么区别？</li>
+<li>为什么文件路径不建议写死？</li>
+<li>文件操作要检查哪些返回值？</li>
+<li>保存学生数据适合用什么格式？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li><code>FILE *</code> 是文件指针，用来标识和操作文件。</li>
+<li>返回 <code>NULL</code>。</li>
+<li><code>&quot;r&quot;</code> 只读，文件必须存在；<code>&quot;w&quot;</code> 只写并清空原内容；<code>&quot;a&quot;</code> 追加写。</li>
+<li>因为它会清空文件原有内容。</li>
+<li>把缓冲区数据写回文件，释放文件资源，并返回关闭状态。</li>
+<li><code>fprintf</code> 多一个文件指针参数，输出到文件而不是标准输出。</li>
+<li><code>fgets</code> 适合按行读取；<code>fscanf</code> 适合按固定格式读取。</li>
+<li>因为 <code>feof</code> 只有在尝试读取到文件末尾之后才为真，容易多读一次；读取函数的返回值更直接。</li>
+<li>文本文件保存可读字符；二进制文件保存内存中的二进制形式，读写更快但跨平台性差。</li>
+<li>不同操作系统路径不同，写死路径会降低可移植性。</li>
+<li><code>fopen</code>、<code>fclose</code>、<code>fprintf</code>、<code>fscanf</code>、<code>fgets</code>、<code>fread</code>、<code>fwrite</code> 等都要检查。</li>
+<li>初学项目适合用简单的文本格式，例如每行“学号 姓名 成绩”。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>写一个“学生成绩文件管理器”。</p>
+<p>要求：</p>
+<ol>
+<li>用链表保存学生数据；</li>
+<li>用文本文件保存和读取；</li>
+<li>支持添加、显示、查找、删除；</li>
+<li>支持保存到文件、从文件读取；</li>
+<li>每次 <code>fopen</code> 都要检查返回值；</li>
+<li>读取文件时检查格式；</li>
+<li>退出时释放链表；</li>
+<li>思考：如果文件内容损坏，程序应该怎么处理？</li>
+<li>思考：如果姓名中包含空格，当前格式会有什么问题？可以怎样改进？</li>
+</ol>
+<hr>
+<h2 id="15-8-下一章">15.8 下一章</h2>
+<p>现在程序已经能保存和读取数据了。</p>
+<p>下一章，咱们要把一个项目拆成多个文件，让代码结构更清楚，也更接近真实工程。</p>
+<p>关键词是：</p>
+<blockquote>
+<p>多文件、头文件、预处理。</p>
+</blockquote>
+<p><strong>下一章：第 16 章《多文件编程与预处理》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

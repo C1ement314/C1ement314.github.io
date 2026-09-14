@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 9 章：数组
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>掌握一维数组和二维数组的定义、初始化、访问和遍历。</li>
+<li>理解数组的内存布局、下标越界和数组退化为指针。</li>
+<li>学会把数组作为函数参数，并完成排序与查找。</li>
+<li>用数组批量保存学生成绩，完成学生管理系统 v0.8。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你会声明数组、访问元素、用循环遍历。进阶篇会讲内存布局、越界、数组参数、排序和查找，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。前面咱们已经能把程序拆成函数，也能重复录入多位学生的成绩。</p>
+<p>但 v0.7 有一个明显的问题：成绩录入之后，程序只记得总分和平均分，却不记得每一位学生具体考了多少分。</p>
+<p>如果以后要显示每个学生的成绩、按成绩排序、查找某位学生，就不能只靠几个零散变量了。</p>
+<p>这一章，咱们要学习<strong>数组</strong>。</p>
+<hr>
+<h2 id="9-1-先导：为什么需要数组？">9.1 先导：为什么需要数组？</h2>
+<p>假设要保存 5 位学生的成绩。</p>
+<p>用普通变量可以这样写：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score1 = <span class="hljs-number">90</span>;<br><span class="hljs-type">int</span> score2 = <span class="hljs-number">85</span>;<br><span class="hljs-type">int</span> score3 = <span class="hljs-number">77</span>;<br><span class="hljs-type">int</span> score4 = <span class="hljs-number">60</span>;<br><span class="hljs-type">int</span> score5 = <span class="hljs-number">100</span>;<br></code></pre></td></tr></table></figure>
+<p>如果只有 5 位学生，还能接受。</p>
+<p>但如果是 100 位学生呢？</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">score1, score2, score3, ..., score100<br></code></pre></td></tr></table></figure>
+<p>这显然不现实。而且循环也很难统一处理这些名字不同的变量。</p>
+<p>数组可以解决这个问题：</p>
+<blockquote>
+<p>数组是一组<strong>相同类型</strong>元素的连续存储空间。</p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>];<br></code></pre></td></tr></table></figure>
+<p>这表示创建了 5 个 <code>int</code> 元素，分别可以用 <code>scores[0]</code> 到 <code>scores[4]</code> 访问。</p>
+<p>你可以把数组理解成一排带编号的储物柜：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">+---------+---------+---------+---------+---------+<br>| scores  | scores  | scores  | scores  | scores  |<br>|   [0]   |   [1]   |   [2]   |   [3]   |   [4]   |<br>+---------+---------+---------+---------+---------+<br></code></pre></td></tr></table></figure>
+<p>编号从 0 开始，这一点非常重要。</p>
+<hr>
+<h2 id="9-2-基础篇：先会用">9.2 基础篇：先会用</h2>
+<h3 id="9-2-1-一维数组的定义">9.2.1 一维数组的定义</h3>
+<p>一维数组的基本格式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">类型 数组名[元素个数];<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>];<br><span class="hljs-type">double</span> heights[<span class="hljs-number">10</span>];<br><span class="hljs-type">char</span> letters[<span class="hljs-number">26</span>];<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>int</code> 是元素类型；</li>
+<li><code>scores</code> 是数组名；</li>
+<li><code>5</code> 是元素个数；</li>
+<li>这个数组一共有 5 个 <code>int</code> 元素。</li>
+</ul>
+<p>访问数组元素使用下标：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[<span class="hljs-number">0</span>] = <span class="hljs-number">90</span>;<br>scores[<span class="hljs-number">1</span>] = <span class="hljs-number">85</span>;<br>scores[<span class="hljs-number">2</span>] = <span class="hljs-number">77</span>;<br>scores[<span class="hljs-number">3</span>] = <span class="hljs-number">60</span>;<br>scores[<span class="hljs-number">4</span>] = <span class="hljs-number">100</span>;<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>下标从 0 开始；</li>
+<li>5 个元素的下标是 0、1、2、3、4；</li>
+<li>最后一个元素是 <code>scores[4]</code>，不是 <code>scores[5]</code>；</li>
+<li>数组名应该用复数或能表示一组数据的名字，例如 <code>scores</code>、<code>heights</code>、<code>numbers</code>。</li>
+</ul>
+<p>数组的元素个数在传统定长数组中要是整数常量表达式，例如字面量、<code>#define</code> 或 <code>enum</code> 常量。</p>
+<p>注意：在 C 语言中，<code>const int n = 5;</code> 不是整数常量表达式，所以：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> n = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> a[n];<br></code></pre></td></tr></table></figure>
+<p>仍然是可变长度数组（VLA）。C99 支持 VLA，但 C11 起它是可选特性，初学阶段容易带来额外问题。本教程的基础示例主要使用固定大小数组或宏定义。</p>
+<h3 id="9-2-2-数组的初始化">9.2.2 数组的初始化</h3>
+<p>可以在定义数组时直接初始化：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>这 5 个值会依次放入 <code>scores[0]</code> 到 <code>scores[4]</code>。</p>
+<p>如果只初始化一部分：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>那么：</p>
+<ul>
+<li><code>scores[0]</code> 是 90；</li>
+<li><code>scores[1]</code> 是 85；</li>
+<li>后面的 <code>scores[2]</code>、<code>scores[3]</code>、<code>scores[4]</code> 会被自动初始化为 0。</li>
+</ul>
+<p>如果想把整个数组都初始化为 0：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>注意写法：第一个元素写 0，后面的元素会自动补 0。</p>
+<p>如果初始化时提供了所有元素的值，可以省略数组长度：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>编译器会根据初始化列表的个数，自动推断数组长度是 5。</p>
+<p>C99 还支持指定初始化：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;[<span class="hljs-number">0</span>] = <span class="hljs-number">90</span>, [<span class="hljs-number">4</span>] = <span class="hljs-number">100</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>这种写法不是必须掌握，先混个眼熟即可。</p>
+<p>数组有一个限制：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">3</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;;<br><span class="hljs-type">int</span> b[<span class="hljs-number">3</span>];<br><br>b = a;   <span class="hljs-comment">// 错误：数组不能整体赋值</span><br></code></pre></td></tr></table></figure>
+<p>数组不能像普通变量那样整体赋值。想复制数组，需要逐个元素复制，或者使用后续章节会介绍的标准库函数。</p>
+<h3 id="9-2-3-访问数组元素">9.2.3 访问数组元素</h3>
+<p>访问数组元素：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> first = scores[<span class="hljs-number">0</span>];<br><span class="hljs-type">int</span> second = scores[<span class="hljs-number">1</span>];<br></code></pre></td></tr></table></figure>
+<p>修改数组元素：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[<span class="hljs-number">0</span>] = <span class="hljs-number">99</span>;<br>scores[<span class="hljs-number">4</span>] = scores[<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<p>数组下标可以是表达式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> i = <span class="hljs-number">2</span>;<br>scores[i] = <span class="hljs-number">88</span>;<br>scores[i + <span class="hljs-number">1</span>] = <span class="hljs-number">92</span>;<br></code></pre></td></tr></table></figure>
+<p>但不管下标怎么写，最终都必须落在有效范围内。</p>
+<hr>
+<h3 id="9-2-4-遍历数组">9.2.4 遍历数组</h3>
+<p>数组最常用的操作，就是配合循环遍历。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;scores[%d] = %d\n&quot;</span>, i, scores[i]);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">scores[0] = 90<br>scores[1] = 85<br>scores[2] = 77<br>scores[3] = 60<br>scores[4] = 100<br></code></pre></td></tr></table></figure>
+<p>注意循环条件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">i &lt; <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+<p>而不是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">i &lt;= <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+<p>如果写成 <code>i &lt;= 5</code>，最后一次循环会访问 <code>scores[5]</code>，造成数组越界。</p>
+<h4 id="计算总分">计算总分</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++)<br>&#123;<br>    total = total + scores[i];<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="求平均分">求平均分</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = (<span class="hljs-type">double</span>)total / <span class="hljs-number">5</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="求最大值">求最大值</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> max_score = scores[<span class="hljs-number">0</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">5</span>; i++)<br>&#123;<br>    <span class="hljs-keyword">if</span> (scores[i] &gt; max_score)<br>    &#123;<br>        max_score = scores[i];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：求最大值时，不能把 <code>max_score</code> 初始化成 0，因为如果所有成绩都是负数，0 就会错误地变成最大值。这里用 <code>scores[0]</code> 作为初始值更稳妥。</p>
+<h3 id="9-2-5-数组大小与-sizeof">9.2.5 数组大小与 sizeof</h3>
+<p><code>sizeof</code> 可以获取数组占用的总字节数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;整个数组：%zu 字节\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(scores));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;一个元素：%zu 字节\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(scores[<span class="hljs-number">0</span>]));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;元素个数：%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(scores) / <span class="hljs-keyword">sizeof</span>(scores[<span class="hljs-number">0</span>]));<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在常见平台上，<code>int</code> 是 4 字节，所以结果可能是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">整个数组：20 字节<br>一个元素：4 字节<br>元素个数：5<br></code></pre></td></tr></table></figure>
+<p><code>sizeof(scores) / sizeof(scores[0])</code> 是获取数组元素个数的常用写法。</p>
+<p>注意：它只在数组还没有“退化”为指针时有效。等学到函数参数时，这一点会变得更清楚。</p>
+<h3 id="9-2-6-二维数组">9.2.6 二维数组</h3>
+<p>二维数组可以理解为“表格”或“矩阵”。</p>
+<p>定义方式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>];<br></code></pre></td></tr></table></figure>
+<p>这表示 3 行、4 列，共 12 个元素。</p>
+<p>访问方式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">90</span>;<br>scores[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">85</span>;<br>scores[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">77</span>;<br></code></pre></td></tr></table></figure>
+<p>可以把二维数组画成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">         列 0    列 1    列 2    列 3<br>       +-------+-------+-------+-------+<br>行 0   | [0][0]| [0][1]| [0][2]| [0][3]|<br>       +-------+-------+-------+-------+<br>行 1   | [1][0]| [1][1]| [1][2]| [1][3]|<br>       +-------+-------+-------+-------+<br>行 2   | [2][0]| [2][1]| [2][2]| [2][3]|<br>       +-------+-------+-------+-------+<br></code></pre></td></tr></table></figure>
+<p>初始化：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>] = &#123;<br>    &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>&#125;,<br>    &#123;<span class="hljs-number">88</span>, <span class="hljs-number">92</span>, <span class="hljs-number">79</span>, <span class="hljs-number">95</span>&#125;,<br>    &#123;<span class="hljs-number">70</span>, <span class="hljs-number">80</span>, <span class="hljs-number">85</span>, <span class="hljs-number">90</span>&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>遍历二维数组通常用两层循环：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++)<br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">4</span>; j++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%4d&quot;</span>, scores[i][j]);<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>外层循环 <code>i</code> 控制行；</li>
+<li>内层循环 <code>j</code> 控制列。</li>
+</ul>
+<h3 id="9-2-7-基础篇小练习">9.2.7 基础篇小练习</h3>
+<ol>
+<li>定义一个包含 6 个整数的数组，并初始化。</li>
+<li>用循环输出数组中的全部元素。</li>
+<li>计算数组中所有元素的平均值。</li>
+<li>找出数组中的最大值和最小值。</li>
+<li>把数组中的元素逆序输出。</li>
+<li>定义一个 3 行 4 列的二维数组，并输出所有元素。</li>
+<li>判断下面数组访问是否越界：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>];<br><br>a[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>a[<span class="hljs-number">4</span>] = <span class="hljs-number">2</span>;<br>a[<span class="hljs-number">5</span>] = <span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="9-3-进阶篇：再懂原理">9.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会定义、访问和遍历数组了。进阶篇要讲清楚：数组在内存里怎么放，为什么容易越界，以及为什么数组作为函数参数时会“变样子”。</p>
+<h3 id="9-3-1-数组在内存中的布局">9.3.1 数组在内存中的布局</h3>
+<p>数组元素在内存中通常是<strong>连续存放</strong>的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>可以简单画成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">低地址                                                高地址<br>+----------+----------+----------+----------+----------+<br>| scores[0]| scores[1]| scores[2]| scores[3]| scores[4]|<br>|    90    |    85    |    77    |    60    |   100    |<br>+----------+----------+----------+----------+----------+<br></code></pre></td></tr></table></figure>
+<p>这意味着：</p>
+<ul>
+<li><code>scores[0]</code> 在最低地址；</li>
+<li><code>scores[1]</code> 紧跟在 <code>scores[0]</code> 后面；</li>
+<li>元素之间没有“空隙”。</li>
+</ul>
+<p>也正因为数组是连续的，<code>scores[i]</code> 可以通过“起始地址 + 偏移量”快速计算出来。</p>
+<p>可以用下面的关系理解：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[i]   等价于   *(scores + i)<br></code></pre></td></tr></table></figure>
+<p>这里涉及指针，第 11 章会详细讲。现在先记住：</p>
+<blockquote>
+<p>数组下标本质上就是“从起始位置往后走 i 个元素”。</p>
+</blockquote>
+<p>二维数组在内存中通常也是连续存放的，按“行优先”排列：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">scores[0][0], scores[0][1], scores[0][2], scores[0][3],<br>scores[1][0], scores[1][1], ...<br></code></pre></td></tr></table></figure>
+<h3 id="9-3-2-数组越界">9.3.2 数组越界</h3>
+<p>C 语言不会自动检查数组下标是否越界。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>];<br><br>a[<span class="hljs-number">5</span>] = <span class="hljs-number">100</span>;   <span class="hljs-comment">// 越界，危险</span><br></code></pre></td></tr></table></figure>
+<p>合法下标只有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">0, 1, 2, 3, 4<br></code></pre></td></tr></table></figure>
+<p>访问 <code>a[5]</code>、<code>a[-1]</code> 都是越界，属于未定义行为。</p>
+<p>越界的后果可能包括：</p>
+<ul>
+<li>程序崩溃；</li>
+<li>输出错误结果；</li>
+<li>修改到其他变量的值；</li>
+<li>看似正常运行，但在别的平台或优化级别下出问题。</li>
+</ul>
+<p>所以写数组代码时，一定要确认：</p>
+<ol>
+<li>下标从哪里开始；</li>
+<li>下标到哪里结束；</li>
+<li>循环条件用 <code>&lt;</code> 还是 <code>&lt;=</code>；</li>
+<li>数组长度和循环边界是否一致。</li>
+</ol>
+<h3 id="9-3-3-数组退化为指针">9.3.3 数组退化为指针</h3>
+<p>在大多数表达式里，数组名会“退化”为指向第一个元素的指针。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>];<br></code></pre></td></tr></table></figure>
+<p><code>scores</code> 在大多数表达式中可以理解为 <code>&amp;scores[0]</code>。</p>
+<p>因此下面两种写法是等价的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[<span class="hljs-number">1</span>]<br>*(scores + <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<p>但有一个重要例外：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">sizeof</span>(scores)<br></code></pre></td></tr></table></figure>
+<p>当 <code>scores</code> 是数组时，<code>sizeof(scores)</code> 得到的是整个数组的大小，而不是指针的大小。</p>
+<p>这一点非常容易混淆。</p>
+<p>只要数组作为函数参数传递，它通常就会退化为指针，<code>sizeof</code> 也就不再能求出数组长度了。</p>
+<h3 id="9-3-4-数组作为函数参数">9.3.4 数组作为函数参数</h3>
+<p>数组可以作为函数参数。</p>
+<p>例如，计算数组元素之和：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sum_scores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        total = total + scores[i];<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> total;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>调用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br><span class="hljs-type">int</span> total = sum_scores(scores, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure>
+<p>这里有两个关键点：</p>
+<ol>
+<li>数组参数后面通常要再传一个 <code>count</code>，告诉函数数组有多少个元素；</li>
+<li>函数参数 <code>const int scores[]</code> 中的 <code>const</code> 表示这个函数不打算修改数组。</li>
+</ol>
+<p>为什么必须单独传 <code>count</code>？</p>
+<p>因为在函数内部，数组参数已经退化为指针，<code>sizeof(scores)</code> 得到的是指针大小，而不是数组总大小。</p>
+<h4 id="数组参数可以修改原数组">数组参数可以修改原数组</h4>
+<p>和普通变量不同，数组传给函数时，函数可以通过指针修改调用者的数组内容。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">add_bonus</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> bonus)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        scores[i] = scores[i] + bonus;<br>    &#125;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>] = &#123;<span class="hljs-number">60</span>, <span class="hljs-number">70</span>, <span class="hljs-number">80</span>&#125;;<br><br>    add_bonus(scores, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>);<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, scores[i]);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">65<br>75<br>85<br></code></pre></td></tr></table></figure>
+<p>也就是说：</p>
+<ul>
+<li>普通变量传参是值传递，函数里改形参不影响实参；</li>
+<li>数组传参看起来像值传递，实际上传的是“指向首元素的指针”，所以函数可以修改原数组。</li>
+</ul>
+<p>至于“为什么”，第 11 章讲指针时会彻底解释。现在先记住结论和写法。</p>
+<p>如果函数不打算修改数组，就加上 <code>const</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sum_scores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br></code></pre></td></tr></table></figure>
+<p>这是一个很好的代码规范。</p>
+<h4 id="二维数组作为函数参数">二维数组作为函数参数</h4>
+<p>二维数组作为参数时，通常要写出列数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">print_matrix</span><span class="hljs-params">(<span class="hljs-type">int</span> matrix[][<span class="hljs-number">4</span>], <span class="hljs-type">int</span> rows)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; rows; i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">4</span>; j++)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%4d&quot;</span>, matrix[i][j]);<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里 <code>matrix[][4]</code> 表示列数是 4，行数由参数 <code>rows</code> 提供。</p>
+<h3 id="9-3-5-排序">9.3.5 排序</h3>
+<p>排序就是把数组元素按某种顺序排列。</p>
+<p>这里介绍最简单的冒泡排序。</p>
+<h4 id="从小到大排序">从小到大排序</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">sort_scores_ascending</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count - <span class="hljs-number">1</span>; i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; count - <span class="hljs-number">1</span> - i; j++)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (scores[j] &gt; scores[j + <span class="hljs-number">1</span>])<br>            &#123;<br>                <span class="hljs-type">int</span> temp = scores[j];<br>                scores[j] = scores[j + <span class="hljs-number">1</span>];<br>                scores[j + <span class="hljs-number">1</span>] = temp;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="从大到小排序">从大到小排序</h4>
+<p>只需要把比较条件反过来：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (scores[j] &lt; scores[j + <span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
+<p>冒泡排序的思想是：</p>
+<blockquote>
+<p>每一轮把当前未排序部分中的最大或最小元素“冒”到末尾。</p>
+</blockquote>
+<p>对于 n 个元素，冒泡排序通常需要大约 n² 次比较，属于 <code>O(n^2)</code> 复杂度。</p>
+<p>初学阶段先掌握基本写法，后面学算法时再优化。</p>
+<h4 id="冒泡排序逐步跟踪">冒泡排序逐步跟踪</h4>
+<p>还是用升序排序：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>第 1 轮：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">比较 90 和 85，交换：85 90 77 60 100<br>比较 90 和 77，交换：85 77 90 60 100<br>比较 90 和 60，交换：85 77 60 90 100<br>比较 90 和 100，不交换：85 77 60 90 100<br><br>第 1 轮结束，最大的 100 已经到末尾。<br></code></pre></td></tr></table></figure>
+<p>第 2 轮：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">85 77 60 90 100<br>比较 85 和 77，交换：77 85 60 90 100<br>比较 85 和 60，交换：77 60 85 90 100<br>比较 85 和 90，不交换：77 60 85 90 100<br><br>第 2 轮结束，90 到倒数第二位。<br></code></pre></td></tr></table></figure>
+<p>第 3 轮：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">77 60 85 90 100<br>比较 77 和 60，交换：60 77 85 90 100<br>比较 77 和 85，不交换：60 77 85 90 100<br></code></pre></td></tr></table></figure>
+<p>第 4 轮：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">60 77 85 90 100<br>比较 60 和 77，不交换：60 77 85 90 100<br></code></pre></td></tr></table></figure>
+<p>最终结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">60 77 85 90 100<br></code></pre></td></tr></table></figure>
+<p>可以看出，每一轮都会把当前未排序部分的最大值“冒”到末尾。</p>
+<h4 id="选择排序">选择排序</h4>
+<p>选择排序的思路是：</p>
+<blockquote>
+<p>每一轮从未排序部分中选出最小值，放到已排序部分的末尾。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">selection_sort_ascending</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count - <span class="hljs-number">1</span>; i++)<br>    &#123;<br>        <span class="hljs-type">int</span> min_index = i;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i + <span class="hljs-number">1</span>; j &lt; count; j++)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (scores[j] &lt; scores[min_index])<br>            &#123;<br>                min_index = j;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (min_index != i)<br>        &#123;<br>            <span class="hljs-type">int</span> temp = scores[i];<br>            scores[i] = scores[min_index];<br>            scores[min_index] = temp;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>和冒泡排序相比：</p>
+<ul>
+<li>冒泡排序交换次数可能更多；</li>
+<li>选择排序每轮只交换一次；</li>
+<li>两者时间复杂度通常都是 <code>O(n^2)</code>。</li>
+</ul>
+<h4 id="排序结构体数组的思路">排序结构体数组的思路</h4>
+<p>如果还没学结构体，可以先跳过这一段；第 12 章会详细讲结构体。</p>
+<p>如果结构体数组要按成绩排序，交换时要把整个结构体一起交换：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Student</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> id;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">20</span>];<br>    <span class="hljs-type">int</span> score;<br>&#125; Student;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">sort_students_by_score</span><span class="hljs-params">(Student students[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count - <span class="hljs-number">1</span>; i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; count - <span class="hljs-number">1</span> - i; j++)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (students[j].score &lt; students[j + <span class="hljs-number">1</span>].score)<br>            &#123;<br>                Student temp = students[j];<br>                students[j] = students[j + <span class="hljs-number">1</span>];<br>                students[j + <span class="hljs-number">1</span>] = temp;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里交换的是整个 <code>Student</code>，所以学号、姓名、成绩会一起移动，不会错位。</p>
+<h3 id="9-3-6-查找">9.3.6 查找</h3>
+<h4 id="线性查找">线性查找</h4>
+<p>线性查找就是从头到尾一个一个找。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">find_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] == target)<br>        &#123;<br>            <span class="hljs-keyword">return</span> i;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>返回值：</p>
+<ul>
+<li>找到时返回下标；</li>
+<li>没找到时返回 -1。</li>
+</ul>
+<h4 id="二分查找">二分查找</h4>
+<p>如果数组已经排好序，可以使用二分查找。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">binary_search</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span><br>&#123;<br>    <span class="hljs-type">int</span> left = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> right = count - <span class="hljs-number">1</span>;<br><br>    <span class="hljs-keyword">while</span> (left &lt;= right)<br>    &#123;<br>        <span class="hljs-type">int</span> mid = left + (right - left) / <span class="hljs-number">2</span>;<br><br>        <span class="hljs-keyword">if</span> (scores[mid] == target)<br>        &#123;<br>            <span class="hljs-keyword">return</span> mid;<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (scores[mid] &lt; target)<br>        &#123;<br>            left = mid + <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            right = mid - <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>二分查找要求数组已经按升序排列，否则结果不可靠。</p>
+<p>初学阶段可以先掌握线性查找，再了解二分查找。</p>
+<h4 id="线性查找逐步跟踪">线性查找逐步跟踪</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>&#125;;<br><span class="hljs-type">int</span> target = <span class="hljs-number">77</span>;<br></code></pre></td></tr></table></figure>
+<p>线性查找过程：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>下标</th>
+<th>当前值</th>
+<th>是否等于 77</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>90</td>
+<td>否</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>85</td>
+<td>否</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>77</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<p>所以返回下标 2。</p>
+<p>如果一直没找到，最后返回 -1。</p>
+<h4 id="二分查找逐步跟踪">二分查找逐步跟踪</h4>
+<p>二分查找要求数组已经按升序排好：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">9</span>] = &#123;<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>, <span class="hljs-number">60</span>, <span class="hljs-number">70</span>, <span class="hljs-number">80</span>, <span class="hljs-number">90</span>&#125;;<br><span class="hljs-type">int</span> target = <span class="hljs-number">70</span>;<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>left</th>
+<th>right</th>
+<th>mid</th>
+<th>scores[mid]</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>8</td>
+<td>4</td>
+<td>50</td>
+<td>目标在右边</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+<td>8</td>
+<td>6</td>
+<td>70</td>
+<td>找到</td>
+</tr>
+</tbody>
+</table>
+<p>具体过程：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">第 1 次：left=0, right=8, mid=4，scores[4]=50 &lt; 70<br>         left 变成 5<br><br>第 2 次：left=5, right=8, mid=6，scores[6]=70<br>         找到，返回 6<br></code></pre></td></tr></table></figure>
+<p>如果目标不存在，最终会出现 <code>left &gt; right</code>，此时返回 -1。</p>
+<h4 id="二分查找常见错误">二分查找常见错误</h4>
+<ol>
+<li>数组没有排序就使用二分查找；</li>
+<li><code>while (left &lt;= right)</code> 写成 <code>while (left &lt; right)</code>；</li>
+<li><code>right = mid</code> 或 <code>left = mid</code>，没有加一减一，可能死循环；</li>
+<li><code>mid = (left + right) / 2</code> 在极端情况下可能溢出；</li>
+<li>找到后忘记返回下标。</li>
+</ol>
+<p>更稳妥的中间位置写法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> mid = left + (right - left) / <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="查找速度对比">查找速度对比</h4>
+<table>
+<thead>
+<tr>
+<th>查找方式</th>
+<th>要求</th>
+<th>平均时间复杂度</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线性查找</td>
+<td>无</td>
+<td><code>O(n)</code></td>
+<td>数据量小、未排序</td>
+</tr>
+<tr>
+<td>二分查找</td>
+<td>必须有序</td>
+<td><code>O(log n)</code></td>
+<td>数据量大、已排序</td>
+</tr>
+</tbody>
+</table>
+<p>数据量越大，二分查找的优势越明显。</p>
+<h3 id="9-3-7-常用数组操作">9.3.7 常用数组操作</h3>
+<h4 id="求和">求和</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>&#123;<br>    total = total + scores[i];<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="求平均分-2">求平均分</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = (<span class="hljs-type">double</span>)total / count;<br></code></pre></td></tr></table></figure>
+<h4 id="求最大值-2">求最大值</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> max_score = scores[<span class="hljs-number">0</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++)<br>&#123;<br>    <span class="hljs-keyword">if</span> (scores[i] &gt; max_score)<br>    &#123;<br>        max_score = scores[i];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="求最小值">求最小值</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> min_score = scores[<span class="hljs-number">0</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++)<br>&#123;<br>    <span class="hljs-keyword">if</span> (scores[i] &lt; min_score)<br>    &#123;<br>        min_score = scores[i];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="逆序">逆序</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count / <span class="hljs-number">2</span>; i++)<br>&#123;<br>    <span class="hljs-type">int</span> temp = scores[i];<br>    scores[i] = scores[count - <span class="hljs-number">1</span> - i];<br>    scores[count - <span class="hljs-number">1</span> - i] = temp;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="9-3-8-字符数组预览">9.3.8 字符数组预览</h3>
+<p>字符数组是一种特殊的数组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">20</span>] = <span class="hljs-string">&quot;七平&quot;</span>;<br></code></pre></td></tr></table></figure>
+<p>它可以保存一串字符。</p>
+<p>字符数组和字符串有紧密关系，但也有细节：</p>
+<ul>
+<li>字符串结尾通常会有一个 <code>'\0'</code>；</li>
+<li>用 <code>printf(&quot;%s&quot;, name)</code> 可以输出字符串；</li>
+<li>字符串的输入输出、长度、复制、比较等内容，会在第 10 章详细讲。</li>
+</ul>
+<p>这里先知道：</p>
+<blockquote>
+<p><code>char</code> 数组可以保存一串字符，但不等于普通整数数组。</p>
+</blockquote>
+<h3 id="9-3-9-数组、字符串、指针预告">9.3.9 数组、字符串、指针预告</h3>
+<p>数组、字符串、指针是连在一起的三章。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">数组：一组连续的同类型变量<br>字符串：以 &#x27;\0&#x27; 结尾的字符数组<br>指针：保存地址的变量<br></code></pre></td></tr></table></figure>
+<p>先看一张预告表：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>含义</th>
+<th>后面会在哪里讲</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scores</code></td>
+<td>数组名，多数情况转为首元素地址</td>
+<td>第 11 章</td>
+</tr>
+<tr>
+<td><code>scores[0]</code></td>
+<td>第一个元素</td>
+<td>第 9 章</td>
+</tr>
+<tr>
+<td><code>&amp;scores[0]</code></td>
+<td>首元素地址</td>
+<td>第 11 章</td>
+</tr>
+<tr>
+<td><code>int *p = scores;</code></td>
+<td>指针指向首元素</td>
+<td>第 11 章</td>
+</tr>
+<tr>
+<td><code>p + 1</code></td>
+<td>指向第二个元素</td>
+<td>第 11 章</td>
+</tr>
+<tr>
+<td><code>*(p + 1)</code></td>
+<td>第二个元素</td>
+<td>第 11 章</td>
+</tr>
+<tr>
+<td><code>char name[] = &quot;hello&quot;;</code></td>
+<td>字符数组</td>
+<td>第 10 章</td>
+</tr>
+<tr>
+<td><code>char *p = name;</code></td>
+<td>指向第一个字符</td>
+<td>第 10、11 章</td>
+</tr>
+</tbody>
+</table>
+<p>还要记住 <code>sizeof</code> 家族：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sizeof(scores)</code></td>
+<td>整个数组大小</td>
+</tr>
+<tr>
+<td><code>sizeof(scores[0])</code></td>
+<td>单个元素大小</td>
+</tr>
+<tr>
+<td><code>sizeof(scores) / sizeof(scores[0])</code></td>
+<td>元素个数</td>
+</tr>
+<tr>
+<td><code>sizeof(p)</code></td>
+<td>指针变量大小</td>
+</tr>
+<tr>
+<td><code>sizeof(*p)</code></td>
+<td>指针指向类型的大小</td>
+</tr>
+</tbody>
+</table>
+<h3 id="9-3-10-本章代码规范：访问数组前确认边界">9.3.10 本章代码规范：访问数组前确认边界</h3>
+<p>这一章最重要的规范是：</p>
+<blockquote>
+<p>访问数组之前，先确认下标在合法范围内。</p>
+</blockquote>
+<p>合法范围是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">0 &lt;= 下标 &lt; 数组长度<br></code></pre></td></tr></table></figure>
+<p>其他建议：</p>
+<ul>
+<li>循环条件优先写成 <code>i &lt; count</code>，不要写成 <code>i &lt;= count</code>；</li>
+<li>数组作为函数参数时，把长度一起传进去；</li>
+<li>函数不修改数组时，参数加 <code>const</code>；</li>
+<li>不要在函数内部对数组参数使用 <code>sizeof</code> 求长度；</li>
+<li>求最大值、最小值时，初始值优先取数组第一个元素；</li>
+<li>数组名用复数或能表示一组数据的名字；</li>
+<li>二维数组要明确行数和列数；</li>
+<li>写排序、查找前先确认数组是否为空、是否有序。</li>
+</ul>
+<hr>
+<h2 id="9-4-项目回扣：学生管理系统-v0-8">9.4 项目回扣：学生管理系统 v0.8</h2>
+<p>本章的目标是用数组批量保存学生成绩。</p>
+<p>这个版本会支持：</p>
+<ul>
+<li>录入多位学生的成绩；</li>
+<li>查看总分、平均分、最高分、最低分；</li>
+<li>显示全部成绩；</li>
+<li>按成绩从高到低排序；</li>
+<li>查找某个成绩。</li>
+</ul>
+<p>这里先用 <code>#define</code> 定义数组大小。<code>#define</code> 属于预处理指令，第 16 章会详细讲；现在先知道它可以定义一个整数常量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_STUDENTS 100</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MIN_SCORE 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_SCORE 100</span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_student_count</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_scores</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> max_count)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">calculate_total</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">find_max_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">find_min_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_scores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">sort_scores_descending</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">find_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> scores[MAX_STUDENTS];<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> choice = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> loaded = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        print_menu();<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请选择：&quot;</span>);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;choice) != <span class="hljs-number">1</span>)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">switch</span> (choice)<br>        &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>                count = read_scores(scores, MAX_STUDENTS);<br><br>                <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">0</span>)<br>                &#123;<br>                    loaded = <span class="hljs-number">1</span>;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩录入成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    loaded = <span class="hljs-number">0</span>;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩录入失败。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>            &#123;<br>                <span class="hljs-keyword">if</span> (!loaded)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请先录入成绩。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">int</span> total = calculate_total(scores, count);<br><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 成绩统计 =====\n&quot;</span>);<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生人数：%d\n&quot;</span>, count);<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总分：%d\n&quot;</span>, total);<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分：%.2f\n&quot;</span>, calculate_average(total, count));<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分：%d\n&quot;</span>, find_max_score(scores, count));<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最低分：%d\n&quot;</span>, find_min_score(scores, count));<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>                <span class="hljs-keyword">if</span> (!loaded)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请先录入成绩。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                print_scores(scores, count);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>                <span class="hljs-keyword">if</span> (!loaded)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请先录入成绩。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                sort_scores_descending(scores, count);<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;排序完成。\n&quot;</span>);<br>                print_scores(scores, count);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>            &#123;<br>                <span class="hljs-keyword">if</span> (!loaded)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请先录入成绩。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">int</span> target = <span class="hljs-number">0</span>;<br><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要查找的成绩：&quot;</span>);<br>                <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;target) != <span class="hljs-number">1</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">int</span> index = find_score(scores, count, target);<br><br>                <span class="hljs-keyword">if</span> (index &gt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;找到成绩 %d，位置：第 %d 位\n&quot;</span>, target, index + <span class="hljs-number">1</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到成绩 %d。\n&quot;</span>, target);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出学生管理系统。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择，请重新输入。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>    &#125; <span class="hljs-keyword">while</span> (choice != <span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生管理系统 v0.8 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1. 录入成绩\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2. 查看统计\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;3. 显示全部成绩\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;4. 按成绩从高到低排序\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;5. 查找成绩\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">read_student_count</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入学生人数（1 到 %d）：&quot;</span>, MAX_STUDENTS);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;count) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (count &lt; <span class="hljs-number">1</span> || count &gt; MAX_STUDENTS)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> count;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">read_scores</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> max_count)</span><br>&#123;<br>    <span class="hljs-type">int</span> count = read_student_count();<br><br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span> || count &gt; max_count)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第 %d 位学生的成绩：&quot;</span>, i + <span class="hljs-number">1</span>);<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;scores[i]) != <span class="hljs-number">1</span>)<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (scores[i] &lt; MIN_SCORE || scores[i] &gt; MAX_SCORE)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩必须在 %d 到 %d 之间。\n&quot;</span>, MIN_SCORE, MAX_SCORE);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> count;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">calculate_total</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        total = total + scores[i];<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> total;<br>&#125;<br><br><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0.0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> (<span class="hljs-type">double</span>)total / count;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">find_max_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-type">int</span> max_score = scores[<span class="hljs-number">0</span>];<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] &gt; max_score)<br>        &#123;<br>            max_score = scores[i];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> max_score;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">find_min_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-type">int</span> min_score = scores[<span class="hljs-number">0</span>];<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] &lt; min_score)<br>        &#123;<br>            min_score = scores[i];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> min_score;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_scores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 全部成绩 =====\n&quot;</span>);<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第 %d 位：%d\n&quot;</span>, i + <span class="hljs-number">1</span>, scores[i]);<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">sort_scores_descending</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count - <span class="hljs-number">1</span>; i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; count - <span class="hljs-number">1</span> - i; j++)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (scores[j] &lt; scores[j + <span class="hljs-number">1</span>])<br>            &#123;<br>                <span class="hljs-type">int</span> temp = scores[j];<br>                scores[j] = scores[j + <span class="hljs-number">1</span>];<br>                scores[j + <span class="hljs-number">1</span>] = temp;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">find_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] == target)<br>        &#123;<br>            <span class="hljs-keyword">return</span> i;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行示例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生管理系统 v0.8 =====<br>1. 录入成绩<br>2. 查看统计<br>3. 显示全部成绩<br>4. 按成绩从高到低排序<br>5. 查找成绩<br>0. 退出<br>==============================<br>请选择：1<br>请输入学生人数（1 到 100）：3<br>请输入第 1 位学生的成绩：90<br>请输入第 2 位学生的成绩：85<br>请输入第 3 位学生的成绩：77<br>成绩录入成功。<br></code></pre></td></tr></table></figure>
+<p>这个版本完成了从“边输入边统计”到“先把数据存起来，再反复处理”的升级。</p>
+<p>数组让程序第一次拥有了“记住一整组数据”的能力。</p>
+<hr>
+<h2 id="9-5-本章代码规范提示">9.5 本章代码规范提示</h2>
+<ul>
+<li>访问数组前确认下标范围是 <code>0 &lt;= i &lt; count</code>。</li>
+<li>循环遍历数组时，条件通常写 <code>i &lt; count</code>。</li>
+<li>数组作为函数参数时，把数组长度一起传进去。</li>
+<li>函数不修改数组时，参数加 <code>const</code>。</li>
+<li>不要在函数内部对数组参数使用 <code>sizeof</code> 求长度。</li>
+<li>数组名要能表示一组数据，例如 <code>scores</code>、<code>numbers</code>。</li>
+<li>初始化数组时，注意部分初始化会补 0。</li>
+<li>求最大值、最小值时，初始值优先取数组第一个元素。</li>
+<li>二维数组要明确行数和列数。</li>
+<li>数组越界属于未定义行为，不能依赖它。</li>
+<li>写排序和查找前，先确认数组是否为空、是否有序。</li>
+</ul>
+<hr>
+<h2 id="9-6-常见错误">9.6 常见错误</h2>
+<h3 id="错误-1：下标从-1-开始">错误 1：下标从 1 开始</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>];<br><br>scores[<span class="hljs-number">1</span>] = <span class="hljs-number">90</span>;   <span class="hljs-comment">// 不是第一个元素</span><br></code></pre></td></tr></table></figure>
+<p>第一个元素是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[<span class="hljs-number">0</span>] = <span class="hljs-number">90</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：循环条件写成">错误 2：循环条件写成 &lt;=</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">5</span>; i++)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, scores[i]);   <span class="hljs-comment">// i 等于 5 时越界</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>应该写：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">5</span>; i++)<br></code></pre></td></tr></table></figure>
+<h3 id="错误-3：数组整体赋值">错误 3：数组整体赋值</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">3</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;;<br><span class="hljs-type">int</span> b[<span class="hljs-number">3</span>];<br><br>b = a;   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>数组不能整体赋值，需要逐个元素复制。</p>
+<h3 id="错误-4：函数里用-sizeof-求数组长度">错误 4：函数里用 sizeof 求数组长度</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sum_scores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-type">int</span> n = <span class="hljs-keyword">sizeof</span>(scores) / <span class="hljs-keyword">sizeof</span>(scores[<span class="hljs-number">0</span>]);   <span class="hljs-comment">// 错误</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在函数参数中，<code>scores</code> 已经变成指针，<code>sizeof(scores)</code> 不是数组总大小。</p>
+<p>正确做法是额外传入 <code>count</code>。</p>
+<h3 id="错误-5：二维数组行数和列数写反">错误 5：二维数组行数和列数写反</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>];   <span class="hljs-comment">// 3 行 4 列</span><br></code></pre></td></tr></table></figure>
+<p>访问时：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[<span class="hljs-number">2</span>][<span class="hljs-number">3</span>]   <span class="hljs-comment">// 合法：第 3 行第 4 列</span><br>scores[<span class="hljs-number">3</span>][<span class="hljs-number">4</span>]   <span class="hljs-comment">// 越界</span><br></code></pre></td></tr></table></figure>
+<h3 id="错误-6：数组未初始化就使用">错误 6：数组未初始化就使用</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>];<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, scores[<span class="hljs-number">0</span>]);   <span class="hljs-comment">// 值不确定</span><br></code></pre></td></tr></table></figure>
+<p>正确做法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">5</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-7：数组越界">错误 7：数组越界</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>];<br><br>a[<span class="hljs-number">-1</span>] = <span class="hljs-number">10</span>;<br>a[<span class="hljs-number">5</span>] = <span class="hljs-number">20</span>;<br></code></pre></td></tr></table></figure>
+<p>这些都是未定义行为，可能崩溃，也可能悄悄改坏其他数据。</p>
+<h3 id="错误-8：忘记给数组函数传长度">错误 8：忘记给数组函数传长度</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sum_scores</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[])</span><br>&#123;<br>    <span class="hljs-comment">// 这里不知道数组有多少个元素</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>数组参数必须额外传入长度：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sum_scores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br></code></pre></td></tr></table></figure>
+<h3 id="错误-9：修改了本来不该修改的数组">错误 9：修改了本来不该修改的数组</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sum_scores</span><span class="hljs-params">(<span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    scores[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;   <span class="hljs-comment">// 如果不打算修改，就不要这样写</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果函数不打算修改数组，参数加 <code>const</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">sum_scores</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br></code></pre></td></tr></table></figure>
+<h3 id="错误-10：用变量作为数组长度却不知道-VLA-的限制">错误 10：用变量作为数组长度却不知道 VLA 的限制</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> n = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> scores[n];<br></code></pre></td></tr></table></figure>
+<p>这是可变长度数组。C99 支持，但 C11 起它是可选特性，不同编译器支持程度不同。初学阶段优先使用固定大小数组。</p>
+<hr>
+<h2 id="9-7-总结与自测">9.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>数组是一组相同类型元素的连续存储空间；下标从 0 开始，遍历时注意 <code>i &lt; count</code>，数组作为函数参数时会退化为指针，必须额外传入长度，访问数组前一定要确认边界。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li>数组元素的下标从哪里开始？</li>
+<li><code>int a[5]</code> 的合法下标有哪些？</li>
+<li>为什么遍历数组通常写 <code>i &lt; count</code>？</li>
+<li><code>sizeof(a) / sizeof(a[0])</code> 能得到什么？</li>
+<li>数组作为函数参数时，为什么还要传长度？</li>
+<li>数组参数什么时候会修改调用者的数组？</li>
+<li>数组越界会发生什么？</li>
+<li>什么是二维数组的行优先存储？</li>
+<li>冒泡排序的基本思想是什么？</li>
+<li>线性查找和二分查找有什么区别？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>从 0 开始。</li>
+<li>0、1、2、3、4。</li>
+<li>因为数组最后一个元素的下标是 <code>count - 1</code>，用 <code>i &lt; count</code> 可以避免访问越界。</li>
+<li>数组元素的个数。</li>
+<li>因为数组参数会退化为指针，函数内部无法通过 <code>sizeof</code> 得到数组长度。</li>
+<li>数组参数传递的是指向首元素的指针，函数可以通过这个指针修改原数组。</li>
+<li>属于未定义行为，可能崩溃、输出错误结果，或修改其他变量的值。</li>
+<li>二维数组在内存中通常按行连续存放，先放第 0 行，再放第 1 行，以此类推。</li>
+<li>每一轮比较相邻元素，把较大或较小的元素逐步“冒”到末尾。</li>
+<li>线性查找从头到尾逐个找；二分查找每次折半，但要求数组已经排序。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>写一个“班级成绩分析器”。</p>
+<p>要求：</p>
+<ol>
+<li>用一维数组保存至少 8 位学生的成绩；</li>
+<li>用循环录入成绩，并检查成绩是否在 0 到 100 之间；</li>
+<li>计算总分、平均分、最高分、最低分；</li>
+<li>把所有成绩从小到大排序；</li>
+<li>再实现一个线性查找，输入一个成绩，输出它的下标；</li>
+<li>思考：如果数组长度是 <code>n</code>，为什么遍历时不能写 <code>i &lt;= n</code>？</li>
+</ol>
+<hr>
+<h2 id="9-8-下一章">9.8 下一章</h2>
+<p>现在程序已经能批量保存和处理一组数据了。</p>
+<p>下一章，咱们要专门学习字符数组和字符串，让程序能够处理姓名、句子等文本数据。</p>
+<p>关键词是：</p>
+<blockquote>
+<p>字符串。</p>
+</blockquote>
+<p><strong>下一章：第 10 章《字符串》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

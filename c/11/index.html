@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 11 章：指针
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>理解变量、地址、<code>&amp;</code>、<code>*</code> 和指针变量。</li>
+<li>掌握 <code>p</code>、<code>*p</code>、<code>&amp;p</code> 的区别，以及指针与数组的关系。</li>
+<li>理解指针算术、<code>const</code> 指针、空指针、野指针和悬空指针。</li>
+<li>用指针遍历和修改学生数组，完成学生管理系统 v0.10。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你看懂“谁住在哪里、谁指向谁、怎么取值、怎么改值”。进阶篇会讲变量、地址、数组、指针的综合关系，以及指针算术、安全问题和函数指针，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。前面咱们已经多次遇到“地址”“指针”“数组退化”这些词。</p>
+<p>但指针到底是什么，还没有正式拆开讲。</p>
+<p>这一章，咱们用一个固定的比喻来理解指针：</p>
+<blockquote>
+<p><strong>变量是房子，值是房子里的东西，地址是门牌号，指针是写着门牌号的纸条。</strong></p>
+</blockquote>
+<p>只要这个比喻不丢，指针就不会变成一堆抽象符号。</p>
+<hr>
+<h2 id="11-1-先导：把指针想成门牌号">11.1 先导：把指针想成门牌号</h2>
+<p>先看一个普通变量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br></code></pre></td></tr></table></figure>
+<p>可以想象成一栋房子：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">+----------------------+<br>| 变量：score          |<br>| 值：90               |<br>| 地址：&amp;score         |<br>+----------------------+<br></code></pre></td></tr></table></figure>
+<p>再定义一个指针：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = &amp;score;<br></code></pre></td></tr></table></figure>
+<p>可以想象成一张纸条：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">+----------------------+<br>| 指针：p              |<br>| 值：&amp;score           |<br>| 意思：p 指向 score   |<br>+----------------------+<br></code></pre></td></tr></table></figure>
+<p>对应关系可以记成：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>比喻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>变量</td>
+<td>房子</td>
+</tr>
+<tr>
+<td>变量的值</td>
+<td>房子里的东西</td>
+</tr>
+<tr>
+<td>变量的地址</td>
+<td>房子的门牌号</td>
+</tr>
+<tr>
+<td>指针变量</td>
+<td>写着门牌号的纸条</td>
+</tr>
+<tr>
+<td><code>&amp;score</code></td>
+<td>查 <code>score</code> 的门牌号</td>
+</tr>
+<tr>
+<td><code>*p</code></td>
+<td>按纸条找到房子，取出里面的东西</td>
+</tr>
+<tr>
+<td><code>p = &amp;other</code></td>
+<td>把纸条换成 <code>other</code> 的门牌号</td>
+</tr>
+<tr>
+<td><code>*p = 20</code></td>
+<td>按纸条找到房子，把里面的东西换成 20</td>
+</tr>
+<tr>
+<td><code>NULL</code></td>
+<td>纸条上写着“没有地址”</td>
+</tr>
+</tbody>
+</table>
+<p>指针不神秘。它只是一个保存地址的变量。</p>
+<hr>
+<h2 id="11-2-基础篇：先会用">11.2 基础篇：先会用</h2>
+<h3 id="11-2-1-变量、地址、值：先分清三样东西">11.2.1 变量、地址、值：先分清三样东西</h3>
+<p>一个变量至少有三个信息：</p>
+<ol>
+<li>类型；</li>
+<li>名字；</li>
+<li>值。</li>
+</ol>
+<p>但在内存里，它还有一个很重要的信息：</p>
+<ol start="4">
+<li>地址。</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br></code></pre></td></tr></table></figure>
+<p>可以画成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">示例地址       变量        值<br>0x1000         score       90<br></code></pre></td></tr></table></figure>
+<p>这里的 <code>0x1000</code> 只是示例地址，真实地址由运行环境决定。</p>
+<p>可以用 <code>%p</code> 输出地址：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;score = %d\n&quot;</span>, score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&amp;score = %p\n&quot;</span>, (<span class="hljs-type">void</span> *)&amp;score);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><code>score</code> 是变量的值；</li>
+<li><code>&amp;score</code> 是变量的地址；</li>
+<li>把 <code>&amp;score</code> 转换成 <code>void *</code> 再传给 <code>%p</code>，是一种常见写法；</li>
+<li>地址的具体数字不重要，重要的是它指向哪个变量。</li>
+</ul>
+<h3 id="11-2-2-：拿到地址">11.2.2 &amp;：拿到地址</h3>
+<p><code>&amp;</code> 叫<strong>取地址运算符</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>, (<span class="hljs-type">void</span> *)&amp;score);<br></code></pre></td></tr></table></figure>
+<p><code>&amp;score</code> 的意思是：</p>
+<blockquote>
+<p>取出变量 <code>score</code> 的地址。</p>
+</blockquote>
+<p>记忆：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">&amp;变量   -&gt; 这个变量的门牌号<br></code></pre></td></tr></table></figure>
+<h3 id="11-2-3-指针变量：保存地址">11.2.3 指针变量：保存地址</h3>
+<p>指针变量用来保存地址。</p>
+<p>基本格式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">类型 *指针变量名;<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><span class="hljs-type">int</span> *p = &amp;score;<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>int</code> 表示 <code>p</code> 指向的是 <code>int</code> 类型的数据；</li>
+<li><code>*</code> 表示 <code>p</code> 是一个指针；</li>
+<li><code>&amp;score</code> 是变量 <code>score</code> 的地址；</li>
+<li><code>p</code> 保存了这个地址。</li>
+</ul>
+<p>可以画成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">示例地址       变量        值<br>0x1000         score       90<br>0x2000         p           0x1000<br></code></pre></td></tr></table></figure>
+<p>也就是说：</p>
+<blockquote>
+<p><code>p</code> 是指针变量；<code>p</code> 的值是 <code>score</code> 的地址；<code>p</code> 指向 <code>score</code>。</p>
+</blockquote>
+<p>补充说明：</p>
+<ul>
+<li><code>int *p;</code> 和 <code>int* p;</code> 在语法上都合法；</li>
+<li>本教程推荐写 <code>int *p;</code>，这样更容易看出 <code>*</code> 是和变量名一起理解；</li>
+<li>一行声明多个指针时更要小心：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *a, *b;   <span class="hljs-comment">// a 和 b 都是指针</span><br><span class="hljs-type">int</span> *a, b;    <span class="hljs-comment">// a 是指针，b 是 int</span><br></code></pre></td></tr></table></figure>
+<p>为了避免误读，初学阶段建议一行只声明一个变量。</p>
+<h3 id="11-2-4-：按地址取值">11.2.4 *：按地址取值</h3>
+<p>在表达式中，<code>*</code> 叫<strong>解引用运算符</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><span class="hljs-type">int</span> *p = &amp;score;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">90<br></code></pre></td></tr></table></figure>
+<p><code>*p</code> 的意思是：</p>
+<blockquote>
+<p>取出 <code>p</code> 指向的那个变量的值。</p>
+</blockquote>
+<p>注意区分 <code>*</code> 的两种位置：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = &amp;score;   <span class="hljs-comment">// 声明中的 *：表示 p 是指针</span><br>*p = <span class="hljs-number">20</span>;            <span class="hljs-comment">// 表达式中的 *：表示解引用</span><br><span class="hljs-type">int</span> result = a * b; <span class="hljs-comment">// 乘法中的 *：表示乘法</span><br></code></pre></td></tr></table></figure>
+<p>同样是 <code>*</code>，位置不同，含义不同。</p>
+<h3 id="11-2-5-p、-p、-p-三兄弟">11.2.5 p、*p、&amp;p 三兄弟</h3>
+<p>这是最容易混的地方。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><span class="hljs-type">int</span> *p = &amp;score;<br></code></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>含义</th>
+<th>比喻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>score</code></td>
+<td>变量的值</td>
+<td>房子里的东西</td>
+</tr>
+<tr>
+<td><code>&amp;score</code></td>
+<td>变量的地址</td>
+<td>房子的门牌号</td>
+</tr>
+<tr>
+<td><code>p</code></td>
+<td>指针保存的地址</td>
+<td>纸条上写的门牌号</td>
+</tr>
+<tr>
+<td><code>*p</code></td>
+<td><code>p</code> 指向的变量的值</td>
+<td>按门牌号找到房子，取出东西</td>
+</tr>
+<tr>
+<td><code>&amp;p</code></td>
+<td>指针变量自己的地址</td>
+<td>纸条本身放在哪里</td>
+</tr>
+</tbody>
+</table>
+<p>可以做一道快速练习：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);   <span class="hljs-comment">// 90</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);      <span class="hljs-comment">// 90</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>, (<span class="hljs-type">void</span> *)p);     <span class="hljs-comment">// score 的地址</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>, (<span class="hljs-type">void</span> *)&amp;p);    <span class="hljs-comment">// p 自己的地址</span><br></code></pre></td></tr></table></figure>
+<p>记忆口诀：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">p    指向哪里<br>*p   那里有什么<br>&amp;p   p 自己在哪里<br></code></pre></td></tr></table></figure>
+<h3 id="11-2-6-通过指针改值：score-到底怎么变的">11.2.6 通过指针改值：score 到底怎么变的</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br>    <span class="hljs-type">int</span> *p = &amp;score;<br><br>    *p = <span class="hljs-number">20</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;score = %d\n&quot;</span>, score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;*p = %d\n&quot;</span>, *p);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">score = 20<br>*p = 20<br></code></pre></td></tr></table></figure>
+<p>过程可以拆成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">初始状态：<br>score 在 0x1000，值是 90<br>p 保存 0x1000，指向 score<br><br>执行 *p = 20;<br>因为 *p 就是 score，<br>所以相当于 score = 20;<br><br>结果：<br>score 变成 20<br></code></pre></td></tr></table></figure>
+<p>指针本身也可以换指向：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">20</span>;<br><span class="hljs-type">int</span> *p = &amp;a;<br><br>p = &amp;b;      <span class="hljs-comment">// 让 p 改为指向 b</span><br>*p = <span class="hljs-number">30</span>;     <span class="hljs-comment">// 修改 b</span><br></code></pre></td></tr></table></figure>
+<p>这时：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">a 仍然是 10<br>b 变成 30<br></code></pre></td></tr></table></figure>
+<h3 id="11-2-7-交换函数：一步步画图">11.2.7 交换函数：一步步画图</h3>
+<p>第 7 章说过：</p>
+<blockquote>
+<p>普通变量传参是值传递，函数里改形参不会影响实参。</p>
+</blockquote>
+<p>如果想通过函数修改调用者的变量，可以传地址。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">swap</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> *b)</span><br>&#123;<br>    <span class="hljs-type">int</span> temp = *a;<br>    *a = *b;<br>    *b = temp;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;<br>    <span class="hljs-type">int</span> y = <span class="hljs-number">20</span>;<br><br>    swap(&amp;x, &amp;y);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x = %d, y = %d\n&quot;</span>, x, y);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">x = 20, y = 10<br></code></pre></td></tr></table></figure>
+<p>慢镜头跟踪：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs text">初始状态：<br>x 在 0x1000，值是 10<br>y 在 0x1004，值是 20<br>a 指向 x<br>b 指向 y<br><br>第 1 步：int temp = *a;<br>temp 得到 10<br><br>第 2 步：*a = *b;<br>x 变成 20<br><br>第 3 步：*b = temp;<br>y 变成 10<br><br>结果：<br>x = 20<br>y = 10<br></code></pre></td></tr></table></figure>
+<p>重点：</p>
+<blockquote>
+<p><code>a</code> 和 <code>b</code> 是形参，但它们指向调用者的真实变量。</p>
+</blockquote>
+<h3 id="11-2-8-为什么-scanf-要用">11.2.8 为什么 scanf 要用 &amp;</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> age = <span class="hljs-number">0</span>;<br><br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;age);<br></code></pre></td></tr></table></figure>
+<p><code>scanf</code> 需要知道把输入数据存到哪个地址，所以要传 <code>&amp;age</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, age);   <span class="hljs-comment">// 错误：age 是变量的值，不是地址</span><br></code></pre></td></tr></table></figure>
+<p>这和上面的 <code>swap</code> 是同一件事：</p>
+<blockquote>
+<p>函数要修改调用者的变量，就需要拿到变量的地址。</p>
+</blockquote>
+<h3 id="11-2-9-指针与数组：第一眼">11.2.9 指针与数组：第一眼</h3>
+<p>数组名在大多数表达式中会退化为指向第一个元素的指针。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>&#125;;<br><span class="hljs-type">int</span> *p = scores;   <span class="hljs-comment">// 等价于 int *p = &amp;scores[0];</span><br></code></pre></td></tr></table></figure>
+<p>内存示意：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">示例地址       数组元素        值<br>0x3000         scores[0]       90<br>0x3004         scores[1]       85<br>0x3008         scores[2]       77<br><br>p -&gt; 0x3000<br>*p -&gt; 90<br>*(p + 1) -&gt; 85<br>*(p + 2) -&gt; 77<br></code></pre></td></tr></table></figure>
+<p>下面两种写法等价：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">scores[i]<br>*(scores + i)<br></code></pre></td></tr></table></figure>
+<p>指针也可以像数组一样使用下标：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">p[<span class="hljs-number">0</span>]   <span class="hljs-comment">// 等价于 *(p + 0)</span><br>p[<span class="hljs-number">1</span>]   <span class="hljs-comment">// 等价于 *(p + 1)</span><br></code></pre></td></tr></table></figure>
+<p>用指针遍历数组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = scores;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *(p + i));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：数组名不是指针，只是在大多数表达式中会退化为指针。</p>
+<h3 id="11-2-10-基础篇小练习">11.2.10 基础篇小练习</h3>
+<ol>
+<li>定义一个 <code>int</code> 变量，输出它的值和地址。</li>
+<li>定义一个指针指向这个变量，输出 <code>p</code> 和 <code>*p</code>。</li>
+<li>通过指针修改变量的值，观察原变量是否改变。</li>
+<li>用指针交换两个整数。</li>
+<li>用指针遍历一个整数数组。</li>
+<li>说明下面三个表达式的区别：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">p<br>*p<br>&amp;p<br></code></pre></td></tr></table></figure>
+<ol start="7">
+<li>填空：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> *p = ____;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ____);<br></code></pre></td></tr></table></figure>
+<ol start="8">
+<li>找错：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p;<br>*p = <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="11-3-进阶篇：再懂原理">11.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会声明、取值和修改了。进阶篇要讲清楚：变量、地址、数组、指针为什么能串在一起，指针算术到底在移动多少字节，以及哪些指针是危险的。</p>
+<h3 id="11-3-1-变量、地址、数组、指针：四者关系">11.3.1 变量、地址、数组、指针：四者关系</h3>
+<p>这一节是本章的核心。</p>
+<p>先记住四句话：</p>
+<ol>
+<li><strong>变量</strong>：有名字、有类型、有值，也有地址。</li>
+<li><strong>地址</strong>：变量在内存中的位置。</li>
+<li><strong>指针</strong>：保存地址的变量。</li>
+<li><strong>数组</strong>：一组相同类型、连续存放的变量。</li>
+</ol>
+<p>数组元素也是变量，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>scores[0]</code>、<code>scores[1]</code>、<code>scores[2]</code> 都是变量；</li>
+<li>它们类型相同，都是 <code>int</code>；</li>
+<li>它们在内存中连续存放；</li>
+<li>每个元素都有自己的地址。</li>
+</ul>
+<p>把普通变量、指针和数组放在一起：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><span class="hljs-type">int</span> *p_score = &amp;score;<br><br><span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>&#125;;<br><span class="hljs-type">int</span> *p_arr = scores;<br></code></pre></td></tr></table></figure>
+<p>可以画成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">示例地址       变量/元素        值<br>0x1000         score            90<br>0x2000         p_score          0x1000<br><br>0x3000         scores[0]        90<br>0x3004         scores[1]        85<br>0x3008         scores[2]        77<br>0x4000         p_arr            0x3000<br></code></pre></td></tr></table></figure>
+<p>这里有两个重要区别：</p>
+<ol>
+<li><code>p_score</code> 指向一个普通变量 <code>score</code>；</li>
+<li><code>p_arr</code> 指向数组第一个元素 <code>scores[0]</code>。</li>
+</ol>
+<p><code>p_score + 1</code> 不能用来访问数组元素；对它解引用是无效的。<br>
+<code>p_arr + 1</code> 可以用于访问数组元素，因为数组元素是连续存放的，它会指向 <code>scores[1]</code>。</p>
+<p>把所有表达式放在一张表里：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>含义</th>
+<th>结果或类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>score</code></td>
+<td>普通变量的值</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>&amp;score</code></td>
+<td><code>score</code> 的地址</td>
+<td><code>int *</code></td>
+</tr>
+<tr>
+<td><code>p_score</code></td>
+<td>保存 <code>score</code> 的地址</td>
+<td><code>int *</code></td>
+</tr>
+<tr>
+<td><code>*p_score</code></td>
+<td>取出 <code>score</code> 的值</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>scores</code></td>
+<td>数组名，多数情况转为首元素地址</td>
+<td><code>int *</code></td>
+</tr>
+<tr>
+<td><code>&amp;scores[0]</code></td>
+<td>首元素地址</td>
+<td><code>int *</code></td>
+</tr>
+<tr>
+<td><code>scores[0]</code></td>
+<td>第一个元素</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>p_arr</code></td>
+<td>指向首元素</td>
+<td><code>int *</code></td>
+</tr>
+<tr>
+<td><code>*p_arr</code></td>
+<td>取出首元素</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>p_arr + 1</code></td>
+<td>指向第二个元素</td>
+<td><code>int *</code></td>
+</tr>
+<tr>
+<td><code>*(p_arr + 1)</code></td>
+<td>第二个元素</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>p_arr[1]</code></td>
+<td>第二个元素</td>
+<td><code>int</code></td>
+</tr>
+<tr>
+<td><code>&amp;p_arr</code></td>
+<td>指针变量自己的地址</td>
+<td><code>int **</code></td>
+</tr>
+</tbody>
+</table>
+<p>再用 <code>sizeof</code> 把变量、数组、指针分开：</p>
+<p>假设 <code>int</code> 占 4 字节，常见 64 位环境下指针占 8 字节：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>结果</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sizeof(score)</code></td>
+<td>4</td>
+<td>一个 <code>int</code></td>
+</tr>
+<tr>
+<td><code>sizeof(p_score)</code></td>
+<td>8</td>
+<td>一个指针变量</td>
+</tr>
+<tr>
+<td><code>sizeof(scores)</code></td>
+<td>12</td>
+<td>整个数组，3 × 4</td>
+</tr>
+<tr>
+<td><code>sizeof(p_arr)</code></td>
+<td>8</td>
+<td>指针变量，不是数组</td>
+</tr>
+<tr>
+<td><code>sizeof(scores) / sizeof(scores[0])</code></td>
+<td>3</td>
+<td>数组元素个数</td>
+</tr>
+</tbody>
+</table>
+<p>重点：</p>
+<blockquote>
+<p><code>scores</code> 在 <code>sizeof</code> 里仍然是整个数组；<br>
+<code>p_arr</code> 永远只是一个指针变量。</p>
+</blockquote>
+<p>还有一个小知识，先了解即可：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">&amp;scores<br></code></pre></td></tr></table></figure>
+<p>它的类型不是 <code>int *</code>，而是“指向整个数组的指针”。不要把它和 <code>&amp;scores[0]</code> 混为一谈。初学阶段正常传数组时，传 <code>scores</code> 即可。</p>
+<h3 id="11-3-2-指针类型和大小">11.3.2 指针类型和大小</h3>
+<p>指针是有类型的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p1;<br><span class="hljs-type">double</span> *p2;<br><span class="hljs-type">char</span> *p3;<br></code></pre></td></tr></table></figure>
+<p>它们都保存地址，但指向的数据类型不同。</p>
+<p>指针类型决定了：</p>
+<ol>
+<li>解引用时读取多少字节；</li>
+<li>指针加 1 时移动多少字节；</li>
+<li>编译器如何解释指向的数据。</li>
+</ol>
+<p>在常见 64 位平台上，所有对象指针的大小通常都是 8 字节：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span> *));<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">double</span> *));<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">char</span> *));<br></code></pre></td></tr></table></figure>
+<p>但 C 标准并不保证它们一定相同，所以不要死记“指针就是 4 字节”或“指针就是 8 字节”。</p>
+<p>指针变量占多少空间，和它指向什么类型没关系；<br>
+<code>*p</code> 占多少空间，和指针类型有关：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">sizeof</span>(*p)   <span class="hljs-comment">// 等于 p 所指向类型的大小</span><br></code></pre></td></tr></table></figure>
+<h3 id="11-3-3-指针算术：加一个元素，不是加一个字节">11.3.3 指针算术：加一个元素，不是加一个字节</h3>
+<p>指针可以加减整数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>&#125;;<br><span class="hljs-type">int</span> *p = scores;<br></code></pre></td></tr></table></figure>
+<p>假设 <code>int</code> 占 4 字节，数组起始地址是 <code>0x1000</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">scores[0]  0x1000  90<br>scores[1]  0x1004  85<br>scores[2]  0x1008  77<br>scores[3]  0x100C  60<br><br>p       -&gt; 0x1000<br>p + 1   -&gt; 0x1004<br>p + 2   -&gt; 0x1008<br>p + 3   -&gt; 0x100C<br>p + 4   -&gt; 0x1010（最后一个元素再往后一个位置，不能解引用）<br></code></pre></td></tr></table></figure>
+<p>所以：</p>
+<blockquote>
+<p>指针加 1，不是地址加 1 个字节，而是加 1 个元素。</p>
+</blockquote>
+<p>合法指针算术通常要求：</p>
+<ul>
+<li>指针指向同一个数组中的元素；</li>
+<li>结果仍然在数组范围内；</li>
+<li>允许指向“最后一个元素再往后一个位置”，但不能解引用。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *end = scores + <span class="hljs-number">4</span>;   <span class="hljs-comment">// 可以作为结束条件</span><br>*end;                    <span class="hljs-comment">// 错误：不能解引用</span><br></code></pre></td></tr></table></figure>
+<p>指针相减：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p1 = &amp;scores[<span class="hljs-number">1</span>];<br><span class="hljs-type">int</span> *p2 = &amp;scores[<span class="hljs-number">4</span>];<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%td\n&quot;</span>, p2 - p1);   <span class="hljs-comment">// 3</span><br></code></pre></td></tr></table></figure>
+<p>两个指针相减，得到它们之间相差多少个元素，类型通常是 <code>ptrdiff_t</code>。</p>
+<h3 id="11-3-4-数组与指针：对照表和例外">11.3.4 数组与指针：对照表和例外</h3>
+<p>数组名在大多数表达式中会退化为指向第一个元素的指针。</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>含义</th>
+<th>等价写法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scores[0]</code></td>
+<td>第 0 个元素</td>
+<td><code>*(scores + 0)</code></td>
+</tr>
+<tr>
+<td><code>scores[1]</code></td>
+<td>第 1 个元素</td>
+<td><code>*(scores + 1)</code></td>
+</tr>
+<tr>
+<td><code>p[2]</code></td>
+<td>指针下标</td>
+<td><code>*(p + 2)</code></td>
+</tr>
+<tr>
+<td><code>*(p + i)</code></td>
+<td>指针访问</td>
+<td><code>p[i]</code></td>
+</tr>
+<tr>
+<td><code>p++</code></td>
+<td>指针后移一个元素</td>
+<td><code>p = p + 1</code></td>
+</tr>
+</tbody>
+</table>
+<p>可以画成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">scores[0]   scores[1]   scores[2]<br>   90          85          77<br>   ^<br>   |<br>  p<br><br>p + 0  -&gt; scores[0]<br>p + 1  -&gt; scores[1]<br>p + 2  -&gt; scores[2]<br></code></pre></td></tr></table></figure>
+<p>但是，数组不是指针。</p>
+<p>有两个常见例外：</p>
+<ol>
+<li><code>sizeof(scores)</code> 得到整个数组大小；</li>
+<li><code>&amp;scores</code> 得到整个数组的地址。</li>
+</ol>
+<p>初学阶段记住：</p>
+<blockquote>
+<p>数组名在很多地方可以当指针用，但数组本身不是指针。</p>
+</blockquote>
+<h3 id="11-3-5-指针与字符串">11.3.5 指针与字符串</h3>
+<p>字符串是字符数组，所以字符指针可以指向字符串。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> *p = s;<br></code></pre></td></tr></table></figure>
+<p><code>p</code> 指向第一个字符 <code>'h'</code>。</p>
+<p>可以用指针遍历字符串：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *p = s;<br><br><span class="hljs-keyword">while</span> (*p != <span class="hljs-string">&#x27;\0&#x27;</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, *p);<br>    p++;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>字符串字面量通常不可修改：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *s = <span class="hljs-string">&quot;hello&quot;</span>;<br><br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;   <span class="hljs-comment">// 错误：未定义行为</span><br></code></pre></td></tr></table></figure>
+<p>可修改的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;   <span class="hljs-comment">// 正确</span><br></code></pre></td></tr></table></figure>
+<h3 id="11-3-6-const-与指针">11.3.6 const 与指针</h3>
+<p><code>const</code> 和指针放在一起时，位置不同，含义不同。</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>能否改 <code>*p</code></th>
+<th>能否改 <code>p</code></th>
+<th>读法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>const int *p</code></td>
+<td>否</td>
+<td>是</td>
+<td><code>p</code> 指向 <code>const int</code></td>
+</tr>
+<tr>
+<td><code>int * const p</code></td>
+<td>是</td>
+<td>否</td>
+<td><code>p</code> 是 const 指针，指向 <code>int</code></td>
+</tr>
+<tr>
+<td><code>const int * const p</code></td>
+<td>否</td>
+<td>否</td>
+<td>都不能改</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">20</span>;<br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> *p1 = &amp;a;<br><span class="hljs-comment">// *p1 = 30;   // 错误</span><br>p1 = &amp;b;       <span class="hljs-comment">// 正确</span><br><br><span class="hljs-type">int</span> * <span class="hljs-type">const</span> p2 = &amp;a;<br>*p2 = <span class="hljs-number">30</span>;      <span class="hljs-comment">// 正确</span><br><span class="hljs-comment">// p2 = &amp;b;    // 错误</span><br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> * <span class="hljs-type">const</span> p3 = &amp;a;<br><span class="hljs-comment">// *p3 = 30;   // 错误</span><br><span class="hljs-comment">// p3 = &amp;b;    // 错误</span><br></code></pre></td></tr></table></figure>
+<p>函数不打算修改字符串或数组时，参数加 <code>const</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">print_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> *score)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *score);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="11-3-7-空指针、野指针、悬空指针">11.3.7 空指针、野指针、悬空指针</h3>
+<h4 id="空指针">空指针</h4>
+<p>空指针不指向任何有效对象。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = <span class="hljs-literal">NULL</span>;<br></code></pre></td></tr></table></figure>
+<p>使用前检查：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (p != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>不要解引用空指针：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = <span class="hljs-literal">NULL</span>;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<h4 id="野指针">野指针</h4>
+<p>未初始化的指针叫野指针：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p;<br>*p = <span class="hljs-number">10</span>;   <span class="hljs-comment">// 危险：p 指向哪里完全不确定</span><br></code></pre></td></tr></table></figure>
+<p>正确做法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = <span class="hljs-literal">NULL</span>;<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> *p = &amp;a;<br></code></pre></td></tr></table></figure>
+<h4 id="悬空指针">悬空指针</h4>
+<p>悬空指针指向已经失效的内存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *<span class="hljs-title function_">bad</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;<br>    <span class="hljs-keyword">return</span> &amp;x;   <span class="hljs-comment">// 错误：函数结束后 x 失效</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>不要返回指向局部变量的指针。</p>
+<p>用表格区分：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>来源</th>
+<th>风险</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>空指针</td>
+<td>显式设为 <code>NULL</code></td>
+<td>解引用会崩溃</td>
+<td>使用前检查 <code>!= NULL</code></td>
+</tr>
+<tr>
+<td>野指针</td>
+<td>未初始化</td>
+<td>指向未知位置</td>
+<td>声明时初始化</td>
+</tr>
+<tr>
+<td>悬空指针</td>
+<td>指向已失效内存</td>
+<td>读写成随机数据</td>
+<td>不返回局部变量地址，释放后置空</td>
+</tr>
+</tbody>
+</table>
+<h3 id="11-3-8-指针作为函数参数和返回值">11.3.8 指针作为函数参数和返回值</h3>
+<p>指针作为函数参数，可以让函数修改调用者的数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">add_bonus</span><span class="hljs-params">(<span class="hljs-type">int</span> *score, <span class="hljs-type">int</span> bonus)</span><br>&#123;<br>    *score = *score + bonus;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>调用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br><br>add_bonus(&amp;score, <span class="hljs-number">5</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score);   <span class="hljs-comment">// 85</span><br></code></pre></td></tr></table></figure>
+<p>如果函数不修改数据，参数可以写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">print_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> *score)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *score);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="返回指针的函数">返回指针的函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *<span class="hljs-title function_">find_max</span><span class="hljs-params">(<span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> *max_ptr = &amp;scores[<span class="hljs-number">0</span>];<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] &gt; *max_ptr)<br>        &#123;<br>            max_ptr = &amp;scores[i];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> max_ptr;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>调用者要检查返回值：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *max_ptr = find_max(scores, <span class="hljs-number">5</span>);<br><br><span class="hljs-keyword">if</span> (max_ptr != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分：%d\n&quot;</span>, *max_ptr);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>返回的指针必须指向仍然有效的内存。不要返回局部变量地址。</p>
+<h3 id="11-3-9-函数指针、多级指针和-void-（了解即可）">11.3.9 函数指针、多级指针和 void *（了解即可）</h3>
+<h4 id="函数指针">函数指针</h4>
+<p>函数也有地址，可以定义指向函数的指针。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> a + b;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> (*operation)(<span class="hljs-type">int</span>, <span class="hljs-type">int</span>) = add;<br><br>    <span class="hljs-type">int</span> result = operation(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, result);   <span class="hljs-comment">// 8</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>int (*operation)(int, int)</code> 读作：</p>
+<blockquote>
+<p><code>operation</code> 是一个指针，指向“接收两个 <code>int</code>，返回 <code>int</code>”的函数。</p>
+</blockquote>
+<p>函数指针常用于回调和函数表。初学阶段先混个眼熟即可。</p>
+<h4 id="多级指针">多级指针</h4>
+<p>指针也可以指向另一个指针：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> *p = &amp;a;<br><span class="hljs-type">int</span> **pp = &amp;p;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, **pp);   <span class="hljs-comment">// 10</span><br></code></pre></td></tr></table></figure>
+<p><code>pp</code> 是“指向指针的指针”，也叫二级指针。</p>
+<p>二级指针在链表、动态数组和函数修改指针变量时很有用，第 14 章会再讲。</p>
+<h4 id="void">void *</h4>
+<p><code>void *</code> 是通用指针：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> *p = &amp;a;<br></code></pre></td></tr></table></figure>
+<p>它可以保存任意对象指针，但不能直接解引用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">// printf(&quot;%d\n&quot;, *p);   // 错误</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *(<span class="hljs-type">int</span> *)p);   <span class="hljs-comment">// 先转换回 int *</span><br></code></pre></td></tr></table></figure>
+<p><code>malloc</code> 返回的就是 <code>void *</code>，第 13 章会详细讲。</p>
+<h3 id="11-3-10-指针调试方法">11.3.10 指针调试方法</h3>
+<p>指针出错时，可以按下面的方法排查：</p>
+<ol>
+<li>用 <code>%p</code> 输出地址：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;p = %p\n&quot;</span>, (<span class="hljs-type">void</span> *)p);<br></code></pre></td></tr></table></figure>
+<ol start="2">
+<li>解引用前先检查是否为空：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (p != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);<br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>
+<p>画出变量、地址、指针之间的关系图。</p>
+</li>
+<li>
+<p>用调试器观察 <code>p</code> 和 <code>*p</code>。</p>
+</li>
+<li>
+<p>编译时打开警告：</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -Wall -Wextra main.c -o main<br></code></pre></td></tr></table></figure>
+<ol start="6">
+<li>
+<p>不要随意把整数强制转换成指针。</p>
+</li>
+<li>
+<p>记住：指针越界后程序可能“看起来正常”，但不代表行为正确。</p>
+</li>
+</ol>
+<h3 id="11-3-11-数据在内存中的旅行">11.3.11 数据在内存中的旅行</h3>
+<p>把前面学过的内容串起来：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">变量 -&gt; 类型 -&gt; 大小 -&gt; 地址 -&gt; 指针 -&gt; 数组 -&gt; 字符串<br></code></pre></td></tr></table></figure>
+<p>用一个固定例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">90</span>;<br><span class="hljs-type">int</span> *p_score = &amp;score;<br><br><span class="hljs-type">int</span> scores[<span class="hljs-number">3</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>&#125;;<br><span class="hljs-type">int</span> *p_arr = scores;<br><br><span class="hljs-type">char</span> name[] = <span class="hljs-string">&quot;七平&quot;</span>;<br><span class="hljs-type">char</span> *p_name = name;<br></code></pre></td></tr></table></figure>
+<p>关系图：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">score      普通变量<br>p_score    指向普通变量<br>scores     数组，包含 3 个 int<br>p_arr      指向数组首元素<br>name       字符数组<br>p_name     指向字符串首字符<br></code></pre></td></tr></table></figure>
+<p>再来一张总表：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>score</code></td>
+<td>普通变量的值</td>
+</tr>
+<tr>
+<td><code>&amp;score</code></td>
+<td>普通变量的地址</td>
+</tr>
+<tr>
+<td><code>p_score</code></td>
+<td>指向普通变量</td>
+</tr>
+<tr>
+<td><code>*p_score</code></td>
+<td>普通变量的值</td>
+</tr>
+<tr>
+<td><code>scores</code></td>
+<td>数组名，多数情况转为首元素地址</td>
+</tr>
+<tr>
+<td><code>scores[0]</code></td>
+<td>数组第一个元素</td>
+</tr>
+<tr>
+<td><code>p_arr</code></td>
+<td>指向数组首元素</td>
+</tr>
+<tr>
+<td><code>p_arr + 1</code></td>
+<td>指向数组第二个元素</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>字符数组名，多数情况转为首字符地址</td>
+</tr>
+<tr>
+<td><code>name[0]</code></td>
+<td>第一个字符</td>
+</tr>
+<tr>
+<td><code>p_name</code></td>
+<td>指向字符串首字符</td>
+</tr>
+<tr>
+<td><code>*(p_name + 1)</code></td>
+<td>第二个字符</td>
+</tr>
+</tbody>
+</table>
+<p>这一节的作用，是把第 2、9、10、11 章的核心概念连成一个整体。</p>
+<h3 id="11-3-12-生命周期与内存预告">11.3.12 生命周期与内存预告</h3>
+<p>指针还会牵扯到一个重要问题：内存什么时候有效。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">局部变量      函数结束后失效<br>静态变量      程序结束后失效<br>动态内存      手动申请，手动释放<br></code></pre></td></tr></table></figure>
+<p>所以：</p>
+<ul>
+<li>不能返回指向局部变量的指针；</li>
+<li>局部变量失效后，指向它的指针会变成悬空指针；</li>
+<li>第 13 章会讲动态内存，第 14 章会讲链表；</li>
+<li>到那时，“谁申请，谁释放”会变成一条重要规范。</li>
+</ul>
+<h3 id="11-3-13-本章代码规范：指针命名体现用途，使用前检查空">11.3.13 本章代码规范：指针命名体现用途，使用前检查空</h3>
+<p>这一章最重要的两条规范是：</p>
+<ol>
+<li>
+<p><strong>指针命名体现用途</strong></p>
+<ul>
+<li><code>score_ptr</code>、<code>max_ptr</code>、<code>student_ptr</code>；</li>
+<li>可以用 <code>_ptr</code> 后缀明确表示它是指针；</li>
+<li>不要用 <code>p1</code>、<code>p2</code> 这种不容易看懂的名字。</li>
+</ul>
+</li>
+<li>
+<p><strong>使用前检查空</strong></p>
+<ul>
+<li>指针可能为空时，先判断 <code>!= NULL</code>；</li>
+<li>不要解引用空指针；</li>
+<li>函数返回指针时，调用者要检查返回值。</li>
+</ul>
+</li>
+</ol>
+<p>其他建议：</p>
+<ul>
+<li>指针声明时尽量初始化；</li>
+<li>不要使用未初始化的野指针；</li>
+<li>不要返回指向局部变量的指针；</li>
+<li>指针算术不要越界；</li>
+<li>不修改数据时使用 <code>const</code>；</li>
+<li>函数返回指针时，明确说明返回值可能为 <code>NULL</code>。</li>
+</ul>
+<hr>
+<h2 id="11-4-项目回扣：学生管理系统-v0-10">11.4 项目回扣：学生管理系统 v0.10</h2>
+<p>本章的目标是用指针遍历和修改学生数组。</p>
+<p>在 v0.9 中，咱们已经能按姓名和成绩查找。这个版本增加：</p>
+<ul>
+<li>用指针遍历成绩数组；</li>
+<li>用指针修改所有学生成绩；</li>
+<li>用指针返回最高分所在的位置；</li>
+<li>用指针相减计算最高分学生的下标。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_STUDENTS 100</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NAME_LEN 50</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MIN_SCORE 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_SCORE 100</span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">add_student</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_students</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">const</span> <span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">add_bonus_to_all</span><span class="hljs-params">(<span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> bonus)</span>;<br><span class="hljs-type">int</span> *<span class="hljs-title function_">find_max_score</span><span class="hljs-params">(<span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">find_student_by_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">char</span> names[MAX_STUDENTS][NAME_LEN];<br>    <span class="hljs-type">int</span> scores[MAX_STUDENTS];<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> choice = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        print_menu();<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请选择：&quot;</span>);<br>        choice = read_int(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>);<br><br>        <span class="hljs-keyword">if</span> (choice &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (feof(<span class="hljs-built_in">stdin</span>) || ferror(<span class="hljs-built_in">stdin</span>))<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n输入结束或发生错误，程序退出。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">switch</span> (choice)<br>        &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>                count = add_student(names, scores, count);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                print_students(names, scores, count);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>            &#123;<br>                <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                add_bonus_to_all(scores, count, <span class="hljs-number">5</span>);<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;所有学生成绩已加 5 分，最高不超过 100。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>            &#123;<br>                <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">int</span> *max_ptr = find_max_score(scores, count);<br><br>                <span class="hljs-keyword">if</span> (max_ptr != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    <span class="hljs-type">int</span> index = (<span class="hljs-type">int</span>)(max_ptr - scores);<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分：%d，学生：%s\n&quot;</span>, *max_ptr, names[index]);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>            &#123;<br>                <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要查找的成绩：&quot;</span>);<br>                <span class="hljs-type">int</span> target = read_int(MIN_SCORE, MAX_SCORE);<br><br>                <span class="hljs-keyword">if</span> (target &lt; <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩无效。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">int</span> index = find_student_by_score(scores, count, target);<br><br>                <span class="hljs-keyword">if</span> (index &gt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;找到：%s，成绩：%d\n&quot;</span>, names[index], scores[index]);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到成绩 %d。\n&quot;</span>, target);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出学生管理系统。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>    &#125; <span class="hljs-keyword">while</span> (choice != <span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生管理系统 v0.10 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1. 添加学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2. 显示全部学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;3. 所有学生成绩加 5 分（最高 100）\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;4. 查看最高分\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;5. 按成绩查找\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (fgets(buffer, size, <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        buffer[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    buffer[<span class="hljs-built_in">strcspn</span>(buffer, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span><br>&#123;<br>    <span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br>    <span class="hljs-type">int</span> value = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">if</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d&quot;</span>, &amp;value) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (value &lt; min || value &gt; max)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> value;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">add_student</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &gt;= MAX_STUDENTS)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生人数已满。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br><br>    <span class="hljs-type">char</span> name[NAME_LEN];<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入姓名：&quot;</span>);<br>    read_line(name, <span class="hljs-keyword">sizeof</span>(name));<br><br>    <span class="hljs-keyword">if</span> (name[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;\0&#x27;</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名不能为空。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>    <span class="hljs-type">int</span> score = read_int(MIN_SCORE, MAX_SCORE);<br><br>    <span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br><br>    <span class="hljs-built_in">strcpy</span>(names[count], name);<br>    scores[count] = score;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;添加成功。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> count + <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_students</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">const</span> <span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生名单 =====\n&quot;</span>);<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第 %d 位：%s，成绩：%d\n&quot;</span>, i + <span class="hljs-number">1</span>, names[i], scores[i]);<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">add_bonus_to_all</span><span class="hljs-params">(<span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> bonus)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        scores[i] = scores[i] + bonus;<br><br>        <span class="hljs-keyword">if</span> (scores[i] &gt; MAX_SCORE)<br>        &#123;<br>            scores[i] = MAX_SCORE;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-type">int</span> *<span class="hljs-title function_">find_max_score</span><span class="hljs-params">(<span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> *max_ptr = &amp;scores[<span class="hljs-number">0</span>];<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] &gt; *max_ptr)<br>        &#123;<br>            max_ptr = &amp;scores[i];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> max_ptr;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">find_student_by_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] == target)<br>        &#123;<br>            <span class="hljs-keyword">return</span> i;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行示例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生管理系统 v0.10 =====<br>1. 添加学生<br>2. 显示全部学生<br>3. 所有学生成绩加 5 分（最高 100）<br>4. 查看最高分<br>5. 按成绩查找<br>0. 退出<br>==============================<br>请选择：1<br>请输入姓名：七平<br>请输入成绩：90<br>添加成功。<br></code></pre></td></tr></table></figure>
+<p>这个版本里，指针主要做了三件事：</p>
+<ol>
+<li><code>const int *scores</code>：只读遍历成绩；</li>
+<li><code>int *scores</code>：通过指针修改所有学生成绩；</li>
+<li><code>int *find_max_score</code>：返回最高分所在的位置，再用指针相减得到下标。</li>
+</ol>
+<hr>
+<h2 id="11-5-本章代码规范提示">11.5 本章代码规范提示</h2>
+<ul>
+<li>指针命名要体现用途，例如 <code>score_ptr</code>、<code>max_ptr</code>。</li>
+<li>指针变量声明时尽量初始化。</li>
+<li>不确定指针是否有效时，先判断是否为 <code>NULL</code>。</li>
+<li>不要解引用空指针。</li>
+<li>不要使用未初始化的野指针。</li>
+<li>不要返回指向局部变量的指针。</li>
+<li>指针算术不要越界。</li>
+<li>不修改数据时，参数使用 <code>const</code>。</li>
+<li>返回指针的函数要在注释里说明返回值是否可能为 <code>NULL</code>。</li>
+<li>使用 <code>%p</code> 输出地址时，先转换为 <code>void *</code>。</li>
+<li>初学阶段不要随意进行不同类型的指针转换。</li>
+<li>函数返回指针时，调用者要检查返回值。</li>
+</ul>
+<hr>
+<h2 id="11-6-常见错误">11.6 常见错误</h2>
+<h3 id="错误-1：解引用空指针">错误 1：解引用空指针</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = <span class="hljs-literal">NULL</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>正确做法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (p != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：使用未初始化的指针">错误 2：使用未初始化的指针</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p;<br><br>*p = <span class="hljs-number">10</span>;   <span class="hljs-comment">// 危险</span><br></code></pre></td></tr></table></figure>
+<p>正确做法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> *p = &amp;a;<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = <span class="hljs-literal">NULL</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-3：把普通变量直接赋给指针">错误 3：把普通变量直接赋给指针</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> *p = a;   <span class="hljs-comment">// 错误：缺少 &amp;</span><br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = &amp;a;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-4：混淆-p、-p、-p">错误 4：混淆 p、*p、&amp;p</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">p     <span class="hljs-comment">// 指向哪里</span><br>*p    <span class="hljs-comment">// 指向的值</span><br>&amp;p    <span class="hljs-comment">// 指针自己的地址</span><br></code></pre></td></tr></table></figure>
+<h3 id="错误-5：指针类型不匹配">错误 5：指针类型不匹配</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-type">double</span> *p = &amp;a;   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>指针类型要和指向的数据类型匹配。</p>
+<h3 id="错误-6：返回局部变量的地址">错误 6：返回局部变量的地址</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *<span class="hljs-title function_">bad</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;<br>    <span class="hljs-keyword">return</span> &amp;x;   <span class="hljs-comment">// 错误：x 在函数返回后失效</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-7：指针越界">错误 7：指针越界</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a[<span class="hljs-number">5</span>];<br><span class="hljs-type">int</span> *p = a;<br><br>p = p + <span class="hljs-number">5</span>;<br>*p = <span class="hljs-number">10</span>;   <span class="hljs-comment">// 错误：不能解引用 p + 5</span><br></code></pre></td></tr></table></figure>
+<p><code>a + 5</code> 可以作为结束位置，但不能解引用。</p>
+<h3 id="错误-8：修改字符串字面量">错误 8：修改字符串字面量</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *s = <span class="hljs-string">&quot;hello&quot;</span>;<br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>可修改的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-9：函数返回指针却不检查">错误 9：函数返回指针却不检查</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = find_max_score(scores, count);<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);   <span class="hljs-comment">// 如果返回 NULL，会崩溃</span><br></code></pre></td></tr></table></figure>
+<p>应该检查：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (p != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, *p);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-10：把-当成乘法或声明符号">错误 10：把 <code>*</code> 当成乘法或声明符号</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = &amp;a;   <span class="hljs-comment">// 这里的 * 表示 p 是指针</span><br>*p = <span class="hljs-number">20</span>;       <span class="hljs-comment">// 这里的 * 表示解引用</span><br><span class="hljs-type">int</span> c = a * b; <span class="hljs-comment">// 这里的 * 表示乘法</span><br></code></pre></td></tr></table></figure>
+<h3 id="常见误解-FAQ">常见误解 FAQ</h3>
+<h4 id="1-指针是不是就是地址？">1. 指针是不是就是地址？</h4>
+<p>严格说，指针变量保存的是地址；指针是一个变量，不是地址本身。</p>
+<h4 id="2-NULL-是不是就是-0？">2. NULL 是不是就是 0？</h4>
+<p><code>NULL</code> 是空指针常量，具体实现可能定义为 <code>0</code> 或 <code>(void *)0</code>。不要把它当成普通整数 0 来使用。</p>
+<h4 id="3-数组就是指针吗？">3. 数组就是指针吗？</h4>
+<p>不是。数组名在大多数表达式中会退化为指针，但数组本身是一组连续的元素。</p>
+<h4 id="4-p-1-是不是地址加-1-个字节？">4. p + 1 是不是地址加 1 个字节？</h4>
+<p>不是。<code>p + 1</code> 会加一个“所指向类型”的大小。</p>
+<h4 id="5-指针越界为什么有时不报错？">5. 指针越界为什么有时不报错？</h4>
+<p>因为 C 语言不自动检查数组边界。越界属于未定义行为，可能崩溃，也可能看起来正常。</p>
+<h4 id="6-int-p-和-int-p-有什么区别？">6. int <em>p 和 int</em> p 有什么区别？</h4>
+<p>语法上没有本质区别，都表示 <code>p</code> 是 <code>int</code> 指针。推荐写 <code>int *p</code>，更容易避免多变量声明时的误读。</p>
+<h4 id="7-char-s-“hello”-为什么不能改？">7. char *s = “hello” 为什么不能改？</h4>
+<p>因为 <code>s</code> 指向的是字符串字面量，通常位于只读区域，修改它是未定义行为。</p>
+<h4 id="8-为什么不能返回局部变量地址？">8. 为什么不能返回局部变量地址？</h4>
+<p>因为函数返回后，局部变量的生命周期结束，地址可能失效，变成悬空指针。</p>
+<h4 id="9-void-是什么？">9. void * 是什么？</h4>
+<p><code>void *</code> 是通用指针，可以保存任意对象指针，但不能直接解引用，必须先转回具体类型。</p>
+<h4 id="10-函数指针有什么用？">10. 函数指针有什么用？</h4>
+<p>函数指针可以指向函数，常用于回调、函数表等场景。初学阶段了解即可。</p>
+<hr>
+<h2 id="11-7-总结与自测">11.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>指针是保存地址的变量；<code>&amp;</code> 取地址，<code>*</code> 解引用；数组元素是连续存放的变量，数组名在大多数表达式中会退化为首元素地址；使用指针前要检查空指针，不要使用野指针，也不要返回局部变量的地址。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li>变量、地址、值分别是什么？</li>
+<li><code>&amp;score</code>、<code>p</code>、<code>*p</code>、<code>&amp;p</code> 分别是什么意思？</li>
+<li>为什么 <code>scanf</code> 需要写 <code>&amp;age</code>？</li>
+<li>指针加 1 时移动多少字节？</li>
+<li>数组名和指针是什么关系？</li>
+<li><code>scores[i]</code> 和 <code>*(scores + i)</code> 有什么关系？</li>
+<li>空指针、野指针、悬空指针有什么区别？</li>
+<li><code>const int *p</code> 和 <code>int * const p</code> 有什么区别？</li>
+<li>函数返回指针时要注意什么？</li>
+<li>为什么 <code>p_arr + 1</code> 可以用于数组遍历，而 <code>p_score + 1</code> 不能用于数组遍历？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>变量是有名字、有类型、有值、也有地址的存储空间；地址是变量在内存中的位置；值是变量保存的数据。</li>
+<li><code>&amp;score</code> 是 <code>score</code> 的地址；<code>p</code> 保存地址；<code>*p</code> 是 <code>p</code> 指向的值；<code>&amp;p</code> 是指针变量自己的地址。</li>
+<li>因为 <code>scanf</code> 需要知道把输入数据存到哪个地址。</li>
+<li>移动一个“所指向类型”的大小，例如 <code>int *</code> 通常移动 <code>sizeof(int)</code> 字节。</li>
+<li>数组名在大多数表达式中会退化为指向首元素的指针，但数组本身不是指针。</li>
+<li><code>scores[i]</code> 等价于 <code>*(scores + i)</code>。</li>
+<li>空指针明确不指向有效对象；野指针是未初始化指针；悬空指针指向已经失效的内存。</li>
+<li><code>const int *p</code> 不能通过 <code>p</code> 修改数据，但可以改指向；<code>int * const p</code> 可以修改数据，但不能改指向。</li>
+<li>要保证返回的指针仍然有效，并说明是否可能返回 <code>NULL</code>；调用者要检查。</li>
+<li><code>p_arr</code> 指向数组元素，可以按元素移动；<code>p_score</code> 指向单个变量，虽然可以形成 <code>p_score + 1</code> 这样的指针值，但它不构成合法数组范围，不能解引用，也不能用于数组遍历。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>用指针重写一个“班级成绩分析器”。</p>
+<p>要求：</p>
+<ol>
+<li>用数组保存至少 8 位学生的成绩；</li>
+<li>用 <code>const int *</code> 遍历数组并计算总分；</li>
+<li>用 <code>int *</code> 修改数组中的成绩，例如给所有人加 5 分，最高不超过 100；</li>
+<li>写一个函数返回最高分所在的位置；</li>
+<li>用指针相减计算最高分学生的下标；</li>
+<li>写一个交换函数，通过指针交换两个成绩；</li>
+<li>所有返回指针的函数都要说明是否可能返回 <code>NULL</code>，并在调用处检查；</li>
+<li>画出变量、地址、数组、指针之间的关系图。</li>
+</ol>
+<hr>
+<h2 id="11-8-下一章">11.8 下一章</h2>
+<p>现在咱们已经掌握了数组、字符串和指针。</p>
+<p>下一章，咱们要把这些数据组织成更贴近现实的结构，也就是结构体。</p>
+<p>关键词是：</p>
+<blockquote>
+<p>结构体、枚举、<code>typedef</code>。</p>
+</blockquote>
+<p><strong>下一章：第 12 章《结构体、枚举与 typedef》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

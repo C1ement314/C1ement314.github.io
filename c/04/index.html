@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 4 章：运算符与表达式
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>掌握算术运算符、关系运算符、逻辑运算符和自增自减运算符。</li>
+<li>理解表达式、优先级、结合性和短路求值。</li>
+<li>初步理解整型提升、类型转换和整数溢出。</li>
+<li>学会用表达式完成简单计算和判断。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你会写算式、会比较、会用逻辑判断。进阶篇会讲优先级、结合性、短路求值、整型提升和溢出，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。上一章，程序已经能接收输入，也能输出结果了。</p>
+<p>这一章，咱们要让程序学会“计算”和“判断”。加减乘除、比较大小、逻辑推理，这些都会成为后面写学生管理系统的常用工具。</p>
+<hr>
+<h2 id="4-1-先导：表达式是什么？">4.1 先导：表达式是什么？</h2>
+<p>简单来说：</p>
+<blockquote>
+<p><strong>表达式 = 运算符 + 操作数。</strong></p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">a + b<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>a</code>、<code>b</code> 是操作数；</li>
+<li><code>+</code> 是运算符；</li>
+<li><code>a + b</code> 是一个表达式，它会计算出一个结果。</li>
+</ul>
+<p>再比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">score &gt;= <span class="hljs-number">60</span><br></code></pre></td></tr></table></figure>
+<p>这也是一个表达式，它的结果不是数字，而是“真”或“假”。</p>
+<p>C 语言里，关系表达式和逻辑表达式的结果通常用整数表示：</p>
+<ul>
+<li><code>1</code> 表示真；</li>
+<li><code>0</code> 表示假。</li>
+</ul>
+<p>有了表达式，程序才能做计算和判断。咱们先从最常用的运算符开始。</p>
+<hr>
+<h2 id="4-2-基础篇：先会用">4.2 基础篇：先会用</h2>
+<h3 id="4-2-1-算术运算符">4.2.1 算术运算符</h3>
+<p>C 语言中常用的算术运算符有：</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>+</code></td>
+<td>加法</td>
+<td><code>a + b</code></td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>减法</td>
+<td><code>a - b</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>乘法</td>
+<td><code>a * b</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>除法</td>
+<td><code>a / b</code></td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>取余</td>
+<td><code>a % b</code></td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br>    <span class="hljs-type">int</span> b = <span class="hljs-number">3</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a + b = %d\n&quot;</span>, a + b);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a - b = %d\n&quot;</span>, a - b);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a * b = %d\n&quot;</span>, a * b);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a / b = %d\n&quot;</span>, a / b);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a %% b = %d\n&quot;</span>, a % b);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">a + b = 13<br>a - b = 7<br>a * b = 30<br>a / b = 3<br>a % b = 1<br></code></pre></td></tr></table></figure>
+<p>注意输出取余时，格式串里要写 <code>%%</code>，才能输出一个百分号。也就是说：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a %% b = %d\n&quot;</span>, a % b);<br></code></pre></td></tr></table></figure>
+<p>前面的 <code>%%</code> 负责输出 <code>%</code>，后面的 <code>%d</code> 负责输出 <code>a % b</code> 的结果。</p>
+<h4 id="整数除法">整数除法</h4>
+<p>如果 <code>/</code> 两边都是整数，那么执行的是<strong>整数除法</strong>，小数部分会被丢弃。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><span class="hljs-type">int</span> result = a / b;   <span class="hljs-comment">// result 是 2，不是 2.5</span><br></code></pre></td></tr></table></figure>
+<p>如果想得到小数结果，可以让其中一个操作数变成浮点数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> result = <span class="hljs-number">5</span> / <span class="hljs-number">2.0</span>;   <span class="hljs-comment">// result 是 2.5</span><br></code></pre></td></tr></table></figure>
+<p>也可以使用强制类型转换：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> result = (<span class="hljs-type">double</span>)<span class="hljs-number">5</span> / <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="取余运算符">取余运算符</h4>
+<p><code>%</code> 只能用于整数类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = <span class="hljs-number">10</span> % <span class="hljs-number">3</span>;   <span class="hljs-comment">// result 是 1</span><br></code></pre></td></tr></table></figure>
+<p>浮点数不能用 <code>%</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> result = <span class="hljs-number">10.0</span> % <span class="hljs-number">3.0</span>;   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>浮点数的取余需要用到数学库函数 <code>fmod</code>，这个以后再说。</p>
+<h4 id="除数为-0">除数为 0</h4>
+<p>整数除法或取余时，除数不能为 0：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = <span class="hljs-number">10</span> / <span class="hljs-number">0</span>;   <span class="hljs-comment">// 错误，不能除以 0</span><br><span class="hljs-type">int</span> remainder = <span class="hljs-number">10</span> % <span class="hljs-number">0</span>;   <span class="hljs-comment">// 错误，不能对 0 取余</span><br></code></pre></td></tr></table></figure>
+<p>写程序时要尽量避免除以 0，尤其是用户输入的数据。</p>
+<h3 id="4-2-2-关系运算符">4.2.2 关系运算符</h3>
+<p>关系运算符用来比较两个值。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;</code></td>
+<td>小于</td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td>小于或等于</td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>大于</td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td>大于或等于</td>
+</tr>
+<tr>
+<td><code>==</code></td>
+<td>等于</td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>不等于</td>
+</tr>
+</tbody>
+</table>
+<p>关系表达式的结果是整数：</p>
+<ul>
+<li><code>1</code> 表示真；</li>
+<li><code>0</code> 表示假。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score &gt;= <span class="hljs-number">60</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score &lt; <span class="hljs-number">60</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score == <span class="hljs-number">80</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score != <span class="hljs-number">80</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">1<br>0<br>1<br>0<br></code></pre></td></tr></table></figure>
+<p>这里特别要提醒一件事：</p>
+<blockquote>
+<p><code>=</code> 是赋值，<code>==</code> 才是判断相等。</p>
+</blockquote>
+<p>对比一下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;    <span class="hljs-comment">// 把 5 赋给 a</span><br>a == <span class="hljs-number">5</span>;       <span class="hljs-comment">// 判断 a 是否等于 5，结果是 1</span><br></code></pre></td></tr></table></figure>
+<p>初学者很容易把 <code>==</code> 写成 <code>=</code>。比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score = <span class="hljs-number">60</span>)   <span class="hljs-comment">// 不推荐：这是赋值，不是比较</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个写法可能编译通过，但逻辑通常不是你想要的样子。写关系判断时一定要仔细检查。</p>
+<h3 id="4-2-3-逻辑运算符">4.2.3 逻辑运算符</h3>
+<p>逻辑运算符用来组合条件。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>含义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>逻辑与</td>
+<td>两边都为真时，结果才为真</td>
+</tr>
+<tr>
+<td><code>||</code></td>
+<td>逻辑或</td>
+<td>只要有一边为真，结果就为真</td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>逻辑非</td>
+<td>真变假，假变真</td>
+</tr>
+</tbody>
+</table>
+<p>在 C 语言中：</p>
+<ul>
+<li>非 0 值通常当作“真”；</li>
+<li>0 值当作“假”；</li>
+<li>逻辑表达式的结果是 <code>1</code> 或 <code>0</code>。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br>    <span class="hljs-type">int</span> attendance = <span class="hljs-number">90</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score &gt;= <span class="hljs-number">60</span> &amp;&amp; attendance &gt;= <span class="hljs-number">80</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, score &lt; <span class="hljs-number">60</span> || attendance &lt; <span class="hljs-number">80</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, !(score &gt;= <span class="hljs-number">60</span>));<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">1<br>0<br>0<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>score &gt;= 60 &amp;&amp; attendance &gt;= 80</code>：两个条件都满足，结果为真；</li>
+<li><code>score &lt; 60 || attendance &lt; 80</code>：两个条件都不满足，结果为假；</li>
+<li><code>!(score &gt;= 60)</code>：<code>score &gt;= 60</code> 为真，取反后为假。</li>
+</ul>
+<p>注意逻辑运算符和位运算符的区别：</p>
+<ul>
+<li><code>&amp;&amp;</code> 是逻辑与；</li>
+<li><code>||</code> 是逻辑或；</li>
+<li><code>&amp;</code> 是位与；</li>
+<li><code>|</code> 是位或。</li>
+</ul>
+<p>初学阶段先把 <code>&amp;&amp;</code> 和 <code>||</code> 用熟，位运算以后再说。</p>
+<h3 id="4-2-4-自增和自减运算符">4.2.4 自增和自减运算符</h3>
+<p><code>++</code> 让变量加 1，<code>--</code> 让变量减 1。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><br>    a++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a = %d\n&quot;</span>, a);<br><br>    a--;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a = %d\n&quot;</span>, a);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">a = 6<br>a = 5<br></code></pre></td></tr></table></figure>
+<p>不过，<code>++</code> 放在变量前面和后面，在参与其他表达式时结果不同。</p>
+<h4 id="后置形式：a">后置形式：<code>a++</code></h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> b = a++;<br></code></pre></td></tr></table></figure>
+<p>过程可以理解为：</p>
+<ol>
+<li>先把 <code>a</code> 原来的值 <code>5</code> 赋给 <code>b</code>；</li>
+<li>然后 <code>a</code> 自己加 1，变成 <code>6</code>。</li>
+</ol>
+<p>结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">a = 6<br>b = 5<br></code></pre></td></tr></table></figure>
+<h4 id="前置形式：-a">前置形式：<code>++a</code></h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> b = ++a;<br></code></pre></td></tr></table></figure>
+<p>过程可以理解为：</p>
+<ol>
+<li>先让 <code>a</code> 加 1，变成 <code>6</code>；</li>
+<li>然后把 <code>a</code> 的新值 <code>6</code> 赋给 <code>b</code>。</li>
+</ol>
+<p>结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">a = 6<br>b = 6<br></code></pre></td></tr></table></figure>
+<p>简单记：</p>
+<ul>
+<li><code>a++</code>：先用旧值，再自增；</li>
+<li><code>++a</code>：先自增，再用新值。</li>
+</ul>
+<p>如果只是单独写一句：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">a++;<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">++a;<br></code></pre></td></tr></table></figure>
+<p>两者效果一样，都是让 <code>a</code> 加 1。区别只在“值还要不要参与其他运算”的时候出现。</p>
+<p>初学阶段建议：不要把 <code>++</code>、<code>--</code> 塞进复杂表达式里。</p>
+<h3 id="4-2-5-表达式与语句">4.2.5 表达式与语句</h3>
+<p>表达式会产生一个值，语句则是一条完整的执行指令。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">a + b;        <span class="hljs-comment">// 表达式语句，但结果被丢弃，通常没有意义</span><br>total = a + b; <span class="hljs-comment">// 赋值表达式语句，把结果保存到 total</span><br></code></pre></td></tr></table></figure>
+<p>在 C 语言中，大部分语句以分号 <code>;</code> 结尾。</p>
+<p>写代码时，注意区分：</p>
+<ul>
+<li>表达式：<code>a + b</code></li>
+<li>语句：<code>total = a + b;</code></li>
+</ul>
+<h3 id="4-2-6-复合赋值运算符">4.2.6 复合赋值运算符</h3>
+<p>复合赋值运算符可以看成“运算 + 赋值”的简写。</p>
+<table>
+<thead>
+<tr>
+<th>复合写法</th>
+<th>等价写法</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a += b</code></td>
+<td><code>a = a + b</code></td>
+<td><code>score += 5;</code></td>
+</tr>
+<tr>
+<td><code>a -= b</code></td>
+<td><code>a = a - b</code></td>
+<td><code>score -= 5;</code></td>
+</tr>
+<tr>
+<td><code>a *= b</code></td>
+<td><code>a = a * b</code></td>
+<td><code>score *= 2;</code></td>
+</tr>
+<tr>
+<td><code>a /= b</code></td>
+<td><code>a = a / b</code></td>
+<td><code>score /= 2;</code></td>
+</tr>
+<tr>
+<td><code>a %= b</code></td>
+<td><code>a = a % b</code></td>
+<td><code>score %= 10;</code></td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">60</span>;<br><br>    score += <span class="hljs-number">5</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;score += 5  -&gt; %d\n&quot;</span>, score);<br><br>    score -= <span class="hljs-number">10</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;score -= 10 -&gt; %d\n&quot;</span>, score);<br><br>    score *= <span class="hljs-number">2</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;score *= 2  -&gt; %d\n&quot;</span>, score);<br><br>    score /= <span class="hljs-number">5</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;score /= 5  -&gt; %d\n&quot;</span>, score);<br><br>    score %= <span class="hljs-number">4</span>;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;score %%= 4  -&gt; %d\n&quot;</span>, score);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">score += 5  -&gt; 65<br>score -= 10 -&gt; 55<br>score *= 2  -&gt; 110<br>score /= 5  -&gt; 22<br>score %= 4  -&gt; 2<br></code></pre></td></tr></table></figure>
+<p>复合赋值的好处：</p>
+<ul>
+<li>代码更短；</li>
+<li>左边只写一次，减少变量名写错的机会；</li>
+<li>循环累加时很常用。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">100</span>; i++)<br>&#123;<br>    total += i;   <span class="hljs-comment">// 等价于 total = total + i;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><code>a += b</code> 不是数学等式，而是“把 a 和 b 运算后的结果再赋给 a”；</li>
+<li><code>a /= b</code> 仍然要保证 <code>b != 0</code>；</li>
+<li>整数除法仍然会丢弃小数部分。</li>
+</ul>
+<h3 id="4-2-7-逗号运算符（了解）">4.2.7 逗号运算符（了解）</h3>
+<p>逗号表达式会从左到右依次计算，整个表达式的值是最后一个表达式的值。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><span class="hljs-type">int</span> c = (a++, b++, a + b);<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>a++</code> 让 <code>a</code> 变成 2；</li>
+<li><code>b++</code> 让 <code>b</code> 变成 3；</li>
+<li>最后一个表达式 <code>a + b</code> 的值是 5；</li>
+<li>所以 <code>c</code> 等于 5。</li>
+</ul>
+<p>逗号运算符在实际项目中不常用。它容易降低可读性，初学阶段遇到时能看懂即可，不建议主动写复杂逗号表达式。</p>
+<h3 id="4-2-8-基础篇小练习">4.2.8 基础篇小练习</h3>
+<ol>
+<li>输入两个整数，输出它们的和、差、积、商和余数。</li>
+<li>输入一个整数，判断它是否大于 0，并输出判断结果。</li>
+<li>输入两个整数，判断第一个是否大于第二个。</li>
+<li>输入一个成绩，判断它是否在 0 到 100 之间。</li>
+<li>判断下面代码运行后 <code>a</code> 和 <code>b</code> 分别是多少：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">3</span>;<br><span class="hljs-type">int</span> b = a++ + <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<ol start="6">
+<li>判断下面代码运行后 <code>a</code> 和 <code>b</code> 分别是多少：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">3</span>;<br><span class="hljs-type">int</span> b = ++a + <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="表达式求值练习">表达式求值练习</h4>
+<p>先不要运行，试着写出下面每个 <code>printf</code> 的输出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a + b * <span class="hljs-number">3</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, (a + b) * <span class="hljs-number">3</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a / b);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a % b);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a &gt; b &amp;&amp; b &gt; <span class="hljs-number">0</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a &lt; b || b == <span class="hljs-number">2</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a++ + b);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ++b);<br></code></pre></td></tr></table></figure>
+<p>然后运行程序，对照结果，并解释每一步的计算顺序。</p>
+<hr>
+<h2 id="4-3-进阶篇：再懂原理">4.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会写算式和条件了。进阶篇要讲清楚：为什么有些表达式会先算乘法，为什么逻辑运算有时会“偷懒”，以及整数计算为什么会溢出。</p>
+<h3 id="4-3-1-运算符优先级">4.3.1 运算符优先级</h3>
+<p>当一个表达式里有多个运算符时，C 语言需要决定先算哪一个，这就是<strong>优先级</strong>。</p>
+<p>一个简化的优先级顺序如下，从高到低：</p>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高</td>
+<td><code>()</code></td>
+<td>括号</td>
+</tr>
+<tr>
+<td></td>
+<td><code>!</code>、<code>++</code>、<code>--</code>、一元 <code>+</code>、一元 <code>-</code></td>
+<td>一元运算</td>
+</tr>
+<tr>
+<td></td>
+<td><code>*</code>、<code>/</code>、<code>%</code></td>
+<td>乘、除、取余</td>
+</tr>
+<tr>
+<td></td>
+<td><code>+</code>、<code>-</code></td>
+<td>加、减</td>
+</tr>
+<tr>
+<td></td>
+<td><code>&lt;</code>、<code>&lt;=</code>、<code>&gt;</code>、<code>&gt;=</code></td>
+<td>关系比较</td>
+</tr>
+<tr>
+<td></td>
+<td><code>==</code>、<code>!=</code></td>
+<td>相等比较</td>
+</tr>
+<tr>
+<td></td>
+<td><code>&amp;&amp;</code></td>
+<td>逻辑与</td>
+</tr>
+<tr>
+<td></td>
+<td><code>||</code></td>
+<td>逻辑或</td>
+</tr>
+<tr>
+<td></td>
+<td><code>?:</code></td>
+<td>条件运算</td>
+</tr>
+<tr>
+<td>低</td>
+<td><code>=</code>、<code>+=</code>、<code>-=</code>、<code>*=</code>、<code>/=</code>、<code>%=</code></td>
+<td>赋值</td>
+</tr>
+</tbody>
+</table>
+<p>不用死记整张表。先记住几个最常见的：</p>
+<ol>
+<li>括号优先级最高；</li>
+<li><code>*</code>、<code>/</code>、<code>%</code> 高于 <code>+</code>、<code>-</code>；</li>
+<li>关系比较高于 <code>==</code>、<code>!=</code>；</li>
+<li><code>&amp;&amp;</code> 高于 <code>||</code>；</li>
+<li>赋值运算符优先级很低。</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = <span class="hljs-number">2</span> + <span class="hljs-number">3</span> * <span class="hljs-number">4</span>;<br></code></pre></td></tr></table></figure>
+<p>先算 <code>3 * 4</code>，再加 <code>2</code>，结果是 <code>14</code>。</p>
+<p>如果你想先算加法，就要加括号：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = (<span class="hljs-number">2</span> + <span class="hljs-number">3</span>) * <span class="hljs-number">4</span>;<br></code></pre></td></tr></table></figure>
+<p>结果是 <code>20</code>。</p>
+<h3 id="4-3-2-结合性">4.3.2 结合性</h3>
+<p>如果两个运算符优先级相同，就按<strong>结合性</strong>决定计算方向。</p>
+<p>大多数二元运算符是左结合的，也就是从左往右计算。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = <span class="hljs-number">10</span> - <span class="hljs-number">3</span> - <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<p>等价于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = (<span class="hljs-number">10</span> - <span class="hljs-number">3</span>) - <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<p>结果是 <code>5</code>，而不是 <code>9</code>。</p>
+<p>赋值运算符是右结合的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">a = b = c = <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+<p>等价于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">a = (b = (c = <span class="hljs-number">10</span>));<br></code></pre></td></tr></table></figure>
+<p>先给 <code>c</code> 赋值，再给 <code>b</code> 赋值，最后给 <code>a</code> 赋值。</p>
+<p>不过，初学阶段不建议写太多连续赋值，容易降低可读性。</p>
+<h3 id="4-3-3-短路求值">4.3.3 短路求值</h3>
+<p><code>&amp;&amp;</code> 和 <code>||</code> 有一个很重要的特性：<strong>短路求值</strong>。</p>
+<h4 id="逻辑与">逻辑与 <code>&amp;&amp;</code></h4>
+<p>如果左边已经为假，右边就不会再计算。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (count != <span class="hljs-number">0</span> &amp;&amp; <span class="hljs-number">100</span> / count &gt; <span class="hljs-number">10</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>因为 <code>&amp;&amp;</code> 的左边是 <code>count != 0</code>：</p>
+<ul>
+<li>如果 <code>count</code> 等于 0，左边为假，右边的 <code>100 / count</code> 根本不会执行，所以不会除以 0；</li>
+<li>如果 <code>count</code> 不等于 0，才会继续判断右边。</li>
+</ul>
+<h4 id="逻辑或">逻辑或 <code>||</code></h4>
+<p>如果左边已经为真，右边就不会再计算。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span> || score &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩不合法。\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果 <code>score &lt; 0</code> 已经为真，后面的 <code>score &gt; 100</code> 就不需要再判断了。</p>
+<p>短路求值很有用，但也可能带来意外的“副作用不执行”问题。比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">if</span> (<span class="hljs-number">0</span> &amp;&amp; i++)<br>&#123;<br>    <span class="hljs-comment">// i++ 不会执行</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>所以，不要把“必须执行的操作”放在短路表达式的右边。</p>
+<p>另外要注意：</p>
+<ul>
+<li><code>&amp;&amp;</code> 和 <code>||</code> 有短路求值；</li>
+<li><code>&amp;</code> 和 <code>|</code> 是位运算，没有短路行为，两边都会求值；</li>
+<li>不要把 <code>&amp;</code>、<code>|</code> 当成逻辑运算符来用。</li>
+</ul>
+<h3 id="4-3-4-整型提升">4.3.4 整型提升</h3>
+<p>在参与算术运算时，比 <code>int</code> 小的整数类型，例如 <code>char</code>、<code>short</code>，通常会先被提升为 <code>int</code>。</p>
+<p>这就是<strong>整型提升</strong>。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> a = <span class="hljs-number">100</span>;<br><span class="hljs-type">char</span> b = <span class="hljs-number">100</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, a + b);<br></code></pre></td></tr></table></figure>
+<p><code>a + b</code> 不会先按 <code>char</code> 计算，而是先把 <code>a</code> 和 <code>b</code> 提升为 <code>int</code>，再做加法。</p>
+<p>所以在常见平台上，结果可以正常得到 <code>200</code>。</p>
+<p>但要注意，计算结果是 <code>int</code>，如果你再把它赋回 <code>char</code>，可能会超出 <code>char</code> 的范围：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> a = <span class="hljs-number">100</span>;<br><span class="hljs-type">char</span> b = <span class="hljs-number">100</span>;<br><span class="hljs-type">char</span> c = a + b;   <span class="hljs-comment">// 可能超出 char 范围，结果不可靠</span><br></code></pre></td></tr></table></figure>
+<p>初学阶段可以这样理解：</p>
+<blockquote>
+<p>表达式里的 <code>char</code> 和 <code>short</code>，往往先变成 <code>int</code> 再参与计算。</p>
+</blockquote>
+<p>这也解释了一个常见现象：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-string">&#x27;A&#x27;</span>));<br></code></pre></td></tr></table></figure>
+<p>在 C 语言中，字符常量 <code>'A'</code> 的类型其实是 <code>int</code>，不是 <code>char</code>。所以它的 <code>sizeof</code> 通常和 <code>sizeof(int)</code> 一样。</p>
+<h3 id="4-3-5-类型转换">4.3.5 类型转换</h3>
+<p>不同类型的数据放在一起运算时，会发生类型转换。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">double</span> b = <span class="hljs-number">2.0</span>;<br><span class="hljs-type">double</span> result = a + b;<br></code></pre></td></tr></table></figure>
+<p>这里 <code>a</code> 会先转换为 <code>double</code>，然后和 <code>b</code> 相加。</p>
+<p>一般可以理解为：运算时会向“表达能力更强”的类型转换，减少精度损失。</p>
+<p>常见方向：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">char / short → int → float → double<br></code></pre></td></tr></table></figure>
+<p>但这只是一个简化理解。实际规则还涉及有符号和无符号整数之间的转换，后面遇到时再细讲。</p>
+<p>初学阶段最容易出错的是整数除法和浮点数转换：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">5</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">2</span>;<br><br><span class="hljs-type">double</span> result1 = a / b;       <span class="hljs-comment">// 2.0</span><br><span class="hljs-type">double</span> result2 = a / <span class="hljs-number">2.0</span>;     <span class="hljs-comment">// 2.5</span><br><span class="hljs-type">double</span> result3 = (<span class="hljs-type">double</span>)a / b; <span class="hljs-comment">// 2.5</span><br></code></pre></td></tr></table></figure>
+<p>计算平均分时尤其要注意这一点。</p>
+<h3 id="4-3-6-整数溢出">4.3.6 整数溢出</h3>
+<p>每种整数类型都有范围。</p>
+<p>如果计算结果超出了范围，就可能发生溢出：</p>
+<ul>
+<li>无符号整数溢出会按模运算“绕回去”；</li>
+<li>有符号整数溢出是未定义行为，不要依赖它产生任何固定结果。</li>
+</ul>
+<p>例如，在常见的 32 位 <code>int</code> 平台上，<code>int</code> 的最大值通常是 <code>2147483647</code>。如果再加 1，就可能溢出。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> max = <span class="hljs-number">2147483647</span>;<br><span class="hljs-type">int</span> result = max + <span class="hljs-number">1</span>;   <span class="hljs-comment">// 有符号整数溢出，不可靠</span><br></code></pre></td></tr></table></figure>
+<p>写程序时，要根据数据范围选择类型。如果 <code>int</code> 不够大，可以考虑：</p>
+<ul>
+<li><code>unsigned int</code></li>
+<li><code>long</code></li>
+<li><code>long long</code></li>
+</ul>
+<p>具体范围可以包含 <code>&lt;limits.h&gt;</code> 查看，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;limits.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;INT_MAX = %d\n&quot;</span>, INT_MAX);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;INT_MIN = %d\n&quot;</span>, INT_MIN);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>不要假设 <code>int</code> 一定是 32 位，也不要在溢出边缘“试探”程序的行为。</p>
+<h4 id="未定义行为是什么意思？">未定义行为是什么意思？</h4>
+<p>“未定义行为”不是“结果一定是某个固定值”，而是 C 标准没有规定会发生什么。</p>
+<p>有符号整数溢出就是典型的未定义行为。编译器可能：</p>
+<ul>
+<li>得到某个看似正常但错误的结果；</li>
+<li>直接优化掉相关代码；</li>
+<li>程序崩溃；</li>
+<li>在不同平台、不同优化级别下表现不同。</li>
+</ul>
+<p>所以，不要写依赖未定义行为的代码。更稳妥的做法是提前判断范围，或者使用更宽的类型。</p>
+<h3 id="4-3-7-条件运算符">4.3.7 条件运算符</h3>
+<p>C 语言还有一个常用的三元运算符：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">条件 ? 表达式<span class="hljs-number">1</span> : 表达式<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+<p>它的意思是：</p>
+<ul>
+<li>如果条件为真，结果是 <code>表达式1</code>；</li>
+<li>如果条件为假，结果是 <code>表达式2</code>。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br><span class="hljs-type">int</span> pass = score &gt;= <span class="hljs-number">60</span> ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+<p>这段代码可以理解为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> pass;<br><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    pass = <span class="hljs-number">1</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    pass = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>条件运算符可以让代码更简洁，但不要嵌套太多层，否则会难以阅读。</p>
+<h3 id="4-3-8-位运算预览（了解）">4.3.8 位运算预览（了解）</h3>
+<p>C 语言还支持位运算：</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>名称</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&amp;</code></td>
+<td>按位与</td>
+<td><code>6 &amp; 3</code></td>
+</tr>
+<tr>
+<td><code>|</code></td>
+<td>按位或</td>
+<td><code>6 | 3</code></td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>按位异或</td>
+<td><code>6 ^ 3</code></td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td>按位取反</td>
+<td><code>~0</code></td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code></td>
+<td>左移</td>
+<td><code>1 &lt;&lt; 3</code></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>右移</td>
+<td><code>8 &gt;&gt; 2</code></td>
+</tr>
+</tbody>
+</table>
+<p>以 8 位为例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">6 = 00000110<br>3 = 00000011<br><br>6 &amp; 3 = 00000010 = 2<br>6 | 3 = 00000111 = 7<br>6 ^ 3 = 00000101 = 5<br>~0    = 11111111 = -1（按补码解释）<br>1 &lt;&lt; 3 = 00001000 = 8<br>8 &gt;&gt; 2 = 00000010 = 2<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><code>&amp;</code>、<code>|</code> 是位运算，不是 <code>&amp;&amp;</code>、<code>||</code> 逻辑运算；</li>
+<li>左移可能溢出，有符号左移溢出是未定义行为；</li>
+<li>右移有符号负数时，行为由实现定义；</li>
+<li>位运算很重要，但初学阶段先把算术和逻辑运算用熟。</li>
+</ul>
+<h3 id="4-3-9-本章代码规范：复杂表达式加括号">4.3.9 本章代码规范：复杂表达式加括号</h3>
+<p>这一章最重要的规范是：</p>
+<blockquote>
+<p><strong>复杂表达式要加括号。</strong></p>
+</blockquote>
+<p>即使你记得优先级，也不代表别人一眼能看懂。括号可以让代码更清晰，也能减少想当然导致的 bug。</p>
+<p>对比：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = a + b * c - d / e;<br></code></pre></td></tr></table></figure>
+<p>和：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = a + (b * c) - (d / e);<br></code></pre></td></tr></table></figure>
+<p>第二种虽然多了括号，但更明确。</p>
+<p>再比如逻辑表达式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span> &amp;&amp; attendance &gt;= <span class="hljs-number">80</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> ((score &gt;= <span class="hljs-number">60</span>) &amp;&amp; (attendance &gt;= <span class="hljs-number">80</span>))<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>第二种更清楚，也更不容易写错。</p>
+<p>其他小习惯：</p>
+<ul>
+<li>不要在复杂表达式里混用 <code>++</code>、<code>--</code>；</li>
+<li>不要写 <code>i = i++ + 1;</code> 这类未定义行为；</li>
+<li>判断相等用 <code>==</code>，赋值用 <code>=</code>；</li>
+<li>不要依赖优先级去炫技；</li>
+<li>计算平均值时，注意整数除法。</li>
+</ul>
+<hr>
+<h2 id="4-4-项目回扣：学生管理系统-v0-4">4.4 项目回扣：学生管理系统 v0.4</h2>
+<p>本章的目标是让学生管理系统能计算总分和平均分。</p>
+<p>假设一门课有三项成绩：语文、数学、英语。咱们先输入三项成绩，然后计算总分和平均分。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> chinese = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> math = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> english = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">double</span> average = <span class="hljs-number">0.0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;===== 学生成绩计算 v0.4 =====\n&quot;</span>);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入语文成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;chinese) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;语文成绩输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入数学成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;math) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;数学成绩输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入英语成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;english) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;英语成绩输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    total = chinese + math + english;<br>    average = total / <span class="hljs-number">3.0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 成绩结果 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;语文：%d\n&quot;</span>, chinese);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;数学：%d\n&quot;</span>, math);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;英语：%d\n&quot;</span>, english);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总分：%d\n&quot;</span>, total);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分：%.2f\n&quot;</span>, average);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行示例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生成绩计算 v0.4 =====<br>请输入语文成绩：90<br>请输入数学成绩：95<br>请输入英语成绩：88<br><br>===== 成绩结果 =====<br>语文：90<br>数学：95<br>英语：88<br>总分：273<br>平均分：91.00<br>====================<br></code></pre></td></tr></table></figure>
+<p>这里最关键的一行是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">average = total / <span class="hljs-number">3.0</span>;<br></code></pre></td></tr></table></figure>
+<p>如果写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">average = total / <span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure>
+<p>因为 <code>total</code> 和 <code>3</code> 都是整数，就会先做整数除法，平均分的小数部分会丢失。</p>
+<p>所以，计算平均分时一定要注意操作数的类型。</p>
+<hr>
+<h2 id="4-5-本章代码规范提示">4.5 本章代码规范提示</h2>
+<ul>
+<li>复杂表达式加括号，别让读者猜优先级。</li>
+<li>判断相等用 <code>==</code>，赋值用 <code>=</code>。</li>
+<li>整数除以整数会丢弃小数，计算平均分时尤其注意。</li>
+<li><code>%</code> 只能用于整数。</li>
+<li>除数不能为 0。</li>
+<li>逻辑运算使用 <code>&amp;&amp;</code>、<code>||</code>、<code>!</code>。</li>
+<li>不要把 <code>&amp;</code>、<code>|</code> 当成逻辑运算符。</li>
+<li>不要把 <code>++</code>、<code>--</code> 塞进复杂表达式。</li>
+<li>有符号整数溢出是未定义行为，不要依赖它。</li>
+<li>根据数据范围选择合适的整数类型。</li>
+<li>计算平均值时，通常用 <code>double</code>。</li>
+</ul>
+<hr>
+<h2 id="4-6-常见错误">4.6 常见错误</h2>
+<h3 id="错误-1：把-写成">错误 1：把 == 写成 =</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br><br><span class="hljs-keyword">if</span> (score = <span class="hljs-number">60</span>)   <span class="hljs-comment">// 错误：这是赋值</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score == <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：整数除法导致结果错误">错误 2：整数除法导致结果错误</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> total = <span class="hljs-number">273</span>;<br><span class="hljs-type">double</span> average = total / <span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure>
+<p>这样得到的平均分是 <code>91.0</code>，小数部分丢失。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = total / <span class="hljs-number">3.0</span>;<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = (<span class="hljs-type">double</span>)total / <span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-3：对浮点数使用">错误 3：对浮点数使用 %</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> result = <span class="hljs-number">10.0</span> % <span class="hljs-number">3.0</span>;   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p><code>%</code> 只能用于整数类型。</p>
+<h3 id="错误-4：除以-0">错误 4：除以 0</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = <span class="hljs-number">10</span> / <span class="hljs-number">0</span>;   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>写除法时，要先确认除数不为 0。</p>
+<h3 id="错误-5：运算符优先级判断错误">错误 5：运算符优先级判断错误</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = <span class="hljs-number">2</span> + <span class="hljs-number">3</span> * <span class="hljs-number">4</span>;<br></code></pre></td></tr></table></figure>
+<p>结果是 <code>14</code>，不是 <code>20</code>。如果想先算加法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = (<span class="hljs-number">2</span> + <span class="hljs-number">3</span>) * <span class="hljs-number">4</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-6：把-当成逻辑与">错误 6：把 &amp; 当成逻辑与</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (a &amp; b)   <span class="hljs-comment">// 这是位运算，不是逻辑与</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>逻辑与应该写：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (a &amp;&amp; b)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-7：自增自减混在复杂表达式里">错误 7：自增自减混在复杂表达式里</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> result = i++ + i++;   <span class="hljs-comment">// 未定义行为</span><br></code></pre></td></tr></table></figure>
+<p>不要这样写。自增、自减最好单独成句。</p>
+<h3 id="错误-8：有符号整数溢出">错误 8：有符号整数溢出</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> max = <span class="hljs-number">2147483647</span>;<br><span class="hljs-type">int</span> result = max + <span class="hljs-number">1</span>;   <span class="hljs-comment">// 不可靠</span><br></code></pre></td></tr></table></figure>
+<p>有符号整数溢出属于未定义行为，不要依赖它产生固定结果。</p>
+<h3 id="错误-9：条件运算符嵌套太深">错误 9：条件运算符嵌套太深</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = a &gt; b ? a &gt; c ? a : c : b &gt; c ? b : c;<br></code></pre></td></tr></table></figure>
+<p>虽然能算出结果，但可读性很差。复杂条件建议使用 <code>if</code> 语句。</p>
+<hr>
+<h2 id="4-7-总结与自测">4.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>算术运算符负责计算，关系运算符负责比较，逻辑运算符负责组合条件，自增自减负责改变变量；写复杂表达式时，优先加括号，别让优先级和结合性变成陷阱。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li><code>5 / 2</code> 和 <code>5 % 2</code> 的结果分别是什么？</li>
+<li><code>=</code> 和 <code>==</code> 有什么区别？</li>
+<li><code>&amp;&amp;</code>、<code>||</code>、<code>!</code> 分别表示什么？</li>
+<li><code>a++</code> 和 <code>++a</code> 有什么区别？</li>
+<li><code>2 + 3 * 4</code> 的结果是多少？如果想先算加法应该怎么写？</li>
+<li><code>&amp;&amp;</code> 和 <code>||</code> 的短路求值是什么意思？</li>
+<li>为什么计算平均分时常用 <code>total / 3.0</code>，而不是 <code>total / 3</code>？</li>
+<li>有符号整数溢出属于什么行为？</li>
+<li>为什么复杂表达式建议加括号？</li>
+<li><code>&amp;</code> 和 <code>&amp;&amp;</code> 有什么区别？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li><code>5 / 2</code> 的结果是 <code>2</code>，<code>5 % 2</code> 的结果是 <code>1</code>。</li>
+<li><code>=</code> 是赋值，<code>==</code> 是判断相等。</li>
+<li><code>&amp;&amp;</code> 是逻辑与，<code>||</code> 是逻辑或，<code>!</code> 是逻辑非。</li>
+<li><code>a++</code> 先用 <code>a</code> 的旧值再自增；<code>++a</code> 先自增再使用新值。</li>
+<li><code>2 + 3 * 4</code> 的结果是 <code>14</code>；想先算加法要写 <code>(2 + 3) * 4</code>。</li>
+<li>短路求值是指 <code>&amp;&amp;</code> 左边为假时右边不计算，<code>||</code> 左边为真时右边不计算。</li>
+<li>因为 <code>total / 3</code> 是整数除法，会丢弃小数；<code>total / 3.0</code> 会进行浮点除法。</li>
+<li>有符号整数溢出是未定义行为。</li>
+<li>括号能明确计算顺序，提高可读性，减少优先级判断错误。</li>
+<li><code>&amp;</code> 是位与运算，<code>&amp;&amp;</code> 是逻辑与运算；不要把两者混用。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>写一个“成绩统计小工具”。</p>
+<p>要求：</p>
+<ol>
+<li>输入三位同学的成绩（整数）；</li>
+<li>计算总分和平均分；</li>
+<li>分别输出整数除法的平均分和浮点除法的平均分，对比差异；</li>
+<li>用关系表达式输出“平均分是否大于等于 60”的结果（1 或 0）；</li>
+<li>用 <code>sizeof</code> 输出 <code>int</code> 和 <code>double</code> 的字节数；</li>
+<li>至少使用一次括号，明确表达式的计算顺序。</li>
+</ol>
+<hr>
+<h2 id="4-8-下一章">4.8 下一章</h2>
+<p>现在程序已经能计算和判断了。</p>
+<p>下一章，咱们要让程序学会根据不同条件执行不同的代码，也就是分支结构。</p>
+<p>关键词是：</p>
+<blockquote>
+<p><code>if</code> 和 <code>switch</code>。</p>
+</blockquote>
+<p><strong>下一章：第 5 章《分支结构》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

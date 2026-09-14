@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 17 章：调试、测试与最终项目
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>掌握断点、单步执行、查看变量和调用栈。</li>
+<li>初步掌握 <code>gdb</code>、<code>valgrind</code> 和 Sanitizer。</li>
+<li>学会设计测试用例、边界测试和防御性编程。</li>
+<li>完成学生管理系统 v1.0，并进行重构、测试和代码评审。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你会“找 bug”。进阶篇会讲 <code>gdb</code>、<code>valgrind</code>、测试、断言、重构和代码评审，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。到这里，咱们已经学完了 C 语言的主要基础内容。</p>
+<p>最后一章，咱们不再只追求“功能写出来”，而是要回答一个更重要的问题：</p>
+<blockquote>
+<p>程序怎样才算<strong>正确</strong>？怎样才算<strong>可靠</strong>？</p>
+</blockquote>
+<p>会写代码只是第一步，会调试、会测试、会重构，才算真正把程序做好。</p>
+<hr>
+<h2 id="17-1-先导：程序能运行不等于正确">17.1 先导：程序能运行不等于正确</h2>
+<p>先看一个例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> average = total / count;<br></code></pre></td></tr></table></figure>
+<p>在很多情况下，它看起来没问题。</p>
+<p>但如果：</p>
+<ul>
+<li><code>count</code> 等于 0；</li>
+<li><code>total</code> 和 <code>count</code> 都是整数；</li>
+<li><code>total + count</code> 溢出；</li>
+<li>用户输入了非法数据；</li>
+</ul>
+<p>程序就可能出错。</p>
+<p>所以：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">能编译 != 能运行<br>能运行 != 结果正确<br>结果正确 != 所有情况都正确<br></code></pre></td></tr></table></figure>
+<p>调试和测试的目标，就是尽可能发现这些“隐藏的错误”。</p>
+<hr>
+<h2 id="17-2-基础篇：先会用">17.2 基础篇：先会用</h2>
+<h3 id="17-2-1-什么是调试？">17.2.1 什么是调试？</h3>
+<p>调试就是：</p>
+<blockquote>
+<p>找到程序出错的原因，并修复它。</p>
+</blockquote>
+<p>调试的基本思路：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">观察现象<br>-&gt; 猜测原因<br>-&gt; 缩小范围<br>-&gt; 验证猜测<br>-&gt; 修复问题<br>-&gt; 重新测试<br></code></pre></td></tr></table></figure>
+<p>不要一上来就乱改代码。先定位，再修改。</p>
+<h3 id="17-2-2-Debug-和-Release">17.2.2 Debug 和 Release</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>特点</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Debug</td>
+<td>保留调试信息，优化少</td>
+<td>开发、调试</td>
+</tr>
+<tr>
+<td>Release</td>
+<td>开启优化，程序更快更小</td>
+<td>发布</td>
+</tr>
+</tbody>
+</table>
+<p>调试时使用 Debug 模式。</p>
+<p>有时程序在 Debug 下正常，在 Release 下出错。这通常说明代码里有未定义行为或隐藏 bug。</p>
+<h3 id="17-2-3-断点">17.2.3 断点</h3>
+<p>断点就是让程序在指定位置暂停。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">程序运行到断点<br>   -&gt; 暂停<br>   -&gt; 查看变量<br>   -&gt; 单步执行<br>   -&gt; 继续运行<br></code></pre></td></tr></table></figure>
+<p>在 CLion 中，可以点击行号旁边设置断点。</p>
+<p>在 GDB 中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">break main<br>break student_list.c:42<br>break list_insert<br></code></pre></td></tr></table></figure>
+<p>断点适用于：</p>
+<ul>
+<li>想知道程序有没有运行到某一行；</li>
+<li>想观察某个变量的值；</li>
+<li>想定位崩溃前发生了什么。</li>
+</ul>
+<h3 id="17-2-4-单步执行">17.2.4 单步执行</h3>
+<p>单步执行让程序一次走一小步。</p>
+<p>常见操作：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Step Over</td>
+<td>执行当前行，不进入函数</td>
+</tr>
+<tr>
+<td>Step Into</td>
+<td>进入当前行调用的函数</td>
+</tr>
+<tr>
+<td>Step Out</td>
+<td>执行完当前函数并返回</td>
+</tr>
+<tr>
+<td>Continue</td>
+<td>继续运行到下一个断点</td>
+</tr>
+</tbody>
+</table>
+<p>CLion 和 GDB 都有这些功能。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = add(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure>
+<p>Step Over 会直接得到 <code>result = 8</code>。</p>
+<p>Step Into 会进入 <code>add</code> 函数内部。</p>
+<h3 id="17-2-5-查看变量">17.2.5 查看变量</h3>
+<p>调试时最重要的是观察变量变化。</p>
+<p>可以查看：</p>
+<ul>
+<li>局部变量；</li>
+<li>全局变量；</li>
+<li>结构体成员；</li>
+<li>指针指向的值；</li>
+<li>数组元素；</li>
+<li>链表节点的 <code>next</code>。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">StudentNode *p = head;<br></code></pre></td></tr></table></figure>
+<p>可以观察：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">p<br>p-&gt;data.id<br>p-&gt;data.score<br>p-&gt;next<br></code></pre></td></tr></table></figure>
+<p>如果发现 <code>p-&gt;next</code> 指向错误，或者 <code>p</code> 为 <code>NULL</code>，问题往往就在这里。</p>
+<h3 id="17-2-6-调用栈">17.2.6 调用栈</h3>
+<p>调用栈告诉我们：</p>
+<blockquote>
+<p>当前函数是从哪里被调用的。</p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">main<br>  -&gt; input_student<br>      -&gt; list_append<br>          -&gt; malloc<br></code></pre></td></tr></table></figure>
+<p>如果程序崩溃，调用栈能帮助你找到崩溃前经过的路径。</p>
+<p>在 GDB 中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">backtrace<br>bt<br></code></pre></td></tr></table></figure>
+<p>在 CLion 中，调试面板会显示调用栈。</p>
+<h3 id="17-2-7-日志调试">17.2.7 日志调试</h3>
+<p>有时候不方便使用调试器，可以打印日志。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count = %d\n&quot;</span>, count);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;p = %p\n&quot;</span>, (<span class="hljs-type">void</span> *)p);<br></code></pre></td></tr></table></figure>
+<p>日志适合：</p>
+<ul>
+<li>观察循环过程；</li>
+<li>观察指针是否为空；</li>
+<li>观察函数是否被调用；</li>
+<li>在无法单步调试的环境里定位问题。</li>
+</ul>
+<p>调试完后，记得删除或关闭调试输出。</p>
+<h3 id="17-2-8-基础篇小练习">17.2.8 基础篇小练习</h3>
+<ol>
+<li>在 CLion 中给 <code>main</code> 设置断点。</li>
+<li>单步执行一个简单函数。</li>
+<li>观察一个局部变量的变化。</li>
+<li>在链表遍历处设置断点，观察 <code>p</code> 和 <code>p-&gt;next</code>。</li>
+<li>用 <code>printf</code> 输出调试日志。</li>
+<li>故意让程序访问空指针，观察运行结果，并理解它是未定义行为，不保证一定崩溃。</li>
+</ol>
+<hr>
+<h2 id="17-3-进阶篇：再懂原理">17.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会基本调试了。进阶篇要讲清楚：常见错误类型、命令行调试、内存检查、测试设计和工程化收尾。</p>
+<h3 id="17-3-1-常见错误类型回顾">17.3.1 常见错误类型回顾</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>发生阶段</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>编译错误</td>
+<td>编译</td>
+<td>少分号、括号不匹配</td>
+</tr>
+<tr>
+<td>链接错误</td>
+<td>链接</td>
+<td>函数只有声明没有定义</td>
+</tr>
+<tr>
+<td>运行时错误</td>
+<td>运行</td>
+<td>空指针、除零、越界</td>
+</tr>
+<tr>
+<td>逻辑错误</td>
+<td>运行</td>
+<td>计算错误、条件写反</td>
+</tr>
+<tr>
+<td>内存错误</td>
+<td>运行</td>
+<td>泄漏、悬空指针、重复释放</td>
+</tr>
+<tr>
+<td>未定义行为</td>
+<td>运行</td>
+<td>有符号溢出、越界访问</td>
+</tr>
+</tbody>
+</table>
+<p>调试的第一步是判断错误属于哪一类。</p>
+<h3 id="17-3-2-GDB-入门">17.3.2 GDB 入门</h3>
+<p>编译时加 <code>-g</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -g -Wall -Wextra -Iinclude \<br>    src/main.c src/student_list.c src/file_io.c src/stats.c \<br>    -o student_management<br></code></pre></td></tr></table></figure>
+<p>启动 GDB：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gdb ./student_management<br></code></pre></td></tr></table></figure>
+<p>常用命令：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run</code></td>
+<td>运行程序</td>
+</tr>
+<tr>
+<td><code>break main</code></td>
+<td>在 <code>main</code> 设置断点</td>
+</tr>
+<tr>
+<td><code>break 文件:行号</code></td>
+<td>在指定位置设置断点</td>
+</tr>
+<tr>
+<td><code>next</code></td>
+<td>单步跳过</td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td>单步进入</td>
+</tr>
+<tr>
+<td><code>finish</code></td>
+<td>执行完当前函数</td>
+</tr>
+<tr>
+<td><code>continue</code></td>
+<td>继续运行</td>
+</tr>
+<tr>
+<td><code>print 变量</code></td>
+<td>查看变量</td>
+</tr>
+<tr>
+<td><code>bt</code></td>
+<td>查看调用栈</td>
+</tr>
+<tr>
+<td><code>watch 变量</code></td>
+<td>监视变量变化</td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td>查看源代码</td>
+</tr>
+<tr>
+<td><code>quit</code></td>
+<td>退出</td>
+</tr>
+</tbody>
+</table>
+<p>条件断点：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">break student_list.c:42 if count == 0<br></code></pre></td></tr></table></figure>
+<p>GDB 适合命令行环境和服务器环境。</p>
+<h3 id="17-3-3-Valgrind">17.3.3 Valgrind</h3>
+<p>Valgrind 用来检查内存问题：</p>
+<ul>
+<li>内存泄漏；</li>
+<li>非法读写；</li>
+<li>使用未初始化内存；</li>
+<li>重复释放。</li>
+</ul>
+<p>使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">valgrind --leak-check=full ./student_management<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>Valgrind 主要在 Linux 和部分类 Unix 系统上使用；</li>
+<li>程序会变慢；</li>
+<li>Windows 上通常使用其他工具或 Sanitizer。</li>
+</ul>
+<h3 id="17-3-4-Sanitizer">17.3.4 Sanitizer</h3>
+<p>GCC 和 Clang 提供 Sanitizer：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -g -fsanitize=address,undefined \<br>    src/main.c src/student_list.c src/file_io.c src/stats.c \<br>    -o student_management_asan<br></code></pre></td></tr></table></figure>
+<ul>
+<li>AddressSanitizer：检查越界、悬空指针、内存泄漏等；</li>
+<li>UndefinedBehaviorSanitizer：检查未定义行为。</li>
+</ul>
+<p>Sanitizer 非常适合开发和测试阶段。</p>
+<h3 id="17-3-5-测试：用例、边界和回归">17.3.5 测试：用例、边界和回归</h3>
+<p>测试不是“随便运行一下”，而是有目的地验证。</p>
+<h4 id="1-正常用例">1. 正常用例</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">输入：90、85、77<br>期望：总分 252，平均分 84.0<br></code></pre></td></tr></table></figure>
+<h4 id="2-边界用例">2. 边界用例</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">空链表<br>只有一个节点<br>成绩为 0<br>成绩为 100<br>删除头节点<br>删除尾节点<br>删除不存在的节点<br></code></pre></td></tr></table></figure>
+<h4 id="3-非法输入">3. 非法输入</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">输入字母<br>输入负数<br>输入超过范围的值<br>输入空字符串<br></code></pre></td></tr></table></figure>
+<h4 id="4-回归测试">4. 回归测试</h4>
+<p>修复一个 bug 后，要重新测试之前的功能，确保没有把别的地方改坏。</p>
+<p>这就是<strong>回归测试</strong>。</p>
+<h3 id="17-3-6-assert-与防御性编程">17.3.6 assert 与防御性编程</h3>
+<p><code>assert</code> 用于检查“不应该发生”的情况。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;assert.h&gt;</span></span><br><br>assert(count &gt; <span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+<p>如果条件为假，程序会终止并输出错误位置。</p>
+<p>注意：</p>
+<ul>
+<li><code>assert</code> 适合调试阶段；</li>
+<li>定义 <code>NDEBUG</code> 后，<code>assert</code> 会被禁用；</li>
+<li>不要用 <code>assert</code> 处理用户输入错误；</li>
+<li>用户输入错误应该用普通的 <code>if</code> 判断。</li>
+</ul>
+<p>防御性编程：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (head == <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (scores == <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (count == <span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有数据。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>核心思想：</p>
+<blockquote>
+<p>不要假设输入一定合法，不要假设指针一定有效。</p>
+</blockquote>
+<h3 id="17-3-7-重构与代码评审">17.3.7 重构与代码评审</h3>
+<p>重构：</p>
+<blockquote>
+<p>在不改变程序外部行为的前提下，改进代码内部结构。</p>
+</blockquote>
+<p>重构前：</p>
+<ul>
+<li>先有测试；</li>
+<li>小步修改；</li>
+<li>每改一步就运行一次；</li>
+<li>不要一边重构一边加功能。</li>
+</ul>
+<p>代码评审清单：</p>
+<ul>
+<li>命名是否清楚？</li>
+<li>函数是否单一职责？</li>
+<li>有没有重复代码？</li>
+<li>有没有魔法数字？</li>
+<li>注释是否解释“为什么”？</li>
+<li>是否检查了返回值？</li>
+<li>是否检查了空指针？</li>
+<li>是否有内存泄漏？</li>
+<li>是否有越界风险？</li>
+<li>是否有未定义行为？</li>
+<li>错误提示是否清楚？</li>
+<li>一周后还能看懂吗？</li>
+</ul>
+<h3 id="17-3-8-本章代码规范：先让程序正确，再让程序优雅">17.3.8 本章代码规范：先让程序正确，再让程序优雅</h3>
+<p>这一章最重要的规范是：</p>
+<blockquote>
+<p>先让程序正确，再让程序优雅。</p>
+</blockquote>
+<p>顺序应该是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">能编译<br>-&gt; 能运行<br>-&gt; 结果正确<br>-&gt; 边界正确<br>-&gt; 错误处理正确<br>-&gt; 结构清晰<br>-&gt; 代码优雅<br></code></pre></td></tr></table></figure>
+<p>不要为了“好看”牺牲正确性。</p>
+<p>其他建议：</p>
+<ul>
+<li>先写测试用例，再改代码；</li>
+<li>使用 Debug 模式调试；</li>
+<li>使用 <code>-Wall -Wextra</code> 编译；</li>
+<li>使用 <code>gdb</code>、Valgrind、Sanitizer 等工具；</li>
+<li>记录并复现 bug；</li>
+<li>修复后做回归测试；</li>
+<li>重构时保持行为不变；</li>
+<li>提交代码前做一次自测和代码评审。</li>
+</ul>
+<hr>
+<h2 id="17-4-项目回扣：学生管理系统-v1-0">17.4 项目回扣：学生管理系统 v1.0</h2>
+<p>最终项目 v1.0 在 v0.15 的基础上增加：</p>
+<ul>
+<li>统计模块 <code>stats</code>；</li>
+<li>删除学生功能进入菜单；</li>
+<li>更完整的测试用例；</li>
+<li>调试和内存检查流程；</li>
+<li>最终代码评审。</li>
+</ul>
+<p>项目结构：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs text">student_management/<br>├── CMakeLists.txt<br>├── include/<br>│   ├── student.h<br>│   ├── student_list.h<br>│   ├── file_io.h<br>│   └── stats.h<br>├── src/<br>│   ├── main.c<br>│   ├── student_list.c<br>│   ├── file_io.c<br>│   └── stats.c<br>└── tests/<br>    └── test_stats.c<br></code></pre></td></tr></table></figure>
+<p><code>student.h</code>、<code>student_list.h/.c</code>、<code>file_io.h/.c</code> 继续沿用第 16 章 v0.15 的代码。</p>
+<p>本章新增统计模块。</p>
+<h3 id="17-4-1-include-stats-h">17.4.1 include/stats.h</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> STATS_H</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> STATS_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;student_list.h&quot;</span></span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Stats</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> count;<br>    <span class="hljs-type">int</span> total;<br>    <span class="hljs-type">double</span> average;<br>    <span class="hljs-type">int</span> max_score;<br>    <span class="hljs-type">int</span> min_score;<br>&#125; Stats;<br><br>Stats <span class="hljs-title function_">calculate_stats</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_stats</span><span class="hljs-params">(<span class="hljs-type">const</span> Stats *stats)</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="17-4-2-src-stats-c">17.4.2 src/stats.c</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;stats.h&quot;</span></span><br><br>Stats <span class="hljs-title function_">calculate_stats</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head)</span><br>&#123;<br>    Stats stats = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;;<br><br>    <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> stats;<br>    &#125;<br><br>    stats.max_score = head-&gt;data.score;<br>    stats.min_score = head-&gt;data.score;<br><br>    <span class="hljs-type">const</span> StudentNode *p = head;<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        stats.count++;<br>        stats.total += p-&gt;data.score;<br><br>        <span class="hljs-keyword">if</span> (p-&gt;data.score &gt; stats.max_score)<br>        &#123;<br>            stats.max_score = p-&gt;data.score;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (p-&gt;data.score &lt; stats.min_score)<br>        &#123;<br>            stats.min_score = p-&gt;data.score;<br>        &#125;<br><br>        p = p-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (stats.count &gt; <span class="hljs-number">0</span>)<br>    &#123;<br>        stats.average = (<span class="hljs-type">double</span>)stats.total / stats.count;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> stats;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_stats</span><span class="hljs-params">(<span class="hljs-type">const</span> Stats *stats)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (stats-&gt;count == <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无成绩数据。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 成绩统计 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生人数：%d\n&quot;</span>, stats-&gt;count);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总分：%d\n&quot;</span>, stats-&gt;total);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分：%.2f\n&quot;</span>, stats-&gt;average);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分：%d\n&quot;</span>, stats-&gt;max_score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最低分：%d\n&quot;</span>, stats-&gt;min_score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="17-4-3-src-main-c">17.4.3 src/main.c</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;student_list.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;file_io.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;stats.h&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MIN_SCORE 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_SCORE 100</span><br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">input_student</span><span class="hljs-params">(StudentNode **head)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    StudentNode *head = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">int</span> choice = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        print_menu();<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请选择：&quot;</span>);<br>        choice = read_int(<span class="hljs-number">0</span>, <span class="hljs-number">8</span>);<br><br>        <span class="hljs-keyword">if</span> (choice &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (feof(<span class="hljs-built_in">stdin</span>) || ferror(<span class="hljs-built_in">stdin</span>))<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n输入结束或发生错误，程序退出。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">switch</span> (choice)<br>        &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>                input_student(&amp;head);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                list_print(head);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>                <span class="hljs-keyword">if</span> (save_students(head, DATA_FILE))<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;保存成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;保存失败。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>            &#123;<br>                StudentNode *loaded = load_students(DATA_FILE);<br><br>                <span class="hljs-keyword">if</span> (loaded != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    list_free(&amp;head);<br>                    head = loaded;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;读取成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;读取失败或文件中没有学生数据。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>            &#123;<br>                <span class="hljs-type">char</span> name[NAME_LEN];<br><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要查找的姓名：&quot;</span>);<br>                read_line(name, <span class="hljs-keyword">sizeof</span>(name));<br><br>                StudentNode *result = list_find_by_name(head, name);<br><br>                <span class="hljs-keyword">if</span> (result != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;找到：\n&quot;</span>);<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%d\n&quot;</span>,<br>                           result-&gt;data.id,<br>                           result-&gt;data.name,<br>                           result-&gt;data.score);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到 %s。\n&quot;</span>, name);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:<br>            &#123;<br>                StudentNode *max_node = list_find_max_score(head);<br><br>                <span class="hljs-keyword">if</span> (max_node != <span class="hljs-literal">NULL</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分学生：\n&quot;</span>);<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%d\n&quot;</span>,<br>                           max_node-&gt;data.id,<br>                           max_node-&gt;data.name,<br>                           max_node-&gt;data.score);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">7</span>:<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要删除的学号：&quot;</span>);<br>                <span class="hljs-type">int</span> id = read_int(<span class="hljs-number">1</span>, <span class="hljs-number">99999999</span>);<br><br>                <span class="hljs-keyword">if</span> (id &lt; <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号无效。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-keyword">if</span> (list_delete_by_id(&amp;head, id))<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;删除成功。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到该学号。\n&quot;</span>);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">8</span>:<br>            &#123;<br>                Stats stats = calculate_stats(head);<br>                print_stats(&amp;stats);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出学生管理系统。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>    &#125; <span class="hljs-keyword">while</span> (choice != <span class="hljs-number">0</span>);<br><br>    list_free(&amp;head);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生管理系统 v1.0 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1. 添加学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2. 显示全部学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;3. 保存到文件\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;4. 从文件读取\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;5. 按姓名查找\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;6. 查看最高分学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;7. 按学号删除\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;8. 查看成绩统计\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (fgets(buffer, size, <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        buffer[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    buffer[<span class="hljs-built_in">strcspn</span>(buffer, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span><br>&#123;<br>    <span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br>    <span class="hljs-type">int</span> value = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">if</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d&quot;</span>, &amp;value) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (value &lt; min || value &gt; max)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> value;<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">input_student</span><span class="hljs-params">(StudentNode **head)</span><br>&#123;<br>    Student student = &#123;<span class="hljs-number">0</span>, &#123;<span class="hljs-number">0</span>&#125;, <span class="hljs-number">0</span>&#125;;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入学号：&quot;</span>);<br>    student.id = read_int(<span class="hljs-number">1</span>, <span class="hljs-number">99999999</span>);<br><br>    <span class="hljs-keyword">if</span> (student.id &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入姓名：&quot;</span>);<br>    read_line(student.name, NAME_LEN);<br><br>    <span class="hljs-keyword">if</span> (student.name[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;\0&#x27;</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名不能为空。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>    student.score = read_int(MIN_SCORE, MAX_SCORE);<br><br>    <span class="hljs-keyword">if</span> (student.score &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (!list_append(head, student))<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;内存申请失败。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;添加成功。\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="17-4-4-CMakeLists-txt">17.4.4 CMakeLists.txt</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.10</span>)<br><br><span class="hljs-keyword">project</span>(StudentManagement C)<br><br><span class="hljs-keyword">set</span>(CMAKE_C_STANDARD <span class="hljs-number">11</span>)<br><span class="hljs-keyword">set</span>(CMAKE_C_STANDARD_REQUIRED <span class="hljs-keyword">ON</span>)<br><br><span class="hljs-keyword">add_executable</span>(student_management<br>    src/main.c<br>    src/student_list.c<br>    src/file_io.c<br>    src/stats.c<br>)<br><br><span class="hljs-keyword">target_include_directories</span>(student_management PRIVATE <span class="hljs-keyword">include</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="17-4-5-测试用例">17.4.5 测试用例</h3>
+<p>可以使用一个简单的测试文件。</p>
+<p>注意：不要把有副作用的函数直接放进 <code>assert</code>。如果定义了 <code>NDEBUG</code>，<code>assert</code> 里的表达式不会执行，测试会“假通过”。下面先用临时变量调用，再断言：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;assert.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;student_list.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;stats.h&quot;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    StudentNode *head = <span class="hljs-literal">NULL</span>;<br><br>    Stats empty_stats = calculate_stats(head);<br>    assert(empty_stats.count == <span class="hljs-number">0</span>);<br>    assert(empty_stats.total == <span class="hljs-number">0</span>);<br><br>    Student s1 = &#123;<span class="hljs-number">20250001</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">90</span>&#125;;<br>    Student s2 = &#123;<span class="hljs-number">20250002</span>, <span class="hljs-string">&quot;小明&quot;</span>, <span class="hljs-number">85</span>&#125;;<br>    Student s3 = &#123;<span class="hljs-number">20250003</span>, <span class="hljs-string">&quot;小红&quot;</span>, <span class="hljs-number">77</span>&#125;;<br><br>    <span class="hljs-type">int</span> ok1 = list_append(&amp;head, s1);<br>    <span class="hljs-type">int</span> ok2 = list_append(&amp;head, s2);<br>    <span class="hljs-type">int</span> ok3 = list_append(&amp;head, s3);<br><br>    assert(ok1);<br>    assert(ok2);<br>    assert(ok3);<br><br>    Stats stats = calculate_stats(head);<br><br>    assert(stats.count == <span class="hljs-number">3</span>);<br>    assert(stats.total == <span class="hljs-number">252</span>);<br>    assert(stats.max_score == <span class="hljs-number">90</span>);<br>    assert(stats.min_score == <span class="hljs-number">77</span>);<br><br>    <span class="hljs-type">int</span> deleted = list_delete_by_id(&amp;head, <span class="hljs-number">20250001</span>);<br>    assert(deleted);<br>    assert(list_find_by_name(head, <span class="hljs-string">&quot;七平&quot;</span>) == <span class="hljs-literal">NULL</span>);<br>    assert(list_find_by_name(head, <span class="hljs-string">&quot;小明&quot;</span>) != <span class="hljs-literal">NULL</span>);<br><br>    list_free(&amp;head);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;所有测试通过。\n&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>编译测试程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -std=c11 -Wall -Wextra -Iinclude \<br>    tests/test_stats.c src/student_list.c src/stats.c \<br>    -o test_stats<br></code></pre></td></tr></table></figure>
+<p>运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./test_stats<br></code></pre></td></tr></table></figure>
+<p>这个测试覆盖了：</p>
+<ul>
+<li>空链表统计；</li>
+<li>多个节点统计；</li>
+<li>总分；</li>
+<li>最高分；</li>
+<li>最低分；</li>
+<li>删除节点；</li>
+<li>查找节点；</li>
+<li>内存释放。</li>
+</ul>
+<h3 id="17-4-6-最终检查清单">17.4.6 最终检查清单</h3>
+<p>发布 v1.0 前检查：</p>
+<ul>
+<li>[ ] 所有功能正常；</li>
+<li>[ ] 空链表不会崩溃；</li>
+<li>[ ] 空指针有检查；</li>
+<li>[ ] 输入非法值有提示；</li>
+<li>[ ] 文件打开失败有处理；</li>
+<li>[ ] 内存申请失败有处理；</li>
+<li>[ ] 删除节点正确释放；</li>
+<li>[ ] 退出时释放整条链表；</li>
+<li>[ ] 编译无警告；</li>
+<li>[ ] Valgrind 或 Sanitizer 没有报告严重问题；</li>
+<li>[ ] 测试程序通过；</li>
+<li>[ ] 代码命名清楚；</li>
+<li>[ ] 头文件有保护；</li>
+<li>[ ] CMake 能正常构建。</li>
+</ul>
+<hr>
+<h2 id="17-5-本章代码规范提示">17.5 本章代码规范提示</h2>
+<ul>
+<li>先让程序正确，再让程序优雅。</li>
+<li>先定位问题，再修改代码。</li>
+<li>使用 Debug 模式调试。</li>
+<li>使用 <code>-g -Wall -Wextra</code> 编译。</li>
+<li>使用断点、单步、查看变量和调用栈。</li>
+<li>使用 <code>gdb</code>、Valgrind、Sanitizer 检查问题。</li>
+<li>为每个模块设计正常用例、边界用例和非法输入用例。</li>
+<li>修复 bug 后做回归测试。</li>
+<li>使用 <code>assert</code> 检查不应发生的情况。</li>
+<li>不要用 <code>assert</code> 处理用户输入。</li>
+<li>重构前先有测试。</li>
+<li>重构时保持行为不变。</li>
+<li>提交前做代码评审。</li>
+<li>所有动态内存都要释放。</li>
+<li>所有文件都要关闭。</li>
+<li>所有返回值都要检查。</li>
+</ul>
+<hr>
+<h2 id="17-6-常见错误">17.6 常见错误</h2>
+<h3 id="错误-1：不调试，直接乱改代码">错误 1：不调试，直接乱改代码</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">程序出错 -&gt; 随便改 -&gt; 又出错 -&gt; 继续乱改<br></code></pre></td></tr></table></figure>
+<p>正确做法是先定位，再修改。</p>
+<h3 id="错误-2：只看最后一条错误">错误 2：只看最后一条错误</h3>
+<p>编译错误应该从第一条开始看，后面的错误可能只是连锁反应。</p>
+<h3 id="错误-3：忽略警告">错误 3：忽略警告</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">warning: unused variable<br>warning: implicit declaration<br>warning: format &#x27;%d&#x27; expects int<br></code></pre></td></tr></table></figure>
+<p>警告往往提示潜在 bug，不要忽略。</p>
+<h3 id="错误-4：只测正常情况">错误 4：只测正常情况</h3>
+<p>只输入正确数据，不测试：</p>
+<ul>
+<li>空数据；</li>
+<li>边界值；</li>
+<li>非法输入；</li>
+<li>删除头节点；</li>
+<li>删除尾节点。</li>
+</ul>
+<p>很多 bug 都藏在这些情况里。</p>
+<h3 id="错误-5：修复后不做回归测试">错误 5：修复后不做回归测试</h3>
+<p>修好一个 bug，可能把另一个功能改坏。</p>
+<p>修复后要重新运行之前的测试。</p>
+<h3 id="错误-6：用-assert-处理用户输入">错误 6：用 assert 处理用户输入</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">assert(score &gt;= <span class="hljs-number">0</span> &amp;&amp; score &lt;= <span class="hljs-number">100</span>);   <span class="hljs-comment">// 用户输入错误不应该用 assert</span><br></code></pre></td></tr></table></figure>
+<p>用户输入错误应该用 <code>if</code> 判断并提示。</p>
+<h3 id="错误-7：调试信息一直留在正式版本里">错误 7：调试信息一直留在正式版本里</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;debug: p = %p\n&quot;</span>, (<span class="hljs-type">void</span> *)p);<br></code></pre></td></tr></table></figure>
+<p>调试完后要删除或通过条件编译关闭。</p>
+<h3 id="错误-8：重构时同时加新功能">错误 8：重构时同时加新功能</h3>
+<p>重构和新功能混在一起，出错后很难判断是哪一部分导致的。</p>
+<p>正确做法：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">先重构 -&gt; 测试通过 -&gt; 再加新功能<br></code></pre></td></tr></table></figure>
+<h3 id="错误-9：内存检查工具报告了问题却忽略">错误 9：内存检查工具报告了问题却忽略</h3>
+<p>Valgrind 或 Sanitizer 报告的问题通常都很重要，不要因为“程序还能跑”就忽略。</p>
+<h3 id="错误-10：发布前不做最终检查">错误 10：发布前不做最终检查</h3>
+<p>发布前应该对照检查清单，确认关键路径都测过。</p>
+<hr>
+<h2 id="17-7-总结与自测">17.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>调试是定位问题的过程，测试是验证正确性的过程；先用 Debug 模式和工具找到问题，再用测试和回归保证修复没有引入新问题；最后通过重构和代码评审让程序更清晰。核心原则是：先让程序正确，再让程序优雅。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li>调试的基本思路是什么？</li>
+<li>Debug 和 Release 有什么区别？</li>
+<li>断点有什么作用？</li>
+<li>Step Over 和 Step Into 有什么区别？</li>
+<li>调用栈能帮我们做什么？</li>
+<li><code>gdb</code> 的常用命令有哪些？</li>
+<li>Valgrind 主要检查什么？</li>
+<li>Sanitizer 有什么作用？</li>
+<li>测试应该覆盖哪些用例？</li>
+<li>什么是回归测试？</li>
+<li><code>assert</code> 适合处理用户输入吗？</li>
+<li>重构前最好先做什么？</li>
+<li>代码评审通常检查哪些内容？</li>
+<li>为什么说“先让程序正确，再让程序优雅”？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>观察现象、猜测原因、缩小范围、验证猜测、修复问题、重新测试。</li>
+<li>Debug 保留调试信息、优化少；Release 开启优化、更快更小。</li>
+<li>让程序在指定位置暂停，方便观察状态。</li>
+<li>Step Over 不进入函数；Step Into 会进入当前行调用的函数。</li>
+<li>查看当前函数是从哪里被调用的，帮助定位崩溃路径。</li>
+<li><code>run</code>、<code>break</code>、<code>next</code>、<code>step</code>、<code>print</code>、<code>bt</code>、<code>continue</code>、<code>quit</code> 等。</li>
+<li>内存泄漏、非法读写、使用未初始化内存、重复释放等。</li>
+<li>检查越界、悬空指针、未定义行为等。</li>
+<li>正常用例、边界用例、非法输入用例。</li>
+<li>修复 bug 后重新测试已有功能，确保没有引入新问题。</li>
+<li>不适合，用户输入错误应该用 <code>if</code> 判断并提示。</li>
+<li>先有测试，确保重构前后行为一致。</li>
+<li>命名、函数职责、重复代码、注释、错误处理、内存管理、边界和可读性。</li>
+<li>因为代码再漂亮，如果结果不正确、边界不安全，就没有真正完成。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>完成学生管理系统 v1.0 的最终验收。</p>
+<p>要求：</p>
+<ol>
+<li>在 v0.15 的基础上加入 <code>stats</code> 模块；</li>
+<li>菜单支持添加、显示、保存、读取、查找、最高分、删除、统计；</li>
+<li>所有动态内存都要释放；</li>
+<li>所有文件操作都要检查返回值；</li>
+<li>用 CMake 构建项目；</li>
+<li>用 GDB 或 CLion 调试一次；</li>
+<li>用 Valgrind 或 Sanitizer 检查一次；</li>
+<li>写一个测试程序，覆盖空链表、单节点、多节点、删除和查找；</li>
+<li>做一次代码评审，写至少 5 条改进意见；</li>
+<li>给项目写一个简单的 README，说明如何构建和运行。</li>
+</ol>
+<hr>
+<h2 id="17-8-结语：从入门到继续前进">17.8 结语：从入门到继续前进</h2>
+<p>到这里，这套 C 语言教程就完成了。</p>
+<p>咱们从第一个 <code>printf</code> 开始，一路学到了：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">变量 -&gt; 输入输出 -&gt; 运算符 -&gt; 分支 -&gt; 循环<br>-&gt; 函数 -&gt; 数组 -&gt; 字符串 -&gt; 指针<br>-&gt; 结构体 -&gt; 动态内存 -&gt; 链表 -&gt; 文件<br>-&gt; 多文件 -&gt; 调试、测试与最终项目<br></code></pre></td></tr></table></figure>
+<p>你完成的不只是一个学生管理系统，更重要的是一整套编程基础能力：</p>
+<ul>
+<li>会写代码；</li>
+<li>会读错误；</li>
+<li>会调试；</li>
+<li>会测试；</li>
+<li>会拆分模块；</li>
+<li>会管理内存；</li>
+<li>会保存数据；</li>
+<li>会评审和重构。</li>
+</ul>
+<p>接下来可以继续学习：</p>
+<ul>
+<li>算法与数据结构；</li>
+<li>C 标准库深入；</li>
+<li>操作系统；</li>
+<li>编译原理；</li>
+<li>网络编程；</li>
+<li>嵌入式开发；</li>
+<li>C++、Rust 等其他语言；</li>
+<li>Git、CMake、测试框架等工程工具。</li>
+<li>AI Agent使用</li>
+</ul>
+<p>编程不是一次学完的，而是不断写、不断错、不断改、不断总结。</p>
+<p>先让程序正确，再让程序优雅。</p>
+<p>继续前进吧，新时代的程序员。</p>
+<p>笔者：七平</p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

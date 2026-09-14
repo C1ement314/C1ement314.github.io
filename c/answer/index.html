@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        挑战题参考答案
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p>本附录汇总第 0 章到第 17 章的挑战题参考答案。</p>
+<p>工程类题目给出思路、关键代码和验收要点，不重复正文中的完整项目代码。</p>
+<p>答案不是唯一解，重点是对照检查自己的思路是否完整、边界是否安全、内存是否正确释放。</p>
+</blockquote>
+<hr>
+<h2 id="第-0-章：学习地图与通用开发流程">第 0 章：学习地图与通用开发流程</h2>
+<h3 id="参考思路">参考思路</h3>
+<p>学生管理系统第一版可以先设计成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs text">输入：<br>- 菜单选择<br>- 学生学号<br>- 学生姓名<br>- 学生成绩<br><br>处理：<br>- 显示菜单<br>- 根据选择执行添加、显示、查找、退出<br>- 检查成绩是否在 0 到 100 之间<br>- 把学生信息保存到内存中<br><br>输出：<br>- 菜单<br>- 操作结果<br>- 学生信息<br>- 错误提示<br></code></pre></td></tr></table></figure>
+<h3 id="参考流程">参考流程</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs text">开始<br>  |<br>显示菜单<br>  |<br>读取用户选择<br>  |<br>选择 1：添加学生<br>选择 2：显示全部学生<br>选择 3：查找学生<br>选择 0：退出<br>  |<br>返回菜单<br>  |<br>结束<br></code></pre></td></tr></table></figure>
+<h3 id="错误处理">错误处理</h3>
+<ul>
+<li>菜单输入不是数字：提示重新输入；</li>
+<li>学号无效：提示重新输入；</li>
+<li>姓名空：提示重新输入；</li>
+<li>成绩小于 0 或大于 100：提示重新输入；</li>
+<li>查找不到：提示“没有找到”。</li>
+</ul>
+<h3 id="最小功能">最小功能</h3>
+<p>先实现：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">显示欢迎语<br>-&gt; 显示菜单<br>-&gt; 输入 0 退出<br></code></pre></td></tr></table></figure>
+<p>这一步对应项目 v0.1。</p>
+<hr>
+<h2 id="第-1-章：第一个-C-程序">第 1 章：第一个 C 程序</h2>
+<h3 id="参考代码">参考代码</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 输出姓名</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名：\t七平\n&quot;</span>);<br><br>    <span class="hljs-comment">// 输出年龄和爱好</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;年龄：\t18\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;爱好：\t编程、阅读\n&quot;</span>);<br><br>    <span class="hljs-comment">// 输出带双引号的话</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;他说：\&quot;你好！\&quot;\n&quot;</span>);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;----------------\n&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="参考答案要点">参考答案要点</h3>
+<ul>
+<li>至少 5 行 <code>printf</code>；</li>
+<li>使用 <code>\n</code> 换行；</li>
+<li>使用 <code>\t</code> 对齐；</li>
+<li>使用 <code>\&quot;</code> 输出双引号；</li>
+<li>至少 2 条注释；</li>
+<li>运行结果整齐。</li>
+</ul>
+<h3 id="思考题">思考题</h3>
+<p>如果把字符串两侧的英文双引号 <code>&quot;</code> 写成中文引号 <code>“ ”</code>，编译器不会把它们当成字符串边界，通常会报出 <code>stray</code>、<code>invalid character</code> 或 <code>expected ';'</code> 之类的错误。</p>
+<p>如果中文引号只是写在字符串内容里，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;他说：“你好！”\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>这通常可以正常输出。</p>
+<hr>
+<h2 id="第-2-章：变量与数据类型">第 2 章：变量与数据类型</h2>
+<h3 id="参考代码-2">参考代码</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_SCORE = <span class="hljs-number">100</span>;<br><br>    <span class="hljs-type">int</span> student_id = <span class="hljs-number">20250001</span>;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>] = <span class="hljs-string">&quot;七平&quot;</span>;<br>    <span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br>    <span class="hljs-type">char</span> level = <span class="hljs-string">&#x27;A&#x27;</span>;<br><br>    <span class="hljs-type">double</span> total = score + <span class="hljs-number">88.0</span>;<br><br>    <span class="hljs-comment">// 使用 double 保存平均分，避免整数除法丢失小数</span><br>    <span class="hljs-type">double</span> average = total / <span class="hljs-number">2.0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d\n&quot;</span>, student_id);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名：%s\n&quot;</span>, name);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩：%.2f\n&quot;</span>, score);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等级：%c\n&quot;</span>, level);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分：%.2f\n&quot;</span>, average);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分：%d\n&quot;</span>, MAX_SCORE);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sizeof int = %zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sizeof double = %zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">double</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sizeof char = %zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">char</span>));<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="参考答案要点-2">参考答案要点</h3>
+<ul>
+<li><code>int</code> 保存学号或年龄；</li>
+<li><code>double</code> 保存成绩；</li>
+<li><code>char</code> 保存等级；</li>
+<li>字符数组保存姓名；</li>
+<li><code>const int MAX_SCORE = 100;</code>；</li>
+<li><code>sizeof</code> 输出类型大小；</li>
+<li>使用 <code>(double)</code> 或浮点常量做类型转换；</li>
+<li>注释说明为什么用 <code>double</code>。</li>
+</ul>
+<hr>
+<h2 id="第-3-章：输入与输出">第 3 章：输入与输出</h2>
+<h3 id="参考代码-3">参考代码</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> id = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入学号：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;id) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入姓名（不含空格）：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%49s&quot;</span>, name) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;score) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span> || score &gt; <span class="hljs-number">100</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩必须在 0 到 100 之间。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学号：%d，姓名：%s，成绩：%d\n&quot;</span>, id, name, score);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="换行符残留说明">换行符残留说明</h3>
+<p>输入：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">20250001<br></code></pre></td></tr></table></figure>
+<p>实际进入输入缓冲区的是字符序列（可以理解为字节流）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">&#x27;2&#x27; &#x27;0&#x27; &#x27;2&#x27; &#x27;5&#x27; &#x27;0&#x27; &#x27;0&#x27; &#x27;0&#x27; &#x27;1&#x27; 换行<br></code></pre></td></tr></table></figure>
+<p><code>scanf(&quot;%d&quot;, &amp;id)</code> 只读走数字，换行符通常还留在缓冲区。</p>
+<p>接下来如果用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fgets(name, <span class="hljs-keyword">sizeof</span>(name), <span class="hljs-built_in">stdin</span>);<br></code></pre></td></tr></table></figure>
+<p><code>fgets</code> 会先读到那个换行符，于是 <code>name</code> 可能变成空行。</p>
+<p>解决方式：</p>
+<ol>
+<li>统一使用 <code>fgets</code> + <code>sscanf</code>；</li>
+<li>或在 <code>scanf</code> 后按标准方式读掉剩余字符；</li>
+<li>不要使用 <code>fflush(stdin)</code>。</li>
+</ol>
+<hr>
+<h2 id="第-4-章：运算符与表达式">第 4 章：运算符与表达式</h2>
+<h3 id="参考代码-4">参考代码</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> a = <span class="hljs-number">90</span>;<br>    <span class="hljs-type">int</span> b = <span class="hljs-number">85</span>;<br>    <span class="hljs-type">int</span> c = <span class="hljs-number">76</span>;<br><br>    <span class="hljs-type">int</span> total = a + b + c;<br>    <span class="hljs-type">int</span> int_average = total / <span class="hljs-number">3</span>;<br>    <span class="hljs-type">double</span> float_average = total / <span class="hljs-number">3.0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总分：%d\n&quot;</span>, total);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;整数除法平均分：%d\n&quot;</span>, int_average);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;浮点除法平均分：%.2f\n&quot;</span>, float_average);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分是否大于等于 60：%d\n&quot;</span>, float_average &gt;= <span class="hljs-number">60</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sizeof int = %zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">int</span>));<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sizeof double = %zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">double</span>));<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="参考答案要点-3">参考答案要点</h3>
+<ul>
+<li>整数除法会丢弃小数；</li>
+<li>只要有一个操作数是浮点数，就做浮点除法；</li>
+<li>关系表达式结果是 <code>1</code> 或 <code>0</code>；</li>
+<li><code>sizeof</code> 输出类型大小；</li>
+<li>括号可以明确计算顺序，例如：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = (<span class="hljs-type">double</span>)total / <span class="hljs-number">3.0</span>;<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="第-5-章：成绩等级与菜单">第 5 章：成绩等级与菜单</h2>
+<h3 id="参考思路-2">参考思路</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span> || score &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩不合法\n&quot;</span>);<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">90</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">80</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;B&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">70</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;C&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;D&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    grade = <span class="hljs-string">&#x27;F&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>再用 <code>switch (grade)</code> 输出评价：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">switch</span> (grade)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;A&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;优秀\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;B&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;良好\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;C&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;中等\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;D&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;F&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;不及格\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;未知等级\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="思考题-2">思考题</h3>
+<p>如果把：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">score &gt;= <span class="hljs-number">90</span><br></code></pre></td></tr></table></figure>
+<p>写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">score &gt; <span class="hljs-number">90</span><br></code></pre></td></tr></table></figure>
+<p>那么 90 分不会得到 A，会继续往下判断，通常会得到 B。</p>
+<hr>
+<h2 id="第-6-章：循环版成绩统计器">第 6 章：循环版成绩统计器</h2>
+<h3 id="参考结构">参考结构</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> choice = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">do</span><br>&#123;<br>    print_menu();<br>    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;choice);<br><br>    <span class="hljs-keyword">switch</span> (choice)<br>    &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>        &#123;<br>            <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br>            <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入学生人数：&quot;</span>);<br>            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;count);<br><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>            &#123;<br>                <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br>                <span class="hljs-keyword">do</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>                    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;score);<br>                &#125; <span class="hljs-keyword">while</span> (score &lt; <span class="hljs-number">0</span> || score &gt; <span class="hljs-number">100</span>);<br><br>                total += score;<br>            &#125;<br><br>            <span class="hljs-keyword">if</span> (count &gt; <span class="hljs-number">0</span>)<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分：%.2f\n&quot;</span>, (<span class="hljs-type">double</span>)total / count);<br>            &#125;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">default</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br>&#125; <span class="hljs-keyword">while</span> (choice != <span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+<h3 id="参考答案要点-4">参考答案要点</h3>
+<ul>
+<li><code>do-while</code> 显示菜单；</li>
+<li><code>for</code> 循环录入成绩；</li>
+<li><code>while</code> 或 <code>do-while</code> 验证成绩范围；</li>
+<li><code>break</code> 退出循环或 <code>switch</code>；</li>
+<li><code>continue</code> 跳过无效数据；</li>
+<li>如果循环变量忘记更新，可能死循环；</li>
+<li>如果 <code>continue</code> 跳过更新语句，也可能死循环。</li>
+</ul>
+<hr>
+<h2 id="第-7-章：函数版成绩统计器">第 7 章：函数版成绩统计器</h2>
+<h3 id="推荐函数拆分">推荐函数拆分</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_student_count</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_total_score</span><span class="hljs-params">(<span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">char</span> <span class="hljs-title function_">calculate_grade</span><span class="hljs-params">(<span class="hljs-type">double</span> average)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_result</span><span class="hljs-params">(<span class="hljs-type">int</span> count, <span class="hljs-type">int</span> total, <span class="hljs-type">double</span> average, <span class="hljs-type">char</span> grade)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="参考结构-2">参考结构</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> count = read_student_count();<br>    <span class="hljs-type">int</span> total = read_total_score(count);<br>    <span class="hljs-type">double</span> average = calculate_average(total, count);<br>    <span class="hljs-type">char</span> grade = calculate_grade(average);<br><br>    print_result(count, total, average, grade);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="思考题-3">思考题</h3>
+<p><code>calculate_average</code> 的 <code>count</code> 如果是普通值传递：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> count)</span><br></code></pre></td></tr></table></figure>
+<p>函数内部修改 <code>count</code> 不会影响 <code>main</code> 里的变量。</p>
+<p>如果想修改调用者的变量，需要传地址：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> <span class="hljs-title function_">calculate_average</span><span class="hljs-params">(<span class="hljs-type">int</span> total, <span class="hljs-type">int</span> *count)</span><br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="第-8-章：小重构">第 8 章：小重构</h2>
+<h3 id="可改进点示例">可改进点示例</h3>
+<p>重构前：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">0</span>;<br><br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;a);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;b);<br><br><span class="hljs-keyword">if</span> (a &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>重构后：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> PASS_SCORE = <span class="hljs-number">60</span>;<br><br><span class="hljs-type">int</span> first_score = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> second_score = <span class="hljs-number">0</span>;<br><br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;first_score);<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;second_score);<br><br><span class="hljs-keyword">if</span> (first_score &gt;= PASS_SCORE)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="参考答案要点-5">参考答案要点</h3>
+<ul>
+<li><code>a</code>、<code>b</code> 重命名为有意义的变量；</li>
+<li>提取常量 <code>PASS_SCORE</code>；</li>
+<li>提取函数 <code>is_pass</code>；</li>
+<li>消除重复代码；</li>
+<li>添加输入检查；</li>
+<li>重构前后行为一致。</li>
+</ul>
+<hr>
+<h2 id="第-9-章：班级成绩分析器">第 9 章：班级成绩分析器</h2>
+<h3 id="参考结构-3">参考结构</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> STUDENT_COUNT 8</span><br><br><span class="hljs-type">int</span> scores[STUDENT_COUNT];<br><span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> max_score = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> min_score = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; STUDENT_COUNT; i++)<br>&#123;<br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第 %d 位成绩：&quot;</span>, i + <span class="hljs-number">1</span>);<br>        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;scores[i]);<br>    &#125; <span class="hljs-keyword">while</span> (scores[i] &lt; <span class="hljs-number">0</span> || scores[i] &gt; <span class="hljs-number">100</span>);<br>&#125;<br><br>max_score = scores[<span class="hljs-number">0</span>];<br>min_score = scores[<span class="hljs-number">0</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; STUDENT_COUNT; i++)<br>&#123;<br>    total += scores[i];<br><br>    <span class="hljs-keyword">if</span> (scores[i] &gt; max_score)<br>    &#123;<br>        max_score = scores[i];<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (scores[i] &lt; min_score)<br>    &#123;<br>        min_score = scores[i];<br>    &#125;<br>&#125;<br><br><span class="hljs-type">double</span> average = (<span class="hljs-type">double</span>)total / STUDENT_COUNT;<br></code></pre></td></tr></table></figure>
+<p>排序可以使用冒泡排序：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; STUDENT_COUNT - <span class="hljs-number">1</span>; i++)<br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; STUDENT_COUNT - <span class="hljs-number">1</span> - i; j++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[j] &gt; scores[j + <span class="hljs-number">1</span>])<br>        &#123;<br>            <span class="hljs-type">int</span> temp = scores[j];<br>            scores[j] = scores[j + <span class="hljs-number">1</span>];<br>            scores[j + <span class="hljs-number">1</span>] = temp;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>线性查找：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> target = <span class="hljs-number">0</span>;<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;target);<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; STUDENT_COUNT; i++)<br>&#123;<br>    <span class="hljs-keyword">if</span> (scores[i] == target)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;下标：%d\n&quot;</span>, i);<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="思考题-4">思考题</h3>
+<p>数组长度是 <code>n</code> 时，合法下标是 <code>0</code> 到 <code>n - 1</code>。</p>
+<p>如果写：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= n; i++)<br></code></pre></td></tr></table></figure>
+<p>会访问 <code>scores[n]</code>，造成越界。</p>
+<hr>
+<h2 id="第-10-章：学生姓名管理小程序">第 10 章：学生姓名管理小程序</h2>
+<h3 id="参考结构-4">参考结构</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> NAME_COUNT 5</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NAME_LEN 50</span><br><br><span class="hljs-type">char</span> names[NAME_COUNT][NAME_LEN] = &#123;<span class="hljs-number">0</span>&#125;;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; NAME_COUNT; i++)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入第 %d 个姓名：&quot;</span>, i + <span class="hljs-number">1</span>);<br><br>    <span class="hljs-keyword">if</span> (fgets(names[i], NAME_LEN, <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        names[i][<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br><br>    names[i][<span class="hljs-built_in">strcspn</span>(names[i], <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>&#125;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; NAME_COUNT; i++)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s 长度：%zu\n&quot;</span>, names[i], <span class="hljs-built_in">strlen</span>(names[i]));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>查找：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> target[NAME_LEN];<br>fgets(target, NAME_LEN, <span class="hljs-built_in">stdin</span>);<br>target[<span class="hljs-built_in">strcspn</span>(target, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; NAME_COUNT; i++)<br>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(names[i], target) == <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;找到：%s\n&quot;</span>, names[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>找最长姓名：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> longest = <span class="hljs-number">0</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; NAME_COUNT; i++)<br>&#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strlen</span>(names[i]) &gt; <span class="hljs-built_in">strlen</span>(names[longest]))<br>    &#123;<br>        longest = i;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="缓冲区安全">缓冲区安全</h3>
+<ul>
+<li>使用 <code>fgets</code> 限制读取长度；</li>
+<li>去掉换行符；</li>
+<li><code>strcat</code> 前确认目标数组足够大；</li>
+<li>不要使用 <code>gets</code>；</li>
+<li><code>strlen</code> 返回 <code>size_t</code>，输出用 <code>%zu</code>。</li>
+</ul>
+<hr>
+<h2 id="第-11-章：指针版班级成绩分析器">第 11 章：指针版班级成绩分析器</h2>
+<h3 id="参考结构-5">参考结构</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> scores[<span class="hljs-number">8</span>] = &#123;<span class="hljs-number">90</span>, <span class="hljs-number">85</span>, <span class="hljs-number">77</span>, <span class="hljs-number">60</span>, <span class="hljs-number">100</span>, <span class="hljs-number">88</span>, <span class="hljs-number">92</span>, <span class="hljs-number">79</span>&#125;;<br><span class="hljs-type">int</span> count = <span class="hljs-number">8</span>;<br><br><span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> *p = scores;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>&#123;<br>    total += *(p + i);<br>&#125;<br><br><span class="hljs-type">int</span> *modify = scores;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>&#123;<br>    modify[i] += <span class="hljs-number">5</span>;<br><br>    <span class="hljs-keyword">if</span> (modify[i] &gt; <span class="hljs-number">100</span>)<br>    &#123;<br>        modify[i] = <span class="hljs-number">100</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>返回最高分位置：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *<span class="hljs-title function_">find_max</span><span class="hljs-params">(<span class="hljs-type">int</span> *scores, <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> *max_ptr = &amp;scores[<span class="hljs-number">0</span>];<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] &gt; *max_ptr)<br>        &#123;<br>            max_ptr = &amp;scores[i];<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> max_ptr;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>调用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *max_ptr = find_max(scores, count);<br><br><span class="hljs-keyword">if</span> (max_ptr != <span class="hljs-literal">NULL</span>)<br>&#123;<br>    <span class="hljs-type">int</span> index = (<span class="hljs-type">int</span>)(max_ptr - scores);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;最高分下标：%d，成绩：%d\n&quot;</span>, index, *max_ptr);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>交换函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">swap</span><span class="hljs-params">(<span class="hljs-type">int</span> *a, <span class="hljs-type">int</span> *b)</span><br>&#123;<br>    <span class="hljs-type">int</span> temp = *a;<br>    *a = *b;<br>    *b = temp;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="关系图">关系图</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">scores -&gt; [0] [1] [2] ... [7]<br>            ^<br>            |<br>            p<br><br>p + 1 指向 scores[1]<br>*(p + 1) 取出 scores[1]<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="第-12-章：图书管理小工具">第 12 章：图书管理小工具</h2>
+<h3 id="类型定义">类型定义</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">enum</span></span><br><span class="hljs-class">&#123;</span><br>    BORROWED,<br>    AVAILABLE<br>&#125; BookStatus;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Book</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">char</span> title[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> author[<span class="hljs-number">30</span>];<br>    <span class="hljs-type">double</span> price;<br>    BookStatus status;<br>&#125; Book;<br></code></pre></td></tr></table></figure>
+<h3 id="结构体数组">结构体数组</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c">Book books[<span class="hljs-number">5</span>] = &#123;<br>    &#123;<span class="hljs-string">&quot;C 语言入门&quot;</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">39.8</span>, AVAILABLE&#125;,<br>    &#123;<span class="hljs-string">&quot;C 语言进阶&quot;</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">49.8</span>, BORROWED&#125;,<br>    &#123;<span class="hljs-string">&quot;C 语言实战&quot;</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">59.8</span>, AVAILABLE&#125;,<br>    &#123;<span class="hljs-string">&quot;算法入门&quot;</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">45.0</span>, AVAILABLE&#125;,<br>    &#123;<span class="hljs-string">&quot;数据结构&quot;</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">55.0</span>, BORROWED&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="函数示例">函数示例</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">print_book</span><span class="hljs-params">(<span class="hljs-type">const</span> Book *book)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;书名：%s，作者：%s，价格：%.2f\n&quot;</span>,<br>           book-&gt;title,<br>           book-&gt;author,<br>           book-&gt;price);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="按价格从高到低排序">按价格从高到低排序</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count - <span class="hljs-number">1</span>; i++)<br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; count - <span class="hljs-number">1</span> - i; j++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (books[j].price &lt; books[j + <span class="hljs-number">1</span>].price)<br>        &#123;<br>            Book temp = books[j];<br>            books[j] = books[j + <span class="hljs-number">1</span>];<br>            books[j + <span class="hljs-number">1</span>] = temp;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="内存布局示意">内存布局示意</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">Book<br>+----------------+<br>| title[50]      |<br>| author[30]     |<br>| price          |<br>| status         |<br>+----------------+<br></code></pre></td></tr></table></figure>
+<p>结构体大小可能因为内存对齐而大于成员大小之和。</p>
+<hr>
+<h2 id="第-13-章：动态通讯录">第 13 章：动态通讯录</h2>
+<h3 id="结构体">结构体</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Contact</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>];<br>    <span class="hljs-type">char</span> phone[<span class="hljs-number">20</span>];<br>    <span class="hljs-type">char</span> email[<span class="hljs-number">50</span>];<br>&#125; Contact;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ContactList</span></span><br><span class="hljs-class">&#123;</span><br>    Contact *contacts;<br>    <span class="hljs-type">int</span> count;<br>    <span class="hljs-type">int</span> capacity;<br>&#125; ContactList;<br></code></pre></td></tr></table></figure>
+<h3 id="初始化与扩容">初始化与扩容</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">init_contact_list</span><span class="hljs-params">(ContactList *<span class="hljs-built_in">list</span>)</span><br>&#123;<br>    <span class="hljs-built_in">list</span>-&gt;contacts = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-built_in">list</span>-&gt;count = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">list</span>-&gt;capacity = <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">ensure_capacity</span><span class="hljs-params">(ContactList *<span class="hljs-built_in">list</span>, <span class="hljs-type">int</span> needed)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (needed &lt;= <span class="hljs-built_in">list</span>-&gt;capacity)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-type">int</span> new_capacity = <span class="hljs-built_in">list</span>-&gt;capacity == <span class="hljs-number">0</span> ? <span class="hljs-number">4</span> : <span class="hljs-built_in">list</span>-&gt;capacity * <span class="hljs-number">2</span>;<br><br>    <span class="hljs-keyword">while</span> (new_capacity &lt; needed)<br>    &#123;<br>        new_capacity = new_capacity * <span class="hljs-number">2</span>;<br>    &#125;<br><br>    Contact *temp = <span class="hljs-built_in">realloc</span>(<span class="hljs-built_in">list</span>-&gt;contacts,<br>                            (<span class="hljs-type">size_t</span>)new_capacity * <span class="hljs-keyword">sizeof</span>(Contact));<br><br>    <span class="hljs-keyword">if</span> (temp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">list</span>-&gt;contacts = temp;<br>    <span class="hljs-built_in">list</span>-&gt;capacity = new_capacity;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="释放">释放</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">destroy_contact_list</span><span class="hljs-params">(ContactList *<span class="hljs-built_in">list</span>)</span><br>&#123;<br>    <span class="hljs-built_in">free</span>(<span class="hljs-built_in">list</span>-&gt;contacts);<br>    <span class="hljs-built_in">list</span>-&gt;contacts = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-built_in">list</span>-&gt;count = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">list</span>-&gt;capacity = <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="参考答案要点-6">参考答案要点</h3>
+<ul>
+<li>初始容量 4；</li>
+<li>满了扩容为两倍；</li>
+<li>所有 <code>malloc</code>、<code>realloc</code> 检查返回值；</li>
+<li>退出时释放动态内存；</li>
+<li>释放后指针置 <code>NULL</code>。</li>
+</ul>
+<hr>
+<h2 id="第-14-章：链表版学生管理系统">第 14 章：链表版学生管理系统</h2>
+<h3 id="节点定义">节点定义</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">StudentNode</span></span><br><span class="hljs-class">&#123;</span><br>    Student data;<br>    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">StudentNode</span> *<span class="hljs-title">next</span>;</span><br>&#125; StudentNode;<br></code></pre></td></tr></table></figure>
+<h3 id="头部插入">头部插入</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">list_insert</span><span class="hljs-params">(StudentNode **head, Student student)</span><br>&#123;<br>    StudentNode *node = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(StudentNode));<br><br>    <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    node-&gt;data = student;<br>    node-&gt;next = *head;<br>    *head = node;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="尾部插入">尾部插入</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">list_append</span><span class="hljs-params">(StudentNode **head, Student student)</span><br>&#123;<br>    StudentNode *node = <span class="hljs-built_in">malloc</span>(<span class="hljs-keyword">sizeof</span>(StudentNode));<br><br>    <span class="hljs-keyword">if</span> (node == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    node-&gt;data = student;<br>    node-&gt;next = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">if</span> (*head == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        *head = node;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    StudentNode *tail = *head;<br><br>    <span class="hljs-keyword">while</span> (tail-&gt;next != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        tail = tail-&gt;next;<br>    &#125;<br><br>    tail-&gt;next = node;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="按学号删除">按学号删除</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">list_delete_by_id</span><span class="hljs-params">(StudentNode **head, <span class="hljs-type">int</span> id)</span><br>&#123;<br>    StudentNode *cur = *head;<br>    StudentNode *prev = <span class="hljs-literal">NULL</span>;<br><br>    <span class="hljs-keyword">while</span> (cur != <span class="hljs-literal">NULL</span> &amp;&amp; cur-&gt;data.id != id)<br>    &#123;<br>        prev = cur;<br>        cur = cur-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (cur == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (prev == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        *head = cur-&gt;next;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        prev-&gt;next = cur-&gt;next;<br>    &#125;<br><br>    <span class="hljs-built_in">free</span>(cur);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="画图提示">画图提示</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">插入头部：<br>head -&gt; A -&gt; B -&gt; C -&gt; NULL<br>插入 N：<br>head -&gt; N -&gt; A -&gt; B -&gt; C -&gt; NULL<br><br>删除头部：<br>head -&gt; A -&gt; B -&gt; C<br>head -&gt; B -&gt; C<br><br>删除中间：<br>prev -&gt; cur -&gt; next<br>prev -&gt; next<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="第-15-章：学生成绩文件管理器">第 15 章：学生成绩文件管理器</h2>
+<h3 id="保存">保存</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">save_students</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename)</span><br>&#123;<br>    FILE *fp = fopen(filename, <span class="hljs-string">&quot;w&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-type">const</span> StudentNode *p = head;<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">fprintf</span>(fp, <span class="hljs-string">&quot;%d %s %d\n&quot;</span>,<br>                    p-&gt;data.id,<br>                    p-&gt;data.name,<br>                    p-&gt;data.score) &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            fclose(fp);<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br><br>        p = p-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (fclose(fp) != <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="读取">读取</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c">StudentNode *<span class="hljs-title function_">load_students</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *filename)</span><br>&#123;<br>    FILE *fp = fopen(filename, <span class="hljs-string">&quot;r&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br><br>    StudentNode *head = <span class="hljs-literal">NULL</span>;<br>    <span class="hljs-type">char</span> line[<span class="hljs-number">256</span>];<br><br>    <span class="hljs-keyword">while</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), fp) != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        Student student = &#123;<span class="hljs-number">0</span>, &#123;<span class="hljs-number">0</span>&#125;, <span class="hljs-number">0</span>&#125;;<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d %49s %d&quot;</span>,<br>                   &amp;student.id,<br>                   student.name,<br>                   &amp;student.score) != <span class="hljs-number">3</span>)<br>        &#123;<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (!list_append(&amp;head, student))<br>        &#123;<br>            list_free(&amp;head);<br>            fclose(fp);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (fclose(fp) != <span class="hljs-number">0</span>)<br>    &#123;<br>        list_free(&amp;head);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> head;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="思考题-5">思考题</h3>
+<ul>
+<li>文件内容损坏：跳过格式不正确的行，或提示用户文件损坏；</li>
+<li>姓名包含空格：当前 <code>%s</code> 格式会读到空格前；</li>
+<li>改进方式：使用 CSV、带引号格式，或 <code>fgets</code> 读整行后按自定义规则解析。</li>
+</ul>
+<hr>
+<h2 id="第-16-章：多文件模块化版本">第 16 章：多文件模块化版本</h2>
+<h3 id="推荐文件结构">推荐文件结构</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">student_management/<br>├── CMakeLists.txt<br>├── include/<br>│   ├── student.h<br>│   ├── student_list.h<br>│   └── file_io.h<br>└── src/<br>    ├── main.c<br>    ├── student_list.c<br>    └── file_io.c<br></code></pre></td></tr></table></figure>
+<h3 id="头文件保护">头文件保护</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> STUDENT_H</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> STUDENT_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NAME_LEN 50</span><br><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Student</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> id;<br>    <span class="hljs-type">char</span> name[NAME_LEN];<br>    <span class="hljs-type">int</span> score;<br>&#125; Student;<br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="宏和条件编译">宏和条件编译</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> DATA_FILE <span class="hljs-string">&quot;students.txt&quot;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">ifdef</span> DEBUG</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;debug: count = %d\n&quot;</span>, count);<br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="CMakeLists-txt">CMakeLists.txt</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.10</span>)<br><br><span class="hljs-keyword">project</span>(StudentManagement C)<br><br><span class="hljs-keyword">set</span>(CMAKE_C_STANDARD <span class="hljs-number">11</span>)<br><span class="hljs-keyword">set</span>(CMAKE_C_STANDARD_REQUIRED <span class="hljs-keyword">ON</span>)<br><br><span class="hljs-keyword">add_executable</span>(student_management<br>    src/main.c<br>    src/student_list.c<br>    src/file_io.c<br>)<br><br><span class="hljs-keyword">target_include_directories</span>(student_management PRIVATE <span class="hljs-keyword">include</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="命令行编译">命令行编译</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc -std=c11 -Wall -Wextra -Iinclude \<br>    src/main.c src/student_list.c src/file_io.c \<br>    -o student_management<br></code></pre></td></tr></table></figure>
+<h3 id="模块依赖图">模块依赖图</h3>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">main.c<br>  |<br>  +-- student_list.h -&gt; student.h<br>  |<br>  +-- file_io.h -&gt; student_list.h<br><br>student_list.c -&gt; student_list.h<br>file_io.c -&gt; file_io.h<br></code></pre></td></tr></table></figure>
+<h3 id="还可以继续拆分">还可以继续拆分</h3>
+<ul>
+<li><code>stats.h/.c</code>：统计功能；</li>
+<li><code>input.h/.c</code>：输入辅助函数；</li>
+<li><code>menu.h/.c</code>：菜单显示；</li>
+<li><code>tests/</code>：测试代码。</li>
+</ul>
+<hr>
+<h2 id="第-17-章：学生管理系统-v1-0">第 17 章：学生管理系统 v1.0</h2>
+<h3 id="统计模块">统计模块</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Stats</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-type">int</span> count;<br>    <span class="hljs-type">int</span> total;<br>    <span class="hljs-type">double</span> average;<br>    <span class="hljs-type">int</span> max_score;<br>    <span class="hljs-type">int</span> min_score;<br>&#125; Stats;<br><br>Stats <span class="hljs-title function_">calculate_stats</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_stats</span><span class="hljs-params">(<span class="hljs-type">const</span> Stats *stats)</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="统计实现">统计实现</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c">Stats <span class="hljs-title function_">calculate_stats</span><span class="hljs-params">(<span class="hljs-type">const</span> StudentNode *head)</span><br>&#123;<br>    Stats stats = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;;<br><br>    <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> stats;<br>    &#125;<br><br>    stats.max_score = head-&gt;data.score;<br>    stats.min_score = head-&gt;data.score;<br><br>    <span class="hljs-type">const</span> StudentNode *p = head;<br><br>    <span class="hljs-keyword">while</span> (p != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        stats.count++;<br>        stats.total += p-&gt;data.score;<br><br>        <span class="hljs-keyword">if</span> (p-&gt;data.score &gt; stats.max_score)<br>        &#123;<br>            stats.max_score = p-&gt;data.score;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (p-&gt;data.score &lt; stats.min_score)<br>        &#123;<br>            stats.min_score = p-&gt;data.score;<br>        &#125;<br><br>        p = p-&gt;next;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (stats.count &gt; <span class="hljs-number">0</span>)<br>    &#123;<br>        stats.average = (<span class="hljs-type">double</span>)stats.total / stats.count;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> stats;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="测试">测试</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;assert.h&gt;</span></span><br><br>StudentNode *head = <span class="hljs-literal">NULL</span>;<br><br>Stats empty_stats = calculate_stats(head);<br>assert(empty_stats.count == <span class="hljs-number">0</span>);<br>assert(empty_stats.total == <span class="hljs-number">0</span>);<br><br>Student s1 = &#123;<span class="hljs-number">20250001</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">90</span>&#125;;<br>Student s2 = &#123;<span class="hljs-number">20250002</span>, <span class="hljs-string">&quot;小明&quot;</span>, <span class="hljs-number">85</span>&#125;;<br>Student s3 = &#123;<span class="hljs-number">20250003</span>, <span class="hljs-string">&quot;小红&quot;</span>, <span class="hljs-number">77</span>&#125;;<br><br><span class="hljs-type">int</span> ok1 = list_append(&amp;head, s1);<br><span class="hljs-type">int</span> ok2 = list_append(&amp;head, s2);<br><span class="hljs-type">int</span> ok3 = list_append(&amp;head, s3);<br><br>assert(ok1);<br>assert(ok2);<br>assert(ok3);<br><br>Stats stats = calculate_stats(head);<br><br>assert(stats.count == <span class="hljs-number">3</span>);<br>assert(stats.total == <span class="hljs-number">252</span>);<br>assert(stats.max_score == <span class="hljs-number">90</span>);<br>assert(stats.min_score == <span class="hljs-number">77</span>);<br><br><span class="hljs-type">int</span> deleted = list_delete_by_id(&amp;head, <span class="hljs-number">20250001</span>);<br>assert(deleted);<br>assert(list_find_by_name(head, <span class="hljs-string">&quot;七平&quot;</span>) == <span class="hljs-literal">NULL</span>);<br><br>list_free(&amp;head);<br></code></pre></td></tr></table></figure>
+<h3 id="最终验收清单">最终验收清单</h3>
+<ul>
+<li>[ ] 添加、显示、保存、读取、查找、最高分、删除、统计都能正常工作；</li>
+<li>[ ] 空链表不会崩溃；</li>
+<li>[ ] 空指针有检查；</li>
+<li>[ ] 输入非法值有提示；</li>
+<li>[ ] 文件打开失败有处理；</li>
+<li>[ ] 内存申请失败有处理；</li>
+<li>[ ] 删除节点正确释放；</li>
+<li>[ ] 退出时释放整条链表；</li>
+<li>[ ] 编译无警告；</li>
+<li>[ ] Sanitizer 或 Valgrind 没有严重报告；</li>
+<li>[ ] 测试程序通过；</li>
+<li>[ ] 代码命名清楚；</li>
+<li>[ ] 头文件有保护；</li>
+<li>[ ] CMake 能正常构建；</li>
+<li>[ ] README 说明如何构建和运行。</li>
+</ul>
+<h3 id="代码评审示例意见">代码评审示例意见</h3>
+<ol>
+<li><code>input_student</code> 可以再拆分出“读取姓名”和“读取成绩”函数；</li>
+<li><code>list_append</code> 每次都要遍历到尾节点，可以维护 <code>tail</code> 指针；</li>
+<li><code>main</code> 的 <code>switch</code> 分支较多，可以抽成函数；</li>
+<li>文件读取可以增加更详细的错误提示；</li>
+<li>测试可以覆盖更多边界，例如成绩 0、100、重复学号；</li>
+<li>可以增加 <code>list_sort_by_score</code>，让显示和统计更灵活。</li>
+</ol>
+<hr>
+<h2 id="附录说明">附录说明</h2>
+<p>本附录覆盖了 00 到 17 章挑战题的核心答案。</p>
+<p>如果你在实现过程中使用了不同的结构、不同的函数名或不同的文件格式，只要满足题目要求、边界安全、内存正确释放、行为一致，就都是有效答案。</p>
+<p>编程题没有唯一解，重要的是：</p>
+<blockquote>
+<p>能运行、结果正确、边界安全、代码清楚、资源正确释放。</p>
+</blockquote>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 5 章：分支结构
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>掌握 <code>if</code>、<code>else if</code>、<code>else</code> 的基本用法。</li>
+<li>掌握 <code>switch</code> 语句，并理解 <code>break</code> 和 <code>default</code> 的作用。</li>
+<li>初步理解条件表达式、分支覆盖和防御性编程。</li>
+<li>学会用分支结构完成成绩等级评定。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你学会“根据条件走不同的路”。进阶篇会讲条件表达式的细节、分支覆盖、边界测试和防御性编程，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。上一章，程序已经会计算和判断了。</p>
+<p>但只会算还不够。真正有用的程序，还要能根据不同的情况，做出不同的选择。</p>
+<p>比如学生管理系统：</p>
+<ul>
+<li>成绩大于等于 60 分，显示“及格”；</li>
+<li>成绩小于 60 分，显示“不及格”；</li>
+<li>90 分以上是 A，80 分以上是 B；</li>
+<li>用户选择 1，就添加学生；选择 2，就删除学生。</li>
+</ul>
+<p>这些“如果……就……，否则……”的逻辑，就是<strong>分支结构</strong>。</p>
+<hr>
+<h2 id="5-1-先导：程序要学会选择">5.1 先导：程序要学会选择</h2>
+<p>生活中充满了选择：</p>
+<ul>
+<li>如果下雨，就带伞；</li>
+<li>如果红灯，就停下；</li>
+<li>如果成绩达到要求，就录取。</li>
+</ul>
+<p>程序也是一样。</p>
+<p>分支结构的作用，就是让程序根据条件的真假，执行不同的代码。</p>
+<p>C 语言中常用的分支工具包括：</p>
+<ul>
+<li><code>if</code> 语句；</li>
+<li><code>if ... else</code> 语句；</li>
+<li><code>else if</code> 多分支；</li>
+<li><code>switch</code> 语句；</li>
+<li>条件运算符 <code>?:</code>。</li>
+</ul>
+<p>本章会重点讲 <code>if</code> 系列和 <code>switch</code>，条件运算符放在进阶篇。</p>
+<hr>
+<h2 id="5-2-基础篇：先会用">5.2 基础篇：先会用</h2>
+<h3 id="5-2-1-if-语句">5.2.1 if 语句</h3>
+<p><code>if</code> 是最基本的分支语句。</p>
+<p>基本格式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (条件)<br>&#123;<br>    <span class="hljs-comment">// 条件为真时执行的代码</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br><br>    <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">及格<br></code></pre></td></tr></table></figure>
+<p>这里的条件：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">score &gt;= <span class="hljs-number">60</span><br></code></pre></td></tr></table></figure>
+<p>结果是 <code>1</code>，表示真，所以会执行花括号里的代码。</p>
+<p>如果条件为假：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">50</span>;<br><br><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>那么花括号里的内容就不会执行。</p>
+<p>在 C 语言中：</p>
+<ul>
+<li>条件为 0，表示假；</li>
+<li>条件为非 0，表示真。</li>
+</ul>
+<p>所以下面这种写法也会被当作“真”：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-number">1</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总会执行\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>而下面这种写法会被当作“假”：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;永远不会执行\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>初学阶段，建议条件尽量写成明确的关系表达式，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br></code></pre></td></tr></table></figure>
+<p>不要写太多让人费解的真假判断。</p>
+<h3 id="5-2-2-if-…-else">5.2.2 if … else</h3>
+<p>如果条件为真做一件事，条件为假做另一件事，可以用 <code>if ... else</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;不及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行逻辑是：</p>
+<ul>
+<li>如果 <code>score &gt;= 60</code> 为真，执行 <code>if</code> 后面的代码；</li>
+<li>否则，执行 <code>else</code> 后面的代码。</li>
+</ul>
+<p>完整示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;score) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;不及格\n&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="5-2-3-else-if-多分支">5.2.3 else if 多分支</h3>
+<p>如果有多个条件，可以使用 <code>else if</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (条件<span class="hljs-number">1</span>)<br>&#123;<br>    <span class="hljs-comment">// 条件1为真时执行</span><br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (条件<span class="hljs-number">2</span>)<br>&#123;<br>    <span class="hljs-comment">// 条件2为真时执行</span><br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// 以上条件都不满足时执行</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>成绩等级评定的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> score = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">char</span> grade = <span class="hljs-string">&#x27;F&#x27;</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;score) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">90</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">80</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;B&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">70</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;C&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;D&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        grade = <span class="hljs-string">&#x27;F&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等级：%c\n&quot;</span>, grade);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里有一个非常重要的点：</p>
+<blockquote>
+<p><code>if ... else if ... else</code> 会从上往下依次判断，一旦某个条件为真，就会执行对应代码，然后跳过后面所有分支。</p>
+</blockquote>
+<p>也就是说，下面的顺序不能随便打乱：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">90</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">80</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;B&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果先判断 <code>score &gt;= 80</code>，那么 95 分也会先满足它，得到 <code>B</code>，显然不正确。</p>
+<h3 id="5-2-4-嵌套-if">5.2.4 嵌套 if</h3>
+<p>分支里面还可以再写分支，这叫<strong>嵌套</strong>。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-keyword">if</span> (attendance &gt;= <span class="hljs-number">80</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格，出勤良好\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格，但出勤不足\n&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;不及格\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>嵌套可以解决更复杂的问题，但层数太多会很难读。</p>
+<p>初学阶段建议：</p>
+<ul>
+<li>尽量把嵌套控制在 2 到 3 层以内；</li>
+<li>每层都使用花括号；</li>
+<li>条件复杂时，可以拆成多个 <code>if</code> 或者使用提前返回。</li>
+</ul>
+<h3 id="5-2-5-switch-语句">5.2.5 switch 语句</h3>
+<p>如果一个条件需要判断“等于某个固定值”，而且分支比较多，<code>switch</code> 会很合适。</p>
+<p>基本格式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">switch</span> (表达式)<br>&#123;<br>    <span class="hljs-keyword">case</span> 常量<span class="hljs-number">1</span>:<br>        <span class="hljs-comment">// 代码</span><br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> 常量<span class="hljs-number">2</span>:<br>        <span class="hljs-comment">// 代码</span><br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-comment">// 以上都不匹配时执行</span><br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">char</span> grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br><br>    <span class="hljs-keyword">switch</span> (grade)<br>    &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;A&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;优秀\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;B&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;良好\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;C&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;中等\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;D&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;及格\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;F&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;不及格\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">default</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;未知等级\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>switch</code> 的几个关键点：</p>
+<ol>
+<li><code>switch</code> 后面的表达式通常是整数类型或字符类型；</li>
+<li><code>case</code> 后面必须是常量表达式，不能是变量；</li>
+<li>每个 <code>case</code> 通常以 <code>break;</code> 结束；</li>
+<li><code>default</code> 处理所有没有匹配到的情况；</li>
+<li><code>break;</code> 用来跳出 <code>switch</code>，如果忘了写，可能会继续执行下一个 <code>case</code>。</li>
+</ol>
+<h4 id="没有-break-会怎样？">没有 break 会怎样？</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> choice = <span class="hljs-number">1</span>;<br><br><span class="hljs-keyword">switch</span> (choice)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你选了 1\n&quot;</span>);<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你选了 2\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;未知选择\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">你选了 1<br>你选了 2<br></code></pre></td></tr></table></figure>
+<p>因为在 <code>case 1</code> 后面没有 <code>break;</code>，程序会继续往下执行 <code>case 2</code> 的代码。这个现象叫<strong>贯穿</strong>。</p>
+<p>有时候，贯穿是有意使用的，例如多个 <code>case</code> 共用同一段代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">switch</span> (grade)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;A&#x27;</span>:<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;B&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;良好以上\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;C&#x27;</span>:<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;D&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;合格\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;不合格或未知\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这种写法是允许的，但一定要让意图清楚。</p>
+<h4 id="switch-和-if-怎么选？">switch 和 if 怎么选？</h4>
+<p>简单记：</p>
+<ul>
+<li>判断范围，例如 <code>score &gt;= 90</code>，用 <code>if</code>；</li>
+<li>判断固定值，例如菜单选项 <code>1</code>、<code>2</code>、<code>3</code>，用 <code>switch</code>；</li>
+<li>条件复杂，混合了多个关系表达式，用 <code>if</code>。</li>
+</ul>
+<h3 id="5-2-6-基础篇小练习">5.2.6 基础篇小练习</h3>
+<ol>
+<li>输入一个整数，判断它是正数、负数还是零。</li>
+<li>输入一个成绩，判断是否及格。</li>
+<li>输入一个成绩，用 <code>if ... else if</code> 输出等级 A、B、C、D、F。</li>
+<li>输入一个整数，判断它是奇数还是偶数。</li>
+<li>输入一个菜单选项 1 到 3，用 <code>switch</code> 输出对应功能。</li>
+<li>输入一个字符，用 <code>switch</code> 判断它是不是元音字母。</li>
+</ol>
+<hr>
+<h2 id="5-3-进阶篇：再懂原理">5.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会写分支了。进阶篇要讲清楚：条件表达式怎么用，边界条件怎么测，以及怎样写出不容易出错的分支代码。</p>
+<h3 id="5-3-1-条件表达式">5.3.1 条件表达式 ?:</h3>
+<p>条件运算符是 C 语言里唯一的三元运算符：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">条件 ? 表达式<span class="hljs-number">1</span> : 表达式<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+<p>意思是：</p>
+<ul>
+<li>条件为真，取表达式1的值；</li>
+<li>条件为假，取表达式2的值。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">10</span>;<br><span class="hljs-type">int</span> b = <span class="hljs-number">20</span>;<br><span class="hljs-type">int</span> max = a &gt; b ? a : b;<br></code></pre></td></tr></table></figure>
+<p>这里 <code>a &gt; b</code> 为假，所以 <code>max</code> 取 <code>b</code> 的值，也就是 <code>20</code>。</p>
+<p>再比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">75</span>;<br><span class="hljs-type">char</span> result = score &gt;= <span class="hljs-number">60</span> ? <span class="hljs-string">&#x27;P&#x27;</span> : <span class="hljs-string">&#x27;F&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p><code>result</code> 会得到 <code>'P'</code>。</p>
+<p>条件表达式可以写得很紧凑，但也要小心：</p>
+<ol>
+<li>不要嵌套太多层；</li>
+<li>复杂逻辑优先用 <code>if</code>；</li>
+<li>注意它的优先级和类型转换规则。</li>
+</ol>
+<p>复杂的三元表达式虽然合法，但可读性通常很差：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> result = a &gt; b ? a &gt; c ? a : c : b &gt; c ? b : c;<br></code></pre></td></tr></table></figure>
+<p>遇到这种情况，还是用 <code>if</code> 展开更清楚。</p>
+<h3 id="5-3-2-条件判断里的常见陷阱">5.3.2 条件判断里的常见陷阱</h3>
+<h4 id="陷阱-1：把-写成">陷阱 1：把 = 写成 ==</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br><br><span class="hljs-keyword">if</span> (score = <span class="hljs-number">60</span>)   <span class="hljs-comment">// 错误：这是赋值</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;会执行\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>score = 60</code> 的结果是 <code>60</code>，在条件里被当作真，所以代码会执行。但这通常不是你想要的效果。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score == <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等于 60\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>有些团队会写成：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-number">60</span> == score)<br></code></pre></td></tr></table></figure>
+<p>这样如果不小心少写了一个等号，写成 <code>if (60 = score)</code>，编译器会直接报错，因为不能给常量赋值。不过这种写法并不是所有人都喜欢，初学阶段知道有这回事即可。</p>
+<h4 id="陷阱-2：数学式链式比较">陷阱 2：数学式链式比较</h4>
+<p>数学里可以写：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">0 &lt;= score &lt;= 100<br></code></pre></td></tr></table></figure>
+<p>但在 C 语言里，这样写是错的：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-number">0</span> &lt;= score &lt;= <span class="hljs-number">100</span>)   <span class="hljs-comment">// 错误</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>因为 C 语言会先计算：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-number">0</span> &lt;= score<br></code></pre></td></tr></table></figure>
+<p>得到 <code>0</code> 或 <code>1</code>，再拿这个结果去和 <code>100</code> 比较：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">(<span class="hljs-number">0</span> &lt;= score) &lt;= <span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+<p>最终结果几乎总是真，无法表达“成绩在 0 到 100 之间”的意思。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">0</span> &amp;&amp; score &lt;= <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="陷阱-3：浮点数直接比较">陷阱 3：浮点数直接比较</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> average = <span class="hljs-number">0.1</span> + <span class="hljs-number">0.2</span>;<br><br><span class="hljs-keyword">if</span> (average == <span class="hljs-number">0.3</span>)   <span class="hljs-comment">// 不推荐</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>浮点数存在精度问题，不要直接用 <code>==</code> 比较。更稳妥的做法是判断差值是否足够小：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;math.h&gt;</span></span><br><br><span class="hljs-keyword">if</span> (<span class="hljs-built_in">fabs</span>(average - <span class="hljs-number">0.3</span>) &lt; <span class="hljs-number">1e-9</span>)<br>&#123;<br>    <span class="hljs-comment">// 认为两者足够接近</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>fabs</code> 来自 <code>&lt;math.h&gt;</code>，在部分环境下还需要在构建配置中链接数学库。</p>
+<h4 id="陷阱-4：条件过于复杂">陷阱 4：条件过于复杂</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span> &amp;&amp; attendance &gt;= <span class="hljs-number">80</span> &amp;&amp; homework &gt;= <span class="hljs-number">60</span> || special == <span class="hljs-number">1</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这段代码没有语法错误，但人类读起来很费劲。建议加括号，把意图写清楚：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> ((score &gt;= <span class="hljs-number">60</span> &amp;&amp; attendance &gt;= <span class="hljs-number">80</span> &amp;&amp; homework &gt;= <span class="hljs-number">60</span>) || special == <span class="hljs-number">1</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>条件越复杂，越要拆开写。</p>
+<h3 id="5-3-3-分支覆盖和边界测试">5.3.3 分支覆盖和边界测试</h3>
+<p>写分支代码时，不能只测试“正常情况”，还要测试每个分支和边界。</p>
+<p>以成绩等级为例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">90</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">80</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;B&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">70</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;C&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">60</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;D&#x27;</span>;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    grade = <span class="hljs-string">&#x27;F&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>至少应该测试这些值：</p>
+<table>
+<thead>
+<tr>
+<th>测试值</th>
+<th>预期等级</th>
+<th>测试目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>A</td>
+<td>上边界</td>
+</tr>
+<tr>
+<td>90</td>
+<td>A</td>
+<td>A 的下边界</td>
+</tr>
+<tr>
+<td>89</td>
+<td>B</td>
+<td>B 的上边界</td>
+</tr>
+<tr>
+<td>80</td>
+<td>B</td>
+<td>B 的下边界</td>
+</tr>
+<tr>
+<td>79</td>
+<td>C</td>
+<td>C 的上边界</td>
+</tr>
+<tr>
+<td>70</td>
+<td>C</td>
+<td>C 的下边界</td>
+</tr>
+<tr>
+<td>69</td>
+<td>D</td>
+<td>D 的上边界</td>
+</tr>
+<tr>
+<td>60</td>
+<td>D</td>
+<td>D 的下边界</td>
+</tr>
+<tr>
+<td>59</td>
+<td>F</td>
+<td>F 的上边界</td>
+</tr>
+<tr>
+<td>0</td>
+<td>F</td>
+<td>常用边界</td>
+</tr>
+<tr>
+<td>-1</td>
+<td>应被拒绝</td>
+<td>非法输入</td>
+</tr>
+<tr>
+<td>101</td>
+<td>应被拒绝</td>
+<td>非法输入</td>
+</tr>
+</tbody>
+</table>
+<p>这里最容易出错的是 <code>&gt;</code> 和 <code>&gt;=</code>。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt; <span class="hljs-number">90</span>)<br></code></pre></td></tr></table></figure>
+<p>和：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">90</span>)<br></code></pre></td></tr></table></figure>
+<p>只差一个等号，90 分的等级就完全不同。</p>
+<p>写边界条件时，问自己：</p>
+<ul>
+<li>等于边界值时，应该走哪个分支？</li>
+<li>刚好比边界值小 1，应该走哪个分支？</li>
+<li>刚好比边界值大 1，应该走哪个分支？</li>
+</ul>
+<h3 id="5-3-4-防御性编程">5.3.4 防御性编程</h3>
+<p>防御性编程的核心思想是：</p>
+<blockquote>
+<p>不要假设用户一定会输入正确的内容，也不要假设数据一定合法。</p>
+</blockquote>
+<p>例如，成绩应该在 0 到 100 之间。如果用户输入了 <code>-10</code> 或 <code>200</code>，程序应该拒绝，而不是继续计算等级。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span> || score &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩必须在 0 到 100 之间。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>把这段检查放在计算之前。</p>
+<p>防御性编程常见做法：</p>
+<ol>
+<li>先检查输入是否合法；</li>
+<li>检查除数是否为 0；</li>
+<li>检查数组下标是否越界；</li>
+<li>对 <code>switch</code> 设置 <code>default</code>；</li>
+<li>对文件读取、内存申请等可能失败的操作检查返回值；</li>
+<li>错误发生时，给出清楚提示并安全退出。</li>
+</ol>
+<p>在第 3 章，咱们已经学过检查 <code>scanf</code> 的返回值。这就是防御性编程的一部分。</p>
+<h3 id="5-3-5-用提前返回减少嵌套">5.3.5 用提前返回减少嵌套</h3>
+<p>嵌套太深会让人读得很累。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">0</span> &amp;&amp; score &lt;= <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-keyword">if</span> (attendance &gt;= <span class="hljs-number">0</span> &amp;&amp; attendance &lt;= <span class="hljs-number">100</span>)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (homework &gt;= <span class="hljs-number">0</span> &amp;&amp; homework &lt;= <span class="hljs-number">100</span>)<br>        &#123;<br>            <span class="hljs-comment">// 真正的计算逻辑</span><br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;作业成绩不合法。\n&quot;</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;出勤成绩不合法。\n&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;考试成绩不合法。\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可以改成“先检查错误，提前返回”：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span> || score &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;考试成绩不合法。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-keyword">if</span> (attendance &lt; <span class="hljs-number">0</span> || attendance &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;出勤成绩不合法。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-keyword">if</span> (homework &lt; <span class="hljs-number">0</span> || homework &gt; <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;作业成绩不合法。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-comment">// 真正的计算逻辑</span><br></code></pre></td></tr></table></figure>
+<p>这样层次更浅，读起来也更顺。</p>
+<h3 id="5-3-6-switch-的更多细节">5.3.6 switch 的更多细节</h3>
+<h4 id="case-必须是常量">case 必须是常量</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> max = <span class="hljs-number">100</span>;<br><br><span class="hljs-keyword">switch</span> (score)<br>&#123;<br>    <span class="hljs-keyword">case</span> max:   <span class="hljs-comment">// 错误：case 不能使用变量</span><br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>case</code> 后面必须是整数常量表达式。</p>
+<h4 id="switch-不能判断浮点数和字符串">switch 不能判断浮点数和字符串</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br><br><span class="hljs-keyword">switch</span> (score)   <span class="hljs-comment">// 错误：switch 不能用于 double</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>switch</code> 一般用于整数和字符，不能直接用于 <code>double</code> 或字符串。</p>
+<h4 id="重复的-case-会报错">重复的 case 会报错</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">switch</span> (choice)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:   <span class="hljs-comment">// 错误：重复的 case</span><br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="default-不一定要放最后">default 不一定要放最后</h4>
+<p><code>default</code> 可以放在任意位置，但放在最后更符合阅读习惯。</p>
+<h4 id="break-只跳出-switch">break 只跳出 switch</h4>
+<p><code>break</code> 在 <code>switch</code> 中只跳出当前 <code>switch</code>，不会跳出外面的循环。</p>
+<p>如果 <code>switch</code> 放在循环里，这点尤其要注意。</p>
+<h4 id="用-switch-设计简单菜单状态机">用 switch 设计简单菜单状态机</h4>
+<p><code>switch</code> 很适合做菜单。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> choice = <span class="hljs-number">-1</span>;<br><span class="hljs-type">int</span> running = <span class="hljs-number">1</span>;<br><br><span class="hljs-keyword">while</span> (running)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n1. 添加学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2. 删除学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请选择：&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;choice) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">switch</span> (choice)<br>    &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;执行添加学生。\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;执行删除学生。\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>            running = <span class="hljs-number">0</span>;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出程序。\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">default</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择，请重新输入。\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里 <code>switch</code> 负责“选择哪个功能”，<code>while</code> 负责“反复显示菜单”。等第 6 章学完循环后，这个模式会更完整。</p>
+<h4 id="有意利用贯穿">有意利用贯穿</h4>
+<p>有时多个 <code>case</code> 可以共用同一段代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">switch</span> (grade)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;A&#x27;</span>:<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;B&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;良好以上\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;C&#x27;</span>:<br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;D&#x27;</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;合格\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">default</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;不合格或未知\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这叫有意贯穿。需要贯穿时，最好写一句注释说明，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;A&#x27;</span>:<br><span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;B&#x27;</span>:<br>    <span class="hljs-comment">// A 和 B 都按“良好以上”处理</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;良好以上\n&quot;</span>);<br>    <span class="hljs-keyword">break</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="5-3-7-本章代码规范：条件可读，避免过深嵌套">5.3.7 本章代码规范：条件可读，避免过深嵌套</h3>
+<p>这一章最重要的两条规范是：</p>
+<ol>
+<li>
+<p><strong>条件要可读</strong></p>
+<ul>
+<li>复杂条件加括号；</li>
+<li>避免写成一长串没有换行的逻辑；</li>
+<li>不要把 <code>=</code> 和 <code>==</code> 写混。</li>
+</ul>
+</li>
+<li>
+<p><strong>避免过深嵌套</strong></p>
+<ul>
+<li>嵌套尽量控制在 2 到 3 层；</li>
+<li>可以用提前返回减少嵌套；</li>
+<li>复杂逻辑可以拆成小函数。</li>
+</ul>
+</li>
+</ol>
+<p>其他小习惯：</p>
+<ul>
+<li><code>if</code>、<code>else</code>、<code>else if</code>、<code>switch</code>、<code>case</code> 都使用统一缩进；</li>
+<li>即使分支里只有一条语句，也建议使用花括号；</li>
+<li>每个 <code>case</code> 通常写 <code>break;</code>；</li>
+<li><code>switch</code> 通常写 <code>default</code>；</li>
+<li>条件判断尽量从简单、明确的写起；</li>
+<li>不要写 <code>if (x = 0)</code> 这种容易误会的代码。</li>
+</ul>
+<hr>
+<h2 id="5-4-项目回扣：学生管理系统-v0-5">5.4 项目回扣：学生管理系统 v0.5</h2>
+<p>本章的目标是让学生管理系统根据平均分评定等级。</p>
+<p>在 v0.4 中，咱们已经能计算平均分。现在加上等级评定，并用 <code>switch</code> 输出等级说明。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">int</span> chinese = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> math = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> english = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> total = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">double</span> average = <span class="hljs-number">0.0</span>;<br>    <span class="hljs-type">char</span> grade = <span class="hljs-string">&#x27;F&#x27;</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;===== 学生成绩等级评定 v0.5 =====\n&quot;</span>);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入语文成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;chinese) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;语文成绩输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入数学成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;math) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;数学成绩输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入英语成绩：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;english) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;英语成绩输入无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (chinese &lt; <span class="hljs-number">0</span> || chinese &gt; <span class="hljs-number">100</span> ||<br>        math &lt; <span class="hljs-number">0</span> || math &gt; <span class="hljs-number">100</span> ||<br>        english &lt; <span class="hljs-number">0</span> || english &gt; <span class="hljs-number">100</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;每门成绩都必须在 0 到 100 之间。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    total = chinese + math + english;<br>    average = total / <span class="hljs-number">3.0</span>;<br><br>    <span class="hljs-keyword">if</span> (average &gt;= <span class="hljs-number">90.0</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= <span class="hljs-number">80.0</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;B&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= <span class="hljs-number">70.0</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;C&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (average &gt;= <span class="hljs-number">60.0</span>)<br>    &#123;<br>        grade = <span class="hljs-string">&#x27;D&#x27;</span>;<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        grade = <span class="hljs-string">&#x27;F&#x27;</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 成绩结果 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;总分：%d\n&quot;</span>, total);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;平均分：%.2f\n&quot;</span>, average);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;等级：%c\n&quot;</span>, grade);<br><br>    <span class="hljs-keyword">switch</span> (grade)<br>    &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;A&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;评价：优秀\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;B&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;评价：良好\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;C&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;评价：中等\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;D&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;评价：及格\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;F&#x27;</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;评价：不及格\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">default</span>:<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;评价：未知等级\n&quot;</span>);<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行示例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生成绩等级评定 v0.5 =====<br>请输入语文成绩：90<br>请输入数学成绩：95<br>请输入英语成绩：88<br><br>===== 成绩结果 =====<br>总分：273<br>平均分：91.00<br>等级：A<br>评价：优秀<br>====================<br></code></pre></td></tr></table></figure>
+<p>这个版本做了几件事：</p>
+<ul>
+<li>检查每门成绩是否在 0 到 100 之间；</li>
+<li>计算总分和平均分；</li>
+<li>用 <code>if ... else if ... else</code> 评定等级；</li>
+<li>用 <code>switch</code> 根据等级输出评价；</li>
+<li>为 <code>switch</code> 提供了 <code>default</code>。</li>
+</ul>
+<p>目前程序一次只能处理一位学生，而且不能保存数据。</p>
+<p>第 6 章会让程序学会循环，这样就能重复录入多位学生，不用每次都重新运行。</p>
+<hr>
+<h2 id="5-5-本章代码规范提示">5.5 本章代码规范提示</h2>
+<ul>
+<li>条件要可读，复杂条件加括号。</li>
+<li><code>=</code> 是赋值，<code>==</code> 是判断相等。</li>
+<li>不要写数学式链式比较，例如 <code>0 &lt;= score &lt;= 100</code>。</li>
+<li>浮点数不要直接用 <code>==</code> 比较。</li>
+<li>分支嵌套尽量不超过 2 到 3 层。</li>
+<li>可以用提前返回减少嵌套。</li>
+<li><code>if</code>、<code>else</code>、<code>else if</code> 即使只有一条语句，也建议加花括号。</li>
+<li><code>switch</code> 的每个 <code>case</code> 通常要写 <code>break;</code>。</li>
+<li><code>switch</code> 通常要写 <code>default</code>。</li>
+<li><code>case</code> 后面必须是常量，不能是变量。</li>
+<li>不要在 <code>switch</code> 中使用浮点数或字符串作为判断值。</li>
+<li>边界条件要认真测试，例如 59、60、89、90。</li>
+</ul>
+<hr>
+<h2 id="5-6-常见错误">5.6 常见错误</h2>
+<h3 id="错误-1：把-写成">错误 1：把 == 写成 =</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> score = <span class="hljs-number">80</span>;<br><br><span class="hljs-keyword">if</span> (score = <span class="hljs-number">60</span>)   <span class="hljs-comment">// 错误：这是赋值</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score == <span class="hljs-number">60</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：数学式链式比较">错误 2：数学式链式比较</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-number">0</span> &lt;= score &lt;= <span class="hljs-number">100</span>)   <span class="hljs-comment">// 错误</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">0</span> &amp;&amp; score &lt;= <span class="hljs-number">100</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-3：else-和-if-配对错误">错误 3：else 和 if 配对错误</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (a &gt; <span class="hljs-number">0</span>)<br>    <span class="hljs-keyword">if</span> (b &gt; <span class="hljs-number">0</span>)<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a 和 b 都大于 0\n&quot;</span>);<br><span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;b 不大于 0\n&quot;</span>);<br></code></pre></td></tr></table></figure>
+<p>这里 <code>else</code> 会和最近的 <code>if</code> 配对，可能不是你想要的结果。</p>
+<p>建议始终使用花括号：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (a &gt; <span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-keyword">if</span> (b &gt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a 和 b 都大于 0\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;b 不大于 0\n&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-4：switch-忘记写-break">错误 4：switch 忘记写 break</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">switch</span> (choice)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;选项 1\n&quot;</span>);<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;选项 2\n&quot;</span>);<br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果选择 1，会连续输出两行。通常要给每个 <code>case</code> 加上 <code>break;</code>。</p>
+<h3 id="错误-5：switch-判断浮点数">错误 5：switch 判断浮点数</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> score = <span class="hljs-number">95.5</span>;<br><br><span class="hljs-keyword">switch</span> (score)   <span class="hljs-comment">// 错误</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>switch</code> 不能直接判断浮点数或字符串。</p>
+<h3 id="错误-6：case-使用变量">错误 6：case 使用变量</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> max = <span class="hljs-number">100</span>;<br><br><span class="hljs-keyword">switch</span> (score)<br>&#123;<br>    <span class="hljs-keyword">case</span> max:   <span class="hljs-comment">// 错误</span><br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>case</code> 后面必须是常量表达式。</p>
+<h3 id="错误-7：重复的-case">错误 7：重复的 case</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">switch</span> (choice)<br>&#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>        <span class="hljs-keyword">break</span>;<br><br>    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:   <span class="hljs-comment">// 错误</span><br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>同一个 <code>switch</code> 里不能出现重复的 <code>case</code> 值。</p>
+<h3 id="错误-8：边界条件写错">错误 8：边界条件写错</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt; <span class="hljs-number">90</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这样写的话，90 分得不到 A。</p>
+<p>如果 90 分应该算 A，就要用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (score &gt;= <span class="hljs-number">90</span>)<br>&#123;<br>    grade = <span class="hljs-string">&#x27;A&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-9：分支嵌套太深">错误 9：分支嵌套太深</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (...)<br>&#123;<br>    <span class="hljs-keyword">if</span> (...)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (...)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (...)<br>            &#123;<br>                <span class="hljs-comment">// ...</span><br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>嵌套太深会增加阅读难度，也容易漏掉分支。可以用提前返回、拆分函数或重新整理条件来减少嵌套。</p>
+<hr>
+<h2 id="5-7-总结与自测">5.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p><code>if</code> 系列适合范围和复杂条件，<code>switch</code> 适合判断固定值；写分支时要保证条件可读、边界正确、嵌套不要太深，并记得给 <code>switch</code> 写 <code>break</code> 和 <code>default</code>。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li><code>if</code>、<code>else if</code>、<code>else</code> 的执行顺序是怎样的？</li>
+<li>什么情况下适合使用 <code>switch</code>？</li>
+<li><code>switch</code> 中的 <code>break</code> 有什么作用？</li>
+<li><code>default</code> 有什么作用？</li>
+<li>为什么 <code>0 &lt;= score &lt;= 100</code> 不能正确判断成绩范围？</li>
+<li><code>=</code> 和 <code>==</code> 有什么区别？</li>
+<li>如何减少分支嵌套？</li>
+<li>为什么 <code>switch</code> 通常不能判断浮点数？</li>
+<li><code>case</code> 后面可以写变量吗？</li>
+<li>测试分支时，为什么要注意 59、60、89、90 这些边界值？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>从上往下依次判断，哪个条件先为真就执行哪个分支，后面的分支不再执行。</li>
+<li>当需要判断某个表达式的值是否等于若干固定常量时，适合使用 <code>switch</code>。</li>
+<li><code>break</code> 用来跳出 <code>switch</code>，防止继续执行后面的 <code>case</code>。</li>
+<li><code>default</code> 用来处理所有 <code>case</code> 都没有匹配到的情况。</li>
+<li>因为 C 语言会先计算 <code>0 &lt;= score</code> 得到 0 或 1，再拿这个结果和 100 比较，无法表达区间判断。</li>
+<li><code>=</code> 是赋值，<code>==</code> 是判断相等。</li>
+<li>可以使用提前返回、拆分函数、整理条件顺序等方式减少嵌套。</li>
+<li>因为 <code>switch</code> 通常要求表达式是整数类型或字符类型，不能直接用于 <code>double</code>。</li>
+<li>不可以，<code>case</code> 后面必须是常量表达式。</li>
+<li>因为这些值正好在等级分界点附近，容易暴露 <code>&gt;</code> 和 <code>&gt;=</code> 写错的问题。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>写一个“成绩等级与菜单”的小程序。</p>
+<p>要求：</p>
+<ol>
+<li>输入一个 0 到 100 的成绩；</li>
+<li>使用 <code>if ... else if ... else</code> 输出等级 A、B、C、D、F；</li>
+<li>再用 <code>switch</code> 根据等级输出一句评价；</li>
+<li>如果成绩不在 0 到 100 之间，输出“成绩不合法”；</li>
+<li>思考并写出：如果把 <code>score &gt;= 90</code> 写成 <code>score &gt; 90</code>，90 分会发生什么？</li>
+</ol>
+<hr>
+<h2 id="5-8-下一章">5.8 下一章</h2>
+<p>现在程序已经会根据条件做选择了，但每运行一次只能处理一次输入。</p>
+<p>下一章，咱们要让程序学会重复执行，也就是循环结构。</p>
+<p>关键词是：</p>
+<blockquote>
+<p><code>while</code>、<code>for</code>、<code>do-while</code>。</p>
+</blockquote>
+<p><strong>下一章：第 6 章《循环结构》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>

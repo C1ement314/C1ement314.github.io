@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
+                        <span>Home</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button active">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="c" class="icon">C语言教程
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        第 10 章：字符串
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p><strong>本章目标</strong></p>
+<ol>
+<li>理解字符数组、字符串字面量和字符串结束符 <code>\0</code>。</li>
+<li>掌握字符串的输入输出、长度、复制、拼接和比较。</li>
+<li>学会使用 <code>&lt;string.h&gt;</code> 中的常用函数，并注意缓冲区边界。</li>
+<li>用字符串处理学生姓名，完成学生管理系统 v0.9 的姓名查找。</li>
+</ol>
+<p><strong>阅读提示</strong></p>
+<p>基础篇先让你会定义、输入、输出和处理字符串。进阶篇会讲 <code>\0</code> 结束符、字符串字面量、安全函数、缓冲区边界和常见陷阱，建议第二遍精读。</p>
+</blockquote>
+<p>我是七平。上一章，咱们学会了数组，可以批量保存成绩了。</p>
+<p>但学生管理系统不能只有分数，还得有姓名。姓名、班级、地址、一句话，这些都属于<strong>文本数据</strong>。</p>
+<p>在 C 语言里，文本数据主要靠<strong>字符串</strong>来处理。</p>
+<hr>
+<h2 id="10-1-先导：C-语言里的字符串是什么？">10.1 先导：C 语言里的字符串是什么？</h2>
+<p>C 语言没有独立的“字符串类型”。</p>
+<p>字符串本质上是一个<strong>以 <code>\0</code> 结尾的字符数组</strong>。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">20</span>] = <span class="hljs-string">&quot;七平&quot;</span>;<br></code></pre></td></tr></table></figure>
+<p>可以简单理解为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">+-----+-----+------+------+ ... +------+<br>| &#x27;h&#x27; | &#x27;i&#x27; | &#x27;\0&#x27; |  ?   |     |  ?   |<br>+-----+-----+------+------+ ... +------+<br></code></pre></td></tr></table></figure>
+<p>注意：上面用 ASCII 字符串画图，是为了让每个字节对应一个格子。中文字符串在 UTF-8 编码下，一个汉字通常占多个字节，例如 <code>strlen(&quot;七平&quot;)</code> 返回的是字节数，而不是汉字个数。</p>
+<p>这里：</p>
+<ul>
+<li><code>char</code> 表示每个元素存放一个字符；</li>
+<li>字符串末尾必须有一个 <code>'\0'</code>；</li>
+<li><code>'\0'</code> 叫<strong>空字符</strong>，用来标记字符串结束；</li>
+<li>后面的元素有没有被使用，取决于初始化方式和字符串长度。</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li><code>'A'</code> 是字符；</li>
+<li><code>&quot;A&quot;</code> 是字符串；</li>
+<li><code>'\0'</code> 是空字符；</li>
+<li><code>'0'</code> 是数字字符，不是空字符。</li>
+</ul>
+<p>在 ASCII 兼容环境中：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">&#x27;\0&#x27; 的值是 0<br>&#x27;0&#x27;  的值是 48<br>&#x27;A&#x27;  的值是 65<br></code></pre></td></tr></table></figure>
+<p>但 C 语言标准并不强制使用 ASCII，所以不要死记这些数字，理解它们“不是同一个东西”更重要。</p>
+<hr>
+<h2 id="10-2-基础篇：先会用">10.2 基础篇：先会用</h2>
+<h3 id="10-2-1-字符数组与字符串字面量">10.2.1 字符数组与字符串字面量</h3>
+<p>字符数组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> letters[<span class="hljs-number">5</span>] = &#123;<span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>注意：这个数组里没有 <code>'\0'</code>，所以它不是一个标准意义上的字符串。用 <code>printf(&quot;%s&quot;, letters)</code> 输出它是不安全的。</p>
+<p>字符串字面量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">20</span>] = <span class="hljs-string">&quot;七平&quot;</span>;<br></code></pre></td></tr></table></figure>
+<p>字符串字面量 <code>&quot;七平&quot;</code> 本身会自动带上结束符 <code>\0</code>。</p>
+<p>也可以让编译器自动推断长度：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> greeting[] = <span class="hljs-string">&quot;hello&quot;</span>;<br></code></pre></td></tr></table></figure>
+<p>这个数组的长度是 6：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">+-----+-----+-----+-----+-----+------+<br>| &#x27;h&#x27; | &#x27;e&#x27; | &#x27;l&#x27; | &#x27;l&#x27; | &#x27;o&#x27; | &#x27;\0&#x27; |<br>+-----+-----+-----+-----+-----+------+<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>字符串 <code>&quot;hello&quot;</code> 看起来是 5 个字符，但数组长度是 6，因为还有 <code>'\0'</code>；</li>
+<li>中文在 UTF-8 编码中通常一个汉字占多个字节，所以保存中文时，数组长度要留够；</li>
+<li>数组不能整体赋值，字符串也一样。</li>
+</ul>
+<p>错误写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> a[<span class="hljs-number">10</span>];<br><span class="hljs-type">char</span> b[<span class="hljs-number">10</span>] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br>a = b;   <span class="hljs-comment">// 错误：数组不能整体赋值</span><br></code></pre></td></tr></table></figure>
+<p>正确写法之一是使用 <code>strcpy</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">char</span> a[<span class="hljs-number">10</span>];<br><span class="hljs-type">char</span> b[<span class="hljs-number">10</span>] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-built_in">strcpy</span>(a, b);   <span class="hljs-comment">// 把 b 的内容复制到 a</span><br></code></pre></td></tr></table></figure>
+<p>但使用 <code>strcpy</code> 前必须确认目标数组足够大。</p>
+<h3 id="10-2-2-字符串的输出">10.2.2 字符串的输出</h3>
+<p>输出字符串使用 <code>%s</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">20</span>] = <span class="hljs-string">&quot;七平&quot;</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名：%s\n&quot;</span>, name);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">姓名：七平<br></code></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>输出字符串不需要写 <code>&amp;name</code>；</li>
+<li><code>%s</code> 会从字符串开头一直输出到 <code>'\0'</code> 为止；</li>
+<li>如果字符串缺少 <code>'\0'</code>，<code>printf</code> 可能会继续读取后面的内存，造成未定义行为。</li>
+</ul>
+<p>还可以使用 <code>puts</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">puts</span>(name);<br></code></pre></td></tr></table></figure>
+<p><code>puts</code> 会输出字符串，并自动换行。</p>
+<p><code>fputs</code> 也可以输出字符串，但不会自动换行：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">fputs</span>(name, <span class="hljs-built_in">stdout</span>);<br></code></pre></td></tr></table></figure>
+<p>初学阶段，<code>printf(&quot;%s&quot;, name)</code> 和 <code>puts(name)</code> 就够用了。</p>
+<h3 id="10-2-3-字符串的输入">10.2.3 字符串的输入</h3>
+<h4 id="用-scanf-读取单词">用 scanf 读取单词</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">20</span>];<br><br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, name);<br></code></pre></td></tr></table></figure>
+<p><code>%s</code> 的特点是：</p>
+<ul>
+<li>会跳过前面的空白字符；</li>
+<li>遇到空格、制表符、换行就停止；</li>
+<li>自动在末尾补 <code>'\0'</code>；</li>
+<li>不能读取带空格的姓名或句子；</li>
+<li>不限制宽度时，可能造成缓冲区溢出。</li>
+</ul>
+<p>更安全的写法是限制宽度：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">20</span>];<br><br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%19s&quot;</span>, name);<br></code></pre></td></tr></table></figure>
+<p><code>%19s</code> 表示最多读取 19 个字符，给末尾的 <code>'\0'</code> 留一个位置。</p>
+<p>但带空格的姓名仍然读不了，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">七平 同学<br></code></pre></td></tr></table></figure>
+<p>用 <code>%s</code> 只会读到 <code>七平</code>。</p>
+<h4 id="用-fgets-读取一行">用 fgets 读取一行</h4>
+<p>读取一行文本，优先使用 <code>fgets</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">char</span> name[<span class="hljs-number">50</span>];<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入姓名：&quot;</span>);<br>    <span class="hljs-keyword">if</span> (fgets(name, <span class="hljs-keyword">sizeof</span>(name), <span class="hljs-built_in">stdin</span>) != <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        name[<span class="hljs-built_in">strcspn</span>(name, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;你好，%s！\n&quot;</span>, name);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>fgets</code> 的特点：</p>
+<ul>
+<li>最多读取 <code>size - 1</code> 个字符；</li>
+<li>会在末尾补 <code>'\0'</code>；</li>
+<li>如果这一行没有超过缓冲区大小，通常会把换行符也读进去；</li>
+<li>读取失败或没有读到字符时，返回 <code>NULL</code>。</li>
+</ul>
+<h4 id="去掉-fgets-读到的换行符">去掉 fgets 读到的换行符</h4>
+<p>常见方法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">name[<span class="hljs-built_in">strcspn</span>(name, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p><code>strcspn</code> 返回“从开头到第一个换行符之前的字符数”。如果字符串里没有换行符，它返回整个字符串的长度，此时下标正好指向 <code>'\0'</code>，赋值也不会出错。</p>
+<h4 id="不要使用-gets">不要使用 gets</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">gets(name);   <span class="hljs-comment">// 危险：C11 已移除</span><br></code></pre></td></tr></table></figure>
+<p><code>gets</code> 不限制输入长度，极易造成缓冲区溢出。不要使用它。</p>
+<h3 id="10-2-4-常用-string-h-函数">10.2.4 常用 string.h 函数</h3>
+<p>使用字符串函数前，需要包含：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br></code></pre></td></tr></table></figure>
+<p>常见函数如下：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+<th>简单示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strlen</code></td>
+<td>求字符串长度，不包含 <code>'\0'</code></td>
+<td><code>strlen(&quot;hello&quot;)</code> 得到 5</td>
+</tr>
+<tr>
+<td><code>strcpy</code></td>
+<td>复制字符串，包含 <code>'\0'</code></td>
+<td><code>strcpy(dest, src)</code></td>
+</tr>
+<tr>
+<td><code>strncpy</code></td>
+<td>最多复制 n 个字符</td>
+<td><code>strncpy(dest, src, n)</code></td>
+</tr>
+<tr>
+<td><code>strcat</code></td>
+<td>拼接字符串</td>
+<td><code>strcat(dest, src)</code></td>
+</tr>
+<tr>
+<td><code>strncat</code></td>
+<td>最多拼接 n 个字符</td>
+<td><code>strncat(dest, src, n)</code></td>
+</tr>
+<tr>
+<td><code>strcmp</code></td>
+<td>比较字符串</td>
+<td><code>strcmp(a, b)</code></td>
+</tr>
+<tr>
+<td><code>strncmp</code></td>
+<td>比较前 n 个字符</td>
+<td><code>strncmp(a, b, n)</code></td>
+</tr>
+<tr>
+<td><code>strchr</code></td>
+<td>查找字符</td>
+<td><code>strchr(s, 'a')</code></td>
+</tr>
+<tr>
+<td><code>strstr</code></td>
+<td>查找子串</td>
+<td><code>strstr(s, &quot;abc&quot;)</code></td>
+</tr>
+<tr>
+<td><code>strcspn</code></td>
+<td>查找第一个匹配字符出现前的位置</td>
+<td><code>strcspn(s, &quot;\n&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="strlen">strlen</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">char</span> name[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;长度：%zu\n&quot;</span>, <span class="hljs-built_in">strlen</span>(name));<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">长度：5<br></code></pre></td></tr></table></figure>
+<p><code>strlen</code> 不包含结尾的 <code>'\0'</code>。</p>
+<p><code>strlen</code> 返回类型是 <code>size_t</code>，<code>printf</code> 输出时推荐使用 <code>%zu</code>。</p>
+<h4 id="strcpy">strcpy</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">20</span>];<br><span class="hljs-type">char</span> src[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-built_in">strcpy</span>(dest, src);<br></code></pre></td></tr></table></figure>
+<p><code>strcpy</code> 会把 <code>src</code> 连 <code>'\0'</code> 一起复制到 <code>dest</code>。</p>
+<p>危险点：</p>
+<blockquote>
+<p>如果 <code>dest</code> 不够大，就会缓冲区溢出。</p>
+</blockquote>
+<h4 id="strncpy">strncpy</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">20</span>];<br><span class="hljs-type">char</span> src[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-built_in">strncpy</span>(dest, src, <span class="hljs-keyword">sizeof</span>(dest) - <span class="hljs-number">1</span>);<br>dest[<span class="hljs-keyword">sizeof</span>(dest) - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p><code>strncpy</code> 最多复制 n 个字符。</p>
+<p>注意：如果源字符串长度大于等于 n，<code>strncpy</code> 不一定会自动补 <code>'\0'</code>，所以通常要手动补上：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">dest[n - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="strcat">strcat</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">20</span>] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> src[] = <span class="hljs-string">&quot; world&quot;</span>;<br><br><span class="hljs-built_in">strcat</span>(dest, src);<br></code></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">hello world<br></code></pre></td></tr></table></figure>
+<p><code>strcat</code> 会把 <code>src</code> 拼接到 <code>dest</code> 末尾。</p>
+<p>危险点：</p>
+<blockquote>
+<p><code>dest</code> 必须有足够的剩余空间，否则会缓冲区溢出。</p>
+</blockquote>
+<h4 id="strcmp">strcmp</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">char</span> a[] = <span class="hljs-string">&quot;apple&quot;</span>;<br>    <span class="hljs-type">char</span> b[] = <span class="hljs-string">&quot;banana&quot;</span>;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(a, b) &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a 排在 b 前面\n&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>strcmp</code> 的返回值：</p>
+<ul>
+<li>小于 0：第一个字符串小于第二个；</li>
+<li>等于 0：两个字符串相等；</li>
+<li>大于 0：第一个字符串大于第二个。</li>
+</ul>
+<p>注意：<code>strcmp</code> 返回的不一定是 -1、0、1，不要写 <code>strcmp(a, b) == 1</code> 来判断“大于”，应该用 <code>&lt; 0</code>、<code>== 0</code>、<code>&gt; 0</code>。</p>
+<h4 id="strcmp-和-的区别">strcmp 和 == 的区别</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> a[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> b[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-keyword">if</span> (a == b)   <span class="hljs-comment">// 错误：比较的是数组地址，不是字符串内容</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;相等\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(a, b) == <span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;相等\n&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="strchr-和-strstr">strchr 和 strstr</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello world&quot;</span>;<br><br><span class="hljs-type">char</span> *p1 = <span class="hljs-built_in">strchr</span>(s, <span class="hljs-string">&#x27;w&#x27;</span>);    <span class="hljs-comment">// 查找字符</span><br><span class="hljs-type">char</span> *p2 = <span class="hljs-built_in">strstr</span>(s, <span class="hljs-string">&quot;world&quot;</span>); <span class="hljs-comment">// 查找子串</span><br></code></pre></td></tr></table></figure>
+<p>找到时返回指向相应位置的指针，找不到时返回 <code>NULL</code>。指针会在第 11 章详细讲，这里先混个眼熟。</p>
+<h3 id="10-2-5-遍历字符串">10.2.5 遍历字符串</h3>
+<p>因为字符串是以 <code>'\0'</code> 结尾的字符数组，所以可以这样遍历：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; s[i] != <span class="hljs-string">&#x27;\0&#x27;</span>; i++)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c\n&quot;</span>, s[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>也可以结合 <code>&lt;ctype.h&gt;</code> 中的函数处理字符，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ctype.h&gt;</span></span><br><br><span class="hljs-type">char</span> c = <span class="hljs-string">&#x27;a&#x27;</span>;<br><span class="hljs-type">char</span> upper = <span class="hljs-built_in">toupper</span>(c);   <span class="hljs-comment">// 得到 &#x27;A&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>但字符分类和转换不是本章重点，先知道有这些工具即可。</p>
+<h4 id="sizeof-和-strlen-的区别">sizeof 和 strlen 的区别</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;sizeof = %zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(s));   <span class="hljs-comment">// 6</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;strlen = %zu\n&quot;</span>, <span class="hljs-built_in">strlen</span>(s));   <span class="hljs-comment">// 5</span><br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>sizeof</code> 包含结尾的 <code>'\0'</code>；</li>
+<li><code>strlen</code> 不包含结尾的 <code>'\0'</code>。</li>
+</ul>
+<h3 id="10-2-6-二维字符数组">10.2.6 二维字符数组</h3>
+<p>二维字符数组可以保存多个字符串：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> names[<span class="hljs-number">3</span>][<span class="hljs-number">20</span>] = &#123;<br>    <span class="hljs-string">&quot;七平&quot;</span>,<br>    <span class="hljs-string">&quot;小明&quot;</span>,<br>    <span class="hljs-string">&quot;小红&quot;</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>可以理解为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">names[0] -&gt; &quot;七平&quot;<br>names[1] -&gt; &quot;小明&quot;<br>names[2] -&gt; &quot;小红&quot;<br></code></pre></td></tr></table></figure>
+<p>访问：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, names[<span class="hljs-number">0</span>]);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, names[<span class="hljs-number">1</span>]);<br></code></pre></td></tr></table></figure>
+<p>遍历：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++)<br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, names[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这种结构将在项目 v0.9 中用来保存学生姓名。</p>
+<h3 id="10-2-7-基础篇小练习">10.2.7 基础篇小练习</h3>
+<ol>
+<li>定义一个字符数组，保存你的名字，并输出。</li>
+<li>用 <code>fgets</code> 读取一行姓名，并去掉换行符。</li>
+<li>用 <code>strlen</code> 输出字符串长度。</li>
+<li>用 <code>strcpy</code> 复制一个字符串。</li>
+<li>用 <code>strcat</code> 拼接两个字符串。</li>
+<li>用 <code>strcmp</code> 比较两个字符串是否相等。</li>
+<li>定义一个二维字符数组，保存 3 个人的名字，并全部输出。</li>
+<li>判断下面数组是不是字符串：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> a[<span class="hljs-number">5</span>] = &#123;<span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>&#125;;<br><span class="hljs-type">char</span> b[<span class="hljs-number">6</span>] = &#123;<span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;l&#x27;</span>, <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&#x27;\0&#x27;</span>&#125;;<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="10-3-进阶篇：再懂原理">10.3 进阶篇：再懂原理</h2>
+<p>基础篇让你会使用字符串了。进阶篇要讲清楚：为什么字符串必须以 <code>\0</code> 结尾，为什么有些字符串函数很危险，以及怎样避免缓冲区问题。</p>
+<h3 id="10-3-1-0-结束符">10.3.1 <code>\0</code> 结束符</h3>
+<p><code>'\0'</code> 是空字符，它的值通常是 0。</p>
+<p>它和 <code>'0'</code> 完全不是一回事：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">&#x27;\0&#x27; 是空字符，用于标记字符串结束<br>&#x27;0&#x27;  是数字字符，用于表示字符 0<br></code></pre></td></tr></table></figure>
+<p>字符串函数通常靠 <code>'\0'</code> 判断在哪里停下来。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[<span class="hljs-number">4</span>] = &#123;<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;\0&#x27;</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>这是字符串。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[<span class="hljs-number">3</span>] = &#123;<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>这不是字符串，因为它没有结束符。用 <code>printf(&quot;%s&quot;, s)</code> 输出它时，函数会继续往后读，直到碰巧遇到一个 0，属于未定义行为。</p>
+<p>内存示意：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">字符串 &quot;abc&quot;：<br><br>+-----+-----+-----+------+<br>| &#x27;a&#x27; | &#x27;b&#x27; | &#x27;c&#x27; | &#x27;\0&#x27; |<br>+-----+-----+-----+------+<br></code></pre></td></tr></table></figure>
+<p>非字符串：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">+-----+-----+-----+<br>| &#x27;a&#x27; | &#x27;b&#x27; | &#x27;c&#x27; |<br>+-----+-----+-----+<br>没有 &#x27;\0&#x27;，字符串函数不知道在哪里停<br></code></pre></td></tr></table></figure>
+<p>所以，处理字符串时，要始终保证：</p>
+<blockquote>
+<p>缓冲区里确实有 <code>'\0'</code>，并且缓冲区足够大。</p>
+</blockquote>
+<h3 id="10-3-2-字符串字面量不可修改">10.3.2 字符串字面量不可修改</h3>
+<p>字符串字面量通常存放在只读区域。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *s = <span class="hljs-string">&quot;hello&quot;</span>;<br><br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;   <span class="hljs-comment">// 错误：修改字符串字面量属于未定义行为</span><br></code></pre></td></tr></table></figure>
+<p>如果想修改字符串，应该使用字符数组：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;   <span class="hljs-comment">// 可以：s 是可修改的字符数组</span><br></code></pre></td></tr></table></figure>
+<p>如果只是读取字符串，可以用 <code>const</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">char</span> *s = <span class="hljs-string">&quot;hello&quot;</span>;<br></code></pre></td></tr></table></figure>
+<p>关于“指针”和“数组”的区别，第 11 章会详细讲。这里先记住：</p>
+<blockquote>
+<p>用 <code>char s[] = &quot;hello&quot;;</code> 得到可修改副本；用 <code>char *s = &quot;hello&quot;;</code> 指向的通常是只读字符串字面量。</p>
+</blockquote>
+<h3 id="10-3-3-字符串输入与缓冲区边界">10.3.3 字符串输入与缓冲区边界</h3>
+<h4 id="scanf-“-s”-的危险">scanf(“%s”) 的危险</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">10</span>];<br><br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, name);<br></code></pre></td></tr></table></figure>
+<p>如果用户输入超过 9 个字符，就会溢出。</p>
+<p>更安全：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%9s&quot;</span>, name);<br></code></pre></td></tr></table></figure>
+<p>但 <code>%s</code> 仍然不能读取空格。</p>
+<h4 id="fgets-的边界">fgets 的边界</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">10</span>];<br><br>fgets(name, <span class="hljs-keyword">sizeof</span>(name), <span class="hljs-built_in">stdin</span>);<br></code></pre></td></tr></table></figure>
+<p><code>fgets</code> 最多读取 9 个字符，再加 <code>'\0'</code>。</p>
+<p>但如果输入很长，剩余字符会留在输入缓冲区里，可能影响下一次读取。</p>
+<h4 id="混用-scanf-和-fgets">混用 scanf 和 fgets</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> age = <span class="hljs-number">0</span>;<br><span class="hljs-type">char</span> name[<span class="hljs-number">20</span>];<br><br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>, &amp;age);<br>fgets(name, <span class="hljs-keyword">sizeof</span>(name), <span class="hljs-built_in">stdin</span>);   <span class="hljs-comment">// 可能直接读到换行符</span><br></code></pre></td></tr></table></figure>
+<p>因为 <code>scanf(&quot;%d&quot;)</code> 读走数字后，换行符还留在缓冲区，<code>fgets</code> 会先读到它。</p>
+<p>解决方案：</p>
+<ul>
+<li>统一使用 <code>fgets</code> 读整行，再用 <code>sscanf</code> 解析；</li>
+<li>或者在 <code>scanf</code> 后按标准方式处理剩余字符；</li>
+<li>不要使用 <code>fflush(stdin)</code>。</li>
+</ul>
+<h4 id="一个健壮的行输入函数">一个健壮的行输入函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (fgets(buffer, size, <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        buffer[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    buffer[<span class="hljs-built_in">strcspn</span>(buffer, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>使用时：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">50</span>];<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入姓名：&quot;</span>);<br>read_line(name, <span class="hljs-keyword">sizeof</span>(name));<br></code></pre></td></tr></table></figure>
+<h3 id="10-3-4-安全函数与常见陷阱">10.3.4 安全函数与常见陷阱</h3>
+<h4 id="1-strcpy-和-strcat-不检查目标大小">1. strcpy 和 strcat 不检查目标大小</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">5</span>];<br><span class="hljs-type">char</span> src[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-built_in">strcpy</span>(dest, src);   <span class="hljs-comment">// 危险：dest 太小</span><br></code></pre></td></tr></table></figure>
+<p>更安全的思路：</p>
+<ul>
+<li>使用 <code>strncpy</code> 并手动补 <code>'\0'</code>；</li>
+<li>使用 <code>strncat</code> 并计算剩余空间；</li>
+<li>使用 <code>snprintf</code> 进行有边界的格式化。</li>
+</ul>
+<h4 id="2-strncpy-不一定补-‘-0’">2. strncpy 不一定补 ‘\0’</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">5</span>];<br><br><span class="hljs-built_in">strncpy</span>(dest, <span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-keyword">sizeof</span>(dest));<br></code></pre></td></tr></table></figure>
+<p>如果源字符串长度大于等于 n，<code>dest</code> 可能没有 <code>'\0'</code>。</p>
+<p>安全写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">strncpy</span>(dest, src, <span class="hljs-keyword">sizeof</span>(dest) - <span class="hljs-number">1</span>);<br>dest[<span class="hljs-keyword">sizeof</span>(dest) - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="3-strncat-的第三个参数是“最多追加的字符数”">3. strncat 的第三个参数是“最多追加的字符数”</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">20</span>] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> src[] = <span class="hljs-string">&quot; world&quot;</span>;<br><br><span class="hljs-built_in">strncat</span>(dest, src, <span class="hljs-keyword">sizeof</span>(dest) - <span class="hljs-built_in">strlen</span>(dest) - <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+<p><code>strncat</code> 会在追加后自动补 <code>'\0'</code>，但 <code>dest</code> 必须有足够的剩余空间。</p>
+<h4 id="4-sprintf-不安全，优先-snprintf">4. sprintf 不安全，优先 snprintf</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> buffer[<span class="hljs-number">10</span>];<br><span class="hljs-type">int</span> score = <span class="hljs-number">100</span>;<br><br><span class="hljs-built_in">sprintf</span>(buffer, <span class="hljs-string">&quot;分数：%d&quot;</span>, score);   <span class="hljs-comment">// 危险</span><br></code></pre></td></tr></table></figure>
+<p>更安全：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">snprintf</span>(buffer, <span class="hljs-keyword">sizeof</span>(buffer), <span class="hljs-string">&quot;分数：%d&quot;</span>, score);<br></code></pre></td></tr></table></figure>
+<p><code>snprintf</code> 会限制写入长度，如果发生截断，仍然会尽量保证 <code>'\0'</code> 结尾。</p>
+<h4 id="5-strlen-返回-size-t">5. strlen 返回 size_t</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">size_t</span> len = <span class="hljs-built_in">strlen</span>(s);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, len);<br></code></pre></td></tr></table></figure>
+<p>不要把结果随意和有符号整数混用，尤其在比较时要注意类型。</p>
+<h4 id="6-不要用-比较字符串内容">6. 不要用 == 比较字符串内容</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(a, b) == <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<p>而不是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (a == b)<br></code></pre></td></tr></table></figure>
+<h3 id="10-3-5-字符串作为函数参数">10.3.5 字符串作为函数参数</h3>
+<p>字符串作为函数参数时，通常写成字符数组或字符指针：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">print_name</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> name[])</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, name);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">print_name</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> *name)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, name);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果函数不修改字符串，参数加 <code>const</code>。</p>
+<h4 id="统计一个字符出现的次数">统计一个字符出现的次数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">count_char</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> s[], <span class="hljs-type">char</span> target)</span><br>&#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; s[i] != <span class="hljs-string">&#x27;\0&#x27;</span>; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (s[i] == target)<br>        &#123;<br>            count++;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> count;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="字符串长度函数示例">字符串长度函数示例</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">string_length</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> s[])</span><br>&#123;<br>    <span class="hljs-type">int</span> len = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">while</span> (s[len] != <span class="hljs-string">&#x27;\0&#x27;</span>)<br>    &#123;<br>        len++;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> len;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>标准库已经提供了 <code>strlen</code>，这里只是演示原理。</p>
+<h3 id="10-3-6-常见字符串算法">10.3.6 常见字符串算法</h3>
+<h4 id="字符串反转">字符串反转</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">reverse_string</span><span class="hljs-params">(<span class="hljs-type">char</span> s[])</span><br>&#123;<br>    <span class="hljs-type">int</span> left = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> right = (<span class="hljs-type">int</span>)<span class="hljs-built_in">strlen</span>(s) - <span class="hljs-number">1</span>;<br><br>    <span class="hljs-keyword">while</span> (left &lt; right)<br>    &#123;<br>        <span class="hljs-type">char</span> temp = s[left];<br>        s[left] = s[right];<br>        s[right] = temp;<br><br>        left++;<br>        right--;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="回文判断">回文判断</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">is_palindrome</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> s[])</span><br>&#123;<br>    <span class="hljs-type">int</span> left = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> right = (<span class="hljs-type">int</span>)<span class="hljs-built_in">strlen</span>(s) - <span class="hljs-number">1</span>;<br><br>    <span class="hljs-keyword">while</span> (left &lt; right)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (s[left] != s[right])<br>        &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br><br>        left++;<br>        right--;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="统计单词个数">统计单词个数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">count_words</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span> s[])</span><br>&#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> in_word = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; s[i] != <span class="hljs-string">&#x27;\0&#x27;</span>; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (s[i] != <span class="hljs-string">&#x27; &#x27;</span> &amp;&amp; s[i] != <span class="hljs-string">&#x27;\t&#x27;</span> &amp;&amp; s[i] != <span class="hljs-string">&#x27;\n&#x27;</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (!in_word)<br>            &#123;<br>                count++;<br>                in_word = <span class="hljs-number">1</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            in_word = <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> count;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这些例子能帮助你理解字符串是按字符逐个处理的。</p>
+<h3 id="10-3-7-字符串、数组、指针回顾">10.3.7 字符串、数组、指针回顾</h3>
+<p>字符串是字符数组，数组名在大多数表达式中会退化为指针。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> *p = name;<br></code></pre></td></tr></table></figure>
+<p>可以把下面这些表达式的含义放在一起看：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>字符数组名，多数情况转为首字符地址</td>
+</tr>
+<tr>
+<td><code>name[0]</code></td>
+<td>第一个字符 <code>'h'</code></td>
+</tr>
+<tr>
+<td><code>&amp;name[0]</code></td>
+<td>第一个字符的地址</td>
+</tr>
+<tr>
+<td><code>p</code></td>
+<td>指向第一个字符</td>
+</tr>
+<tr>
+<td><code>*p</code></td>
+<td>第一个字符 <code>'h'</code></td>
+</tr>
+<tr>
+<td><code>p + 1</code></td>
+<td>指向第二个字符</td>
+</tr>
+<tr>
+<td><code>*(p + 1)</code></td>
+<td>第二个字符 <code>'e'</code></td>
+</tr>
+<tr>
+<td><code>strlen(name)</code></td>
+<td>字符串长度，不包含 <code>'\0'</code></td>
+</tr>
+<tr>
+<td><code>sizeof(name)</code></td>
+<td>字符数组总大小，可能包含 <code>'\0'</code></td>
+</tr>
+</tbody>
+</table>
+<p>还要注意：</p>
+<ul>
+<li><code>char name[] = &quot;hello&quot;;</code> 得到的是可修改的字符数组；</li>
+<li><code>char *p = &quot;hello&quot;;</code> 指向的通常是只读的字符串字面量；</li>
+<li>第 11 章会从指针角度再解释一遍这些关系。</li>
+</ul>
+<h3 id="10-3-8-字符、字符数组、字符串、字符指针的区别">10.3.8 字符、字符数组、字符串、字符指针的区别</h3>
+<p>这四样东西经常被混在一起，先看一张总表：</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>类型</th>
+<th>含义</th>
+<th>能不能改内容</th>
+<th>典型长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char ch = 'A';</code></td>
+<td>单个字符</td>
+<td>保存一个字符</td>
+<td>能</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>char s[] = &quot;A&quot;;</code></td>
+<td>字符数组</td>
+<td>保存 <code>'A'</code> 和 <code>'\0'</code></td>
+<td>能</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>char s[10] = &quot;hello&quot;;</code></td>
+<td>字符数组</td>
+<td>最多保存 9 个字符</td>
+<td>能</td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>char *p = &quot;A&quot;;</code></td>
+<td>字符指针</td>
+<td>指向字符串字面量</td>
+<td>不能改（未定义行为）</td>
+<td>指向 1 个字符</td>
+</tr>
+<tr>
+<td><code>char *p = s;</code></td>
+<td>字符指针</td>
+<td>指向字符数组首字符</td>
+<td>通过 p 可改 s</td>
+<td>不确定</td>
+</tr>
+</tbody>
+</table>
+<h4 id="1-char">1. char</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> ch = <span class="hljs-string">&#x27;A&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>这是一个字符变量，里面保存一个字符。</p>
+<p>它不是字符串。</p>
+<h4 id="2-字符数组">2. 字符数组</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;A&quot;</span>;<br></code></pre></td></tr></table></figure>
+<p>这相当于：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[<span class="hljs-number">2</span>] = &#123;<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;\0&#x27;</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>内存：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">+-----+------+<br>| &#x27;A&#x27; | &#x27;\0&#x27; |<br>+-----+------+<br></code></pre></td></tr></table></figure>
+<p>它是一个字符串，因为它有 <code>'\0'</code> 结尾。</p>
+<h4 id="3-字符串字面量和字符指针">3. 字符串字面量和字符指针</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *p = <span class="hljs-string">&quot;A&quot;</span>;<br></code></pre></td></tr></table></figure>
+<p>这里：</p>
+<ul>
+<li><code>&quot;A&quot;</code> 是字符串字面量；</li>
+<li><code>p</code> 指向这个字面量的第一个字符；</li>
+<li>字符串字面量通常放在只读区域；</li>
+<li>修改 <code>p[0]</code> 是未定义行为。</li>
+</ul>
+<p>可修改的写法是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;A&quot;</span>;<br><span class="hljs-type">char</span> *p = s;<br><br>p[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;B&#x27;</span>;   <span class="hljs-comment">// 可以，因为 p 指向的是可修改数组</span><br></code></pre></td></tr></table></figure>
+<h4 id="4-sizeof-和-strlen">4. sizeof 和 strlen</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> *p = s;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(s));   <span class="hljs-comment">// 6</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-built_in">strlen</span>(s));   <span class="hljs-comment">// 5</span><br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(p));   <span class="hljs-comment">// 指针大小，常见 8</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-built_in">strlen</span>(p));   <span class="hljs-comment">// 5</span><br></code></pre></td></tr></table></figure>
+<p>总结：</p>
+<ul>
+<li><code>sizeof(数组)</code> 得到整个数组大小；</li>
+<li><code>strlen(字符串)</code> 得到 <code>'\0'</code> 之前的字符数；</li>
+<li><code>sizeof(指针)</code> 得到指针变量大小；</li>
+<li><code>strlen(指针)</code> 从指针指向的位置开始数到 <code>'\0'</code>。</li>
+</ul>
+<h4 id="5-常见混淆">5. 常见混淆</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> a = <span class="hljs-string">&#x27;A&#x27;</span>;       <span class="hljs-comment">// 一个字符</span><br><span class="hljs-type">char</span> b[] = <span class="hljs-string">&quot;A&quot;</span>;     <span class="hljs-comment">// 两个字符：&#x27;A&#x27; 和 &#x27;\0&#x27;</span><br><span class="hljs-type">char</span> *c = <span class="hljs-string">&quot;A&quot;</span>;      <span class="hljs-comment">// 指向字符串字面量</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c\n&quot;</span>, a);  <span class="hljs-comment">// A</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, b);  <span class="hljs-comment">// A</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, c);  <span class="hljs-comment">// A</span><br></code></pre></td></tr></table></figure>
+<p>再对比：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s1[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> *s2 = <span class="hljs-string">&quot;hello&quot;</span>;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>s1</code> 是数组，内容可以改；</li>
+<li><code>s2</code> 指向字符串字面量，不能修改；修改它是未定义行为；</li>
+<li><code>s1</code> 可以用 <code>sizeof(s1)</code> 得到数组大小；</li>
+<li><code>s2</code> 不能用 <code>sizeof(s2)</code> 得到字符串长度，只能用 <code>strlen(s2)</code>。</li>
+</ul>
+<h3 id="10-3-9-本章代码规范：考虑结束符和缓冲区大小">10.3.9 本章代码规范：考虑结束符和缓冲区大小</h3>
+<p>这一章最重要的两条规范是：</p>
+<ol>
+<li>
+<p><strong>始终考虑 <code>'\0'</code></strong></p>
+<ul>
+<li>字符串必须有结束符；</li>
+<li>字符串操作通常要预留一个位置给 <code>'\0'</code>；</li>
+<li><code>strlen</code> 不包含 <code>'\0'</code>，<code>sizeof</code> 可能包含。</li>
+</ul>
+</li>
+<li>
+<p><strong>始终考虑缓冲区大小</strong></p>
+<ul>
+<li>输入字符串要限制长度；</li>
+<li>复制、拼接前先确认目标空间；</li>
+<li>不要使用 <code>gets</code>；</li>
+<li>不要对用户输入使用无边界 <code>strcpy</code>、<code>strcat</code>、<code>sprintf</code>。</li>
+</ul>
+</li>
+</ol>
+<p>其他建议：</p>
+<ul>
+<li>读一行文本优先使用 <code>fgets</code>；</li>
+<li>输入后检查是否需要去掉换行符；</li>
+<li>比较字符串内容用 <code>strcmp</code>；</li>
+<li>函数不修改字符串时，参数加 <code>const</code>；</li>
+<li><code>strlen</code> 返回 <code>size_t</code>，输出用 <code>%zu</code>；</li>
+<li>不要修改字符串字面量。</li>
+</ul>
+<hr>
+<h2 id="10-4-项目回扣：学生管理系统-v0-9">10.4 项目回扣：学生管理系统 v0.9</h2>
+<p>本章的目标是让学生管理系统能够保存学生姓名，并按姓名或成绩查找。</p>
+<p>这个版本使用两个“平行数组”：</p>
+<ul>
+<li><code>names[MAX_STUDENTS][NAME_LEN]</code>：保存姓名；</li>
+<li><code>scores[MAX_STUDENTS]</code>：保存成绩。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">names[0] = &quot;七平&quot;    scores[0] = 90<br>names[1] = &quot;小明&quot;    scores[1] = 85<br>names[2] = &quot;小红&quot;    scores[2] = 77<br></code></pre></td></tr></table></figure>
+<p>下面是完整示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_STUDENTS 100</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NAME_LEN 50</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MIN_SCORE 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_SCORE 100</span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">add_student</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">void</span> <span class="hljs-title function_">print_students</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">find_student_by_name</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">int</span> count, <span class="hljs-type">const</span> <span class="hljs-type">char</span> target[])</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">find_student_by_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span>;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-type">char</span> names[MAX_STUDENTS][NAME_LEN];<br>    <span class="hljs-type">int</span> scores[MAX_STUDENTS];<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">int</span> choice = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        print_menu();<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请选择：&quot;</span>);<br>        choice = read_int(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>);<br><br>        <span class="hljs-keyword">if</span> (choice &lt; <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (feof(<span class="hljs-built_in">stdin</span>) || ferror(<span class="hljs-built_in">stdin</span>))<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n输入结束或发生错误，程序退出。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;输入无效。\n&quot;</span>);<br>            <span class="hljs-keyword">continue</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">switch</span> (choice)<br>        &#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>                count = add_student(names, scores, count);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>                print_students(names, scores, count);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>            &#123;<br>                <span class="hljs-type">char</span> target[NAME_LEN];<br><br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要查找的姓名：&quot;</span>);<br>                read_line(target, <span class="hljs-keyword">sizeof</span>(target));<br><br>                <span class="hljs-type">int</span> index = find_student_by_name(names, count, target);<br><br>                <span class="hljs-keyword">if</span> (index &gt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;找到：%s，成绩：%d\n&quot;</span>, names[index], scores[index]);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到 %s。\n&quot;</span>, target);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入要查找的成绩：&quot;</span>);<br>                <span class="hljs-type">int</span> target = read_int(MIN_SCORE, MAX_SCORE);<br><br>                <span class="hljs-keyword">if</span> (target &lt; <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩无效。\n&quot;</span>);<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br><br>                <span class="hljs-type">int</span> index = find_student_by_score(scores, count, target);<br><br>                <span class="hljs-keyword">if</span> (index &gt;= <span class="hljs-number">0</span>)<br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;找到：%s，成绩：%d\n&quot;</span>, names[index], scores[index]);<br>                &#125;<br>                <span class="hljs-keyword">else</span><br>                &#123;<br>                    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;没有找到成绩 %d。\n&quot;</span>, target);<br>                &#125;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;当前学生人数：%d\n&quot;</span>, count);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;退出学生管理系统。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br><br>            <span class="hljs-keyword">default</span>:<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;无效选择。\n&quot;</span>);<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br><br>    &#125; <span class="hljs-keyword">while</span> (choice != <span class="hljs-number">0</span>);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_menu</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生管理系统 v0.9 =====\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;1. 添加学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;2. 显示全部学生\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;3. 按姓名查找\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;4. 按成绩查找\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;5. 查看学生人数\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0. 退出\n&quot;</span>);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;==============================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">read_line</span><span class="hljs-params">(<span class="hljs-type">char</span> buffer[], <span class="hljs-type">int</span> size)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (fgets(buffer, size, <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        buffer[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    buffer[<span class="hljs-built_in">strcspn</span>(buffer, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">read_int</span><span class="hljs-params">(<span class="hljs-type">int</span> min, <span class="hljs-type">int</span> max)</span><br>&#123;<br>    <span class="hljs-type">char</span> line[<span class="hljs-number">100</span>];<br>    <span class="hljs-type">int</span> value = <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">if</span> (fgets(line, <span class="hljs-keyword">sizeof</span>(line), <span class="hljs-built_in">stdin</span>) == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">sscanf</span>(line, <span class="hljs-string">&quot;%d&quot;</span>, &amp;value) != <span class="hljs-number">1</span>)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (value &lt; min || value &gt; max)<br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> value;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">add_student</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &gt;= MAX_STUDENTS)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;学生人数已满。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br><br>    <span class="hljs-type">char</span> name[NAME_LEN];<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入姓名：&quot;</span>);<br>    read_line(name, <span class="hljs-keyword">sizeof</span>(name));<br><br>    <span class="hljs-keyword">if</span> (name[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;\0&#x27;</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;姓名不能为空。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;请输入成绩：&quot;</span>);<br>    <span class="hljs-type">int</span> score = read_int(MIN_SCORE, MAX_SCORE);<br><br>    <span class="hljs-keyword">if</span> (score &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;成绩无效。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> count;<br>    &#125;<br><br>    <span class="hljs-built_in">strcpy</span>(names[count], name);<br>    scores[count] = score;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;添加成功。\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> count + <span class="hljs-number">1</span>;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">print_students</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (count &lt;= <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;暂无学生数据。\n&quot;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n===== 学生名单 =====\n&quot;</span>);<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;第 %d 位：%s，成绩：%d\n&quot;</span>, i + <span class="hljs-number">1</span>, names[i], scores[i]);<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;====================\n&quot;</span>);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">find_student_by_name</span><span class="hljs-params">(<span class="hljs-type">char</span> names[][NAME_LEN], <span class="hljs-type">int</span> count, <span class="hljs-type">const</span> <span class="hljs-type">char</span> target[])</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(names[i], target) == <span class="hljs-number">0</span>)<br>        &#123;<br>            <span class="hljs-keyword">return</span> i;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">find_student_by_score</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> scores[], <span class="hljs-type">int</span> count, <span class="hljs-type">int</span> target)</span><br>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (scores[i] == target)<br>        &#123;<br>            <span class="hljs-keyword">return</span> i;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>运行示例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">===== 学生管理系统 v0.9 =====<br>1. 添加学生<br>2. 显示全部学生<br>3. 按姓名查找<br>4. 按成绩查找<br>5. 查看学生人数<br>0. 退出<br>==============================<br>请选择：1<br>请输入姓名：七平<br>请输入成绩：90<br>添加成功。<br></code></pre></td></tr></table></figure>
+<p>这个版本已经能保存姓名、显示名单、按姓名查找、按成绩查找。</p>
+<p>下一步，指针会让这些数组操作更灵活，也能让我们更深入地理解字符串和数组的底层关系。</p>
+<hr>
+<h2 id="10-5-本章代码规范提示">10.5 本章代码规范提示</h2>
+<ul>
+<li>字符串必须以 <code>'\0'</code> 结尾。</li>
+<li>字符数组要预留 <code>'\0'</code> 的位置。</li>
+<li>输入字符串要限制长度，优先使用 <code>fgets</code>。</li>
+<li>不要使用 <code>gets</code>。</li>
+<li>复制、拼接前确认目标缓冲区足够大。</li>
+<li>不要用 <code>==</code> 比较字符串内容，应使用 <code>strcmp</code>。</li>
+<li><code>strlen</code> 不包含 <code>'\0'</code>，<code>sizeof</code> 可能包含。</li>
+<li><code>strlen</code> 返回 <code>size_t</code>，输出用 <code>%zu</code>。</li>
+<li>函数不修改字符串时，参数加 <code>const</code>。</li>
+<li>不要修改字符串字面量。</li>
+<li>使用 <code>snprintf</code> 代替不安全的 <code>sprintf</code>。</li>
+</ul>
+<hr>
+<h2 id="10-6-常见错误">10.6 常见错误</h2>
+<h3 id="错误-1：字符串缺少-‘-0’">错误 1：字符串缺少 ‘\0’</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[<span class="hljs-number">3</span>] = &#123;<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>&#125;;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, s);   <span class="hljs-comment">// 危险：没有结束符</span><br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[<span class="hljs-number">4</span>] = &#123;<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&#x27;\0&#x27;</span>&#125;;<br></code></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;abc&quot;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-2：数组太小">错误 2：数组太小</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">4</span>] = <span class="hljs-string">&quot;hello&quot;</span>;   <span class="hljs-comment">// 错误：没有空间放 &#x27;\0&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>需要至少 6 个字符空间：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">6</span>] = <span class="hljs-string">&quot;hello&quot;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-3：用-比较字符串">错误 3：用 == 比较字符串</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> a[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><span class="hljs-type">char</span> b[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-keyword">if</span> (a == b)   <span class="hljs-comment">// 错误</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(a, b) == <span class="hljs-number">0</span>)<br>&#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-4：使用-gets">错误 4：使用 gets</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">gets(name);   <span class="hljs-comment">// 危险，C11 已移除</span><br></code></pre></td></tr></table></figure>
+<p>改用：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fgets(name, <span class="hljs-keyword">sizeof</span>(name), <span class="hljs-built_in">stdin</span>);<br></code></pre></td></tr></table></figure>
+<h3 id="错误-5：scanf-“-s”-不限制宽度">错误 5：scanf(“%s”) 不限制宽度</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">10</span>];<br><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>, name);   <span class="hljs-comment">// 可能溢出</span><br></code></pre></td></tr></table></figure>
+<p>更安全：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%9s&quot;</span>, name);<br></code></pre></td></tr></table></figure>
+<p>但带空格的姓名仍然要用 <code>fgets</code>。</p>
+<h3 id="错误-6：忘记给字符串数组留结束符">错误 6：忘记给字符串数组留结束符</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">5</span>];<br><span class="hljs-built_in">strncpy</span>(dest, <span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure>
+<p><code>dest</code> 可能没有 <code>'\0'</code>。</p>
+<p>正确写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">strncpy</span>(dest, <span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-keyword">sizeof</span>(dest) - <span class="hljs-number">1</span>);<br>dest[<span class="hljs-keyword">sizeof</span>(dest) - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-7：strcat-目标空间不足">错误 7：strcat 目标空间不足</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> dest[<span class="hljs-number">5</span>] = <span class="hljs-string">&quot;hi&quot;</span>;<br><span class="hljs-type">char</span> src[] = <span class="hljs-string">&quot; world&quot;</span>;<br><br><span class="hljs-built_in">strcat</span>(dest, src);   <span class="hljs-comment">// 危险：dest 装不下</span><br></code></pre></td></tr></table></figure>
+<p>拼接前要确认目标缓冲区足够大。</p>
+<h3 id="错误-8：修改字符串字面量">错误 8：修改字符串字面量</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> *s = <span class="hljs-string">&quot;hello&quot;</span>;<br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;   <span class="hljs-comment">// 错误：未定义行为</span><br></code></pre></td></tr></table></figure>
+<p>可修改的写法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br>s[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-9：fgets-后忘记处理换行符">错误 9：fgets 后忘记处理换行符</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> name[<span class="hljs-number">20</span>];<br><br>fgets(name, <span class="hljs-keyword">sizeof</span>(name), <span class="hljs-built_in">stdin</span>);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;[%s]\n&quot;</span>, name);   <span class="hljs-comment">// 可能多出一个换行</span><br></code></pre></td></tr></table></figure>
+<p>处理方式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">name[<span class="hljs-built_in">strcspn</span>(name, <span class="hljs-string">&quot;\n&quot;</span>)] = <span class="hljs-string">&#x27;\0&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="错误-10：混淆-sizeof-和-strlen">错误 10：混淆 sizeof 和 strlen</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;hello&quot;</span>;<br><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-keyword">sizeof</span>(s));   <span class="hljs-comment">// 6</span><br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%zu\n&quot;</span>, <span class="hljs-built_in">strlen</span>(s));   <span class="hljs-comment">// 5</span><br></code></pre></td></tr></table></figure>
+<h3 id="错误-11：字符串函数参数类型不匹配">错误 11：字符串函数参数类型不匹配</h3>
+<p>字符串函数通常接收 <code>char *</code> 或 <code>const char *</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">strlen</span>(<span class="hljs-number">123</span>);   <span class="hljs-comment">// 错误</span><br></code></pre></td></tr></table></figure>
+<p>应该传字符串或字符指针。</p>
+<hr>
+<h2 id="10-7-总结与自测">10.7 总结与自测</h2>
+<h3 id="一句话总结">一句话总结</h3>
+<blockquote>
+<p>C 语言中的字符串是以 <code>'\0'</code> 结尾的字符数组；处理字符串时要同时考虑结束符和缓冲区大小，输入优先用 <code>fgets</code>，比较用 <code>strcmp</code>，复制和拼接要确认目标空间足够。</p>
+</blockquote>
+<h3 id="自测题">自测题</h3>
+<ol>
+<li>C 语言中的字符串本质上是什么？</li>
+<li><code>'\0'</code> 和 <code>'0'</code> 有什么区别？</li>
+<li><code>strlen</code> 和 <code>sizeof</code> 计算字符串时有什么区别？</li>
+<li><code>scanf(&quot;%s&quot;)</code> 有什么局限和风险？</li>
+<li><code>fgets</code> 读取字符串后，为什么常常要去掉换行符？</li>
+<li><code>strcmp</code> 的返回值表示什么？</li>
+<li>为什么不能用 <code>==</code> 比较两个字符串的内容？</li>
+<li><code>strcpy</code> 和 <code>strncpy</code> 有什么区别？</li>
+<li>为什么 <code>strcat</code> 可能造成缓冲区溢出？</li>
+<li>为什么要给字符串函数参数加 <code>const</code>？</li>
+</ol>
+<details>
+<summary>点击查看参考答案</summary>
+<ol>
+<li>是一个以 <code>'\0'</code> 结尾的字符数组。</li>
+<li><code>'\0'</code> 是空字符，用于标记字符串结束；<code>'0'</code> 是数字字符。</li>
+<li><code>strlen</code> 不包含 <code>'\0'</code>；<code>sizeof</code> 计算的是数组或对象占用的总字节数，可能包含 <code>'\0'</code>。</li>
+<li><code>%s</code> 遇到空白就停止，不能读取带空格的字符串；不限制宽度时可能造成缓冲区溢出。</li>
+<li>因为 <code>fgets</code> 通常会把换行符也读进去，换行符可能影响后续输出和处理。</li>
+<li>小于 0 表示第一个字符串较小；等于 0 表示相等；大于 0 表示第一个字符串较大。</li>
+<li><code>==</code> 比较的是数组或指针的地址，不是字符串内容。</li>
+<li><code>strcpy</code> 不限制复制长度；<code>strncpy</code> 限制最多复制 n 个字符，但不一定自动补 <code>'\0'</code>。</li>
+<li>因为 <code>strcat</code> 不检查 <code>dest</code> 剩余空间，拼接后可能超出目标数组范围。</li>
+<li>表示函数不会修改这个字符串，提高可读性和安全性。</li>
+</ol>
+</details>
+<hr>
+<h2 id="挑战题">挑战题</h2>
+<p>写一个“学生姓名管理小程序”。</p>
+<p>要求：</p>
+<ol>
+<li>用二维字符数组保存至少 5 个学生姓名；</li>
+<li>用 <code>fgets</code> 输入姓名，并去掉换行符；</li>
+<li>输出每个姓名以及它的 <code>strlen</code> 长度；</li>
+<li>输入一个姓名，用 <code>strcmp</code> 查找是否存在；</li>
+<li>找出名字最长的学生；</li>
+<li>尝试把两个姓名用 <code>strcat</code> 拼接成一个新字符串，并确认目标数组足够大；</li>
+<li>检查程序有没有缓冲区越界风险。</li>
+</ol>
+<hr>
+<h2 id="10-8-下一章">10.8 下一章</h2>
+<p>现在程序已经能处理一组数据和文本数据了。</p>
+<p>下一章，咱们要学习 C 语言最重要的核心概念之一：指针。</p>
+<p>关键词是：</p>
+<blockquote>
+<p>地址、指针、内存。</p>
+</blockquote>
+<p><strong>下一章：第 11 章《指针》</strong></p>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+</body>
+
+</html>
