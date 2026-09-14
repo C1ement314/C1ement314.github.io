@@ -421,22 +421,22 @@
 <h3 id="测试">测试</h3>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;assert.h&gt;</span></span><br><br>StudentNode *head = <span class="hljs-literal">NULL</span>;<br><br>Stats empty_stats = calculate_stats(head);<br>assert(empty_stats.count == <span class="hljs-number">0</span>);<br>assert(empty_stats.total == <span class="hljs-number">0</span>);<br><br>Student s1 = &#123;<span class="hljs-number">20250001</span>, <span class="hljs-string">&quot;七平&quot;</span>, <span class="hljs-number">90</span>&#125;;<br>Student s2 = &#123;<span class="hljs-number">20250002</span>, <span class="hljs-string">&quot;小明&quot;</span>, <span class="hljs-number">85</span>&#125;;<br>Student s3 = &#123;<span class="hljs-number">20250003</span>, <span class="hljs-string">&quot;小红&quot;</span>, <span class="hljs-number">77</span>&#125;;<br><br><span class="hljs-type">int</span> ok1 = list_append(&amp;head, s1);<br><span class="hljs-type">int</span> ok2 = list_append(&amp;head, s2);<br><span class="hljs-type">int</span> ok3 = list_append(&amp;head, s3);<br><br>assert(ok1);<br>assert(ok2);<br>assert(ok3);<br><br>Stats stats = calculate_stats(head);<br><br>assert(stats.count == <span class="hljs-number">3</span>);<br>assert(stats.total == <span class="hljs-number">252</span>);<br>assert(stats.max_score == <span class="hljs-number">90</span>);<br>assert(stats.min_score == <span class="hljs-number">77</span>);<br><br><span class="hljs-type">int</span> deleted = list_delete_by_id(&amp;head, <span class="hljs-number">20250001</span>);<br>assert(deleted);<br>assert(list_find_by_name(head, <span class="hljs-string">&quot;七平&quot;</span>) == <span class="hljs-literal">NULL</span>);<br><br>list_free(&amp;head);<br></code></pre></td></tr></table></figure>
 <h3 id="最终验收清单">最终验收清单</h3>
-<ul>
-<li>[ ] 添加、显示、保存、读取、查找、最高分、删除、统计都能正常工作；</li>
-<li>[ ] 空链表不会崩溃；</li>
-<li>[ ] 空指针有检查；</li>
-<li>[ ] 输入非法值有提示；</li>
-<li>[ ] 文件打开失败有处理；</li>
-<li>[ ] 内存申请失败有处理；</li>
-<li>[ ] 删除节点正确释放；</li>
-<li>[ ] 退出时释放整条链表；</li>
-<li>[ ] 编译无警告；</li>
-<li>[ ] Sanitizer 或 Valgrind 没有严重报告；</li>
-<li>[ ] 测试程序通过；</li>
-<li>[ ] 代码命名清楚；</li>
-<li>[ ] 头文件有保护；</li>
-<li>[ ] CMake 能正常构建；</li>
-<li>[ ] README 说明如何构建和运行。</li>
+<ul class="contains-task-list">
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 添加、显示、保存、读取、查找、最高分、删除、统计都能正常工作；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 空链表不会崩溃；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 空指针有检查；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 输入非法值有提示；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 文件打开失败有处理；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 内存申请失败有处理；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 删除节点正确释放；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 退出时释放整条链表；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 编译无警告；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Sanitizer 或 Valgrind 没有严重报告；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 测试程序通过；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 代码命名清楚；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> 头文件有保护；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> CMake 能正常构建；</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> README 说明如何构建和运行。</li>
 </ul>
 <h3 id="代码评审示例意见">代码评审示例意见</h3>
 <ol>

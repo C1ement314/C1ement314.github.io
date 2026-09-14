@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --black-main: #000000;
   --white-main: #f2f6f8;
@@ -320,7 +321,7 @@ nav {
 .post-content {
   position: relative;
   padding: 10px;
-  background-color: var(--white-main);
+  background-color: rgba(242, 246, 248, 0.9);
   box-shadow: 0 0 0 0.5px var(--black-main), 0 0 0 1.5px var(--white-main);
 }
 
@@ -759,21 +760,35 @@ footer {
   font-size: 85%;
 }
 
-.post-content pre,
 .post-content .highlight {
-  background-color: #fafafa;
-  padding: 5px;
-  margin: 0;
-  border-radius: 3px;
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  margin: 16px 0;
   overflow-x: auto;
-  line-height: 1.45;
-  font-family: Consolas, monospace;
+  line-height: 1.6;
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 14px;
+}
+
+/* 没有经过 highlight 包装的普通 pre */
+.post-content > pre {
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  margin: 16px 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  line-height: 1.6;
+  font-family: "JetBrains Mono", Consolas, monospace;
   font-size: 14px;
 }
 
 .post-content .highlight table {
+  width: 100%;
   margin: 0;
   border: none;
+  border-collapse: collapse;
   display: table;
 }
 
@@ -781,12 +796,40 @@ footer {
 .post-content .highlight th {
   border: none;
   padding: 0;
+  vertical-align: top;
+}
+
+/*
+ * 重置 highlight 内部的 pre。
+ * 否则行号所在的 pre 和代码所在的 pre 都会各自应用边框、背景和内边距，
+ * 导致左边的行号框和右边的代码框大小、背景不一致。
+ */
+.post-content .highlight pre {
+  margin: 0;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.post-content .highlight td.code pre {
+  white-space: pre;
+}
+
+.post-content .highlight .gutter pre {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .post-content .highlight .gutter {
   color: #999;
   text-align: right;
   border-right: 1px solid #eee;
+  user-select: none;
+  background: transparent;
 }
 
 .markdown-body .mjx-chtml {
