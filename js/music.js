@@ -3,11 +3,16 @@ document.addEventListener('DOMContentLoaded', function() {
     window.__musicPlayerInited__ = true;
     
     // 检查配置是否存在
-    if (typeof musicConfig === 'undefined' || !musicConfig.playlist || musicConfig.playlist.length === 0) {
+    if (typeof musicConfig === 'undefined' || !Array.isArray(musicConfig.playlist)) {
         return;
     }
 
-    const playlist = musicConfig.playlist;
+    const playlist = musicConfig.playlist.filter(song => song && song.url);
+    if (playlist.length === 0) {
+        const musicWidget = document.querySelector('.music-widget');
+        if (musicWidget) musicWidget.style.display = 'none';
+        return;
+    }
     let currentSongIndex = 0;
     let isPlaying = false;
 
@@ -27,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadSong(song) {
         songTitle.innerText = `${song.title} - ${song.artist}`;
         audio.src = song.url;
-        albumArt.style.backgroundImage = `url("${song.cover}")`;
+        albumArt.style.backgroundImage = song.cover ? `url("${song.cover}")` : 'none';
         
         // 重置进度条
         progressBar.style.width = '0%';
