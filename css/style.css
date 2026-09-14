@@ -815,6 +815,22 @@ footer {
   line-height: inherit;
 }
 
+/*
+ * highlight.js 的官方主题会给 code.hljs 加 padding: 1em，
+ * 这会把右侧代码整体往下、往右推，导致和左侧行号对不齐。
+ * 这里把它重置掉。
+ */
+.post-content .highlight code.hljs {
+  display: block;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 .post-content .highlight td.code pre {
   white-space: pre;
 }
