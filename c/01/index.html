@@ -32,12 +32,28 @@
         <span class="aero-bubble" style="left: 86%; width: 12px; height: 12px; animation-duration: 17s; animation-delay: -6s;"></span>
         <span class="aero-bubble" style="left: 94%; width: 20px; height: 20px; animation-duration: 22s; animation-delay: -14s;"></span>
     </div>
+    <div class="aero-nature" aria-hidden="true">
+        <span class="aero-flare"></span>
+        <span class="aero-bokeh aero-bokeh-1"></span>
+        <span class="aero-bokeh aero-bokeh-2"></span>
+        <span class="aero-bokeh aero-bokeh-3"></span>
+        <span class="aero-bokeh aero-bokeh-4"></span>
+    </div>
     <div class="container">
         <!-- header -->
         <div class="header" id="pjax-header">
     <header class="card">
+        <div class="header-profile">
+            
+            <img src="/image/avatar.jpg" class="header-avatar" alt="avatar">
+            
+            <div class="header-profile-text">
+                <div class="header-name">七平</div>
+                <div class="header-signature">愿伟大的水之女神阿库娅永远保佑大家！</div>
+            </div>
+        </div>
         <p class="blog-title">
-            蓝文报社
+            你好，世界！
         </p>
     </header>
     <nav class="button-bar">
@@ -169,16 +185,16 @@
             <button class="button ctrl-btn" id="nextBtn">
                 <span class="ri-skip-forward-fill"></span>
             </button>
-        </div>
 
-        <div class="music-visualizer" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+            <div class="music-visualizer" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </div>
 
@@ -862,6 +878,20 @@
                 ]
             })
         })
+    </script>
+    <script>
+        (function () {
+            function updateHeaderScroll() {
+                var header = document.querySelector('.header');
+                if (!header) return;
+                var scrolled = (window.scrollY || document.documentElement.scrollTop) > 120;
+                header.classList.toggle('scrolled', scrolled);
+            }
+
+            window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+            document.addEventListener('pjax:success', updateHeaderScroll);
+            updateHeaderScroll();
+        })();
     </script>
     <script>
         (function () {
