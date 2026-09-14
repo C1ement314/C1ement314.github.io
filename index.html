@@ -147,6 +147,64 @@
         
         <div class="post-info">
             <span class="post-title">
+                    项目复盘：二进制分析器
+            </span>
+            <div class="post-meta">
+                2026-09-14
+            </div>
+            <div class="post-excerpt">
+                
+项目名称：迷你 Hexdump 分析器
+作者：七平
+语言：C
+涉及知识点：二进制文件 I/O、fopen/fread/fclose、魔数识别、格式化输出、ASCII 可打印字符判断
+
+
+一、项目背景
+这个项目的目标是写一个类似 hexdump 的小工具：
+
+以二进制模式打开任意文件；
+读取文...
+            </div>
+            <a href="/projects/binary-analyzer-review/" class="button rm-link">
+                <span class="read-more">Read More...</span>
+            </a>
+        </div>
+    </article>
+    
+    <article class="card post-item">
+        
+        <div class="post-info">
+            <span class="post-title">
+                    项目复盘：静态内存池
+            </span>
+            <div class="post-meta">
+                2026-09-14
+            </div>
+            <div class="post-excerpt">
+                
+项目名称：固定大小静态内存池分配器
+作者：七平
+语言：C
+涉及知识点：静态数组、单向链表、指针算术、内存对齐、O(1) 分配与释放
+
+
+一、项目背景
+在裸机环境或资源受限环境中，有时不能使用标准库的 malloc 和 free。
+这时可以自己实现一个简单的内存池分配器：
+
+从一片连续的静态内...
+            </div>
+            <a href="/projects/static-memory-pool-review/" class="button rm-link">
+                <span class="read-more">Read More...</span>
+            </a>
+        </div>
+    </article>
+    
+    <article class="card post-item">
+        
+        <div class="post-info">
+            <span class="post-title">
                     关于更多
             </span>
             <div class="post-meta">
@@ -629,66 +687,10 @@
         </div>
     </article>
     
-    <article class="card post-item">
-        
-        <div class="post-info">
-            <span class="post-title">
-                    第 1 章：第一个 C 程序
-            </span>
-            <div class="post-meta">
-                2026-09-14
-            </div>
-            <div class="post-excerpt">
-                
-本章目标
-
-写出并运行第一个 C 程序。
-认识 #include、main、printf、return 0; 这些基础部分。
-学会用 printf 输出文字，并理解 \n、注释的基础用法。
-
-阅读提示
-基础篇先让程序跑起来。进阶篇会解释“为什么这么写”，建议第二遍精读。
-
-我是七平，这一章咱...
-            </div>
-            <a href="/c/01/" class="button rm-link">
-                <span class="read-more">Read More...</span>
-            </a>
-        </div>
-    </article>
-    
-    <article class="card post-item">
-        
-        <div class="post-info">
-            <span class="post-title">
-                    第 0 章：学习地图与通用开发流程
-            </span>
-            <div class="post-meta">
-                2026-09-14
-            </div>
-            <div class="post-excerpt">
-                
-本章目标
-
-知道程序是什么、C 语言大概能做什么。
-理解写 C 程序的通用流程，不被某一个软件或操作系统绑住。
-学会基础篇和进阶篇的阅读方式，知道卡住时怎么办。
-
-阅读提示
-第一次读，先看基础篇，把流程弄明白就够了。进阶篇可以快速扫一眼，等学完第 1 章再回来精读。
-
-嘿，我是七平，欢迎来到...
-            </div>
-            <a href="/c/00/" class="button rm-link">
-                <span class="read-more">Read More...</span>
-            </a>
-        </div>
-    </article>
-    
 </section>
 
 <nav class="page-nav">
-    <span class="page-number current">1</span>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">&gt;</a>
 </nav>
                 </main>
                 <div class="sidebar-mask" id="sidebar-mask"></div>

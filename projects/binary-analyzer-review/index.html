@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        七平&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        
+            <link rel="icon" href="/image/icon/vista_messenger.jpg">
+        
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+    <div class="container">
+        <!-- header -->
+        <div class="header" id="pjax-header">
+    <header class="card">
+        <p class="blog-title">
+            蓝文报社
+        </p>
+    </header>
+    <nav class="button-bar">
+        <ul class="nav-links">
+            <li>
+                <a href="/" class="button link-home ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_messenger.jpg" alt="首页" class="icon">
+                        <span>首页</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="归档" class="icon">
+                        <span>归档</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/c/" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_book_1.jpg" alt="C 语言教程" class="icon">
+                        <span>C 语言教程</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="/about" class="button ">
+                    <span class="nav-text">
+                        <img src="/image/icon/vista_pc_1.jpg" alt="关于" class="icon">
+                        <span>关于</span>
+                    </span>
+                </a>
+            </li>
+            
+        </ul>
+
+    </nav>
+</div>
+
+
+        <div class="button mobile-menu-btn" id="mobile-menu-btn">
+            <span class="menu-icon ri-menu-fill"></span>
+        </div>
+
+            <div class="main-layout">
+                <aside id="sidebar">
+                    <div class="widget avatar-widget">
+    <div class="avatar-bg">
+        
+        <a target="_blank" rel="noopener" href="https://github.com/C1ement314">
+            <img src="/image/avatar.jpg" class="profile-img" alt="avatar">
+        </a>
+        
+    </div>
+</div>
+<div class="widget card profile-widget">
+    <div class="profile">
+        <div>七平</div>
+        <div>
+            
+            
+                
+            
+                
+            
+        
+        </div>
+    </div>
+    <div class="about">
+        愿伟大的水之女神阿库娅永远保佑大家！
+    </div>
+</div>
+
+
+<div class="widget music-widget">
+    <div class="player-content">
+        <div class="song-info">
+            <div class="info-bg album-art" id="albumArt"></div>
+            <div class="info-bg title-bar">
+                <span class="song-title" id="songTitle">Loading...</span>
+            </div>
+        </div>
+
+        <div class="info-bg progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="button play-btn" id="playBtn">
+                <span id="playIcon" class="ri-play-large-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="prevBtn">
+                <span class="ri-skip-back-fill"></span>
+            </button>
+            <button class="button ctrl-btn" id="nextBtn">
+                <span class="ri-skip-forward-fill"></span>
+            </button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script>
+    var musicConfig = {
+        autoplay: true,
+        playlist: [{"title":"おやすみ、おやすみ","artist":"ななひら","cover":"/image/covers/midnightfuture.jpg","url":"/music/ななひら - おやすみ、おやすみ.mp3"}]
+    };
+</script>
+                </aside>
+                <main id="pjax-container">
+                    <div class="card post-full">
+    <span class="post-title article-title">
+        项目复盘：二进制分析器
+    </span>
+
+    <div class="post-meta">
+        2026-09-14
+        
+            | <a class="tag-none-link" href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag">C语言</a>, <a class="tag-none-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a>, <a class="tag-none-link" href="/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" rel="tag">文件操作</a>, <a class="tag-none-link" href="/tags/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" rel="tag">项目复盘</a>
+            
+    </div>
+
+    <div class="post-content">
+        <blockquote>
+<p>项目名称：迷你 Hexdump 分析器</p>
+<p>作者：七平</p>
+<p>语言：C</p>
+<p>涉及知识点：二进制文件 I/O、<code>fopen</code>/<code>fread</code>/<code>fclose</code>、魔数识别、格式化输出、ASCII 可打印字符判断</p>
+</blockquote>
+<hr>
+<h2 id="一、项目背景">一、项目背景</h2>
+<p>这个项目的目标是写一个类似 <code>hexdump</code> 的小工具：</p>
+<ul>
+<li>以二进制模式打开任意文件；</li>
+<li>读取文件头部数据；</li>
+<li>按“偏移地址 + 十六进制 + ASCII”的格式打印；</li>
+<li>根据文件开头的魔数，判断常见文件类型。</li>
+</ul>
+<p>它很适合练习 C 语言的文件操作和字节级处理。</p>
+<hr>
+<h2 id="二、需求拆解">二、需求拆解</h2>
+<p>程序接受一个命令行参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">./analyzer test.bin<br></code></pre></td></tr></table></figure>
+<p>读取文件的前 64 个字节，每行输出 16 个字节：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  ASCII<br>00000000  4D 5A 00 00 90 00 03 00                              MZ......<br></code></pre></td></tr></table></figure>
+<p>需要识别：</p>
+<table>
+<thead>
+<tr>
+<th>魔数</th>
+<th>文件类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>4D 5A</code></td>
+<td>MZ 格式，DOS/Windows 可执行文件</td>
+</tr>
+<tr>
+<td><code>7F 45 4C 46</code></td>
+<td>ELF 文件</td>
+</tr>
+<tr>
+<td><code>25 50 44 46</code></td>
+<td>PDF 文件</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>Unknown</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="三、设计思路">三、设计思路</h2>
+<p>程序可以拆成三个部分：</p>
+<ol>
+<li>读取文件头部；</li>
+<li>判断魔数；</li>
+<li>按 hexdump 格式输出。</li>
+</ol>
+<p>整体流程：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">读取命令行参数<br>  |<br>以 rb 模式打开文件<br>  |<br>读取最多 64 字节<br>  |<br>判断魔数<br>  |<br>每 16 字节输出一行<br>  |<br>关闭文件并退出<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="四、修正后的完整代码">四、修正后的完整代码</h2>
+<p>原代码中有一处使用了 C23 的 <code>nullptr</code>，如果按 C11 编译会报错。为了防止读者出现未知的错误，这里统一改为 <code>NULL</code>，并且给魔数判断增加长度检查，避免读取不足 4 字节时访问未初始化数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">print_ascii</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> c)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (c &lt; <span class="hljs-number">0x20</span> || c &gt; <span class="hljs-number">0x7E</span>)<br>    &#123;<br>        <span class="hljs-built_in">putchar</span>(<span class="hljs-string">&#x27;.&#x27;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">putchar</span>(c);<br>    &#125;<br>&#125;<br><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">identify_magic</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> *buffer, <span class="hljs-type">size_t</span> size)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (size &gt;= <span class="hljs-number">2</span> &amp;&amp; buffer[<span class="hljs-number">0</span>] == <span class="hljs-number">0x4D</span> &amp;&amp; buffer[<span class="hljs-number">1</span>] == <span class="hljs-number">0x5A</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;File type: MZ format (DOS/Windows executable)\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (size &gt;= <span class="hljs-number">4</span> &amp;&amp;<br>             buffer[<span class="hljs-number">0</span>] == <span class="hljs-number">0x7F</span> &amp;&amp;<br>             buffer[<span class="hljs-number">1</span>] == <span class="hljs-number">0x45</span> &amp;&amp;<br>             buffer[<span class="hljs-number">2</span>] == <span class="hljs-number">0x4C</span> &amp;&amp;<br>             buffer[<span class="hljs-number">3</span>] == <span class="hljs-number">0x46</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;File type: ELF\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (size &gt;= <span class="hljs-number">4</span> &amp;&amp;<br>             buffer[<span class="hljs-number">0</span>] == <span class="hljs-number">0x25</span> &amp;&amp;<br>             buffer[<span class="hljs-number">1</span>] == <span class="hljs-number">0x50</span> &amp;&amp;<br>             buffer[<span class="hljs-number">2</span>] == <span class="hljs-number">0x44</span> &amp;&amp;<br>             buffer[<span class="hljs-number">3</span>] == <span class="hljs-number">0x46</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;File type: PDF\n&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;File type: Unknown\n&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (argc != <span class="hljs-number">2</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Usage: %s Filename\n&quot;</span>, argv[<span class="hljs-number">0</span>]);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    FILE *fp = fopen(argv[<span class="hljs-number">1</span>], <span class="hljs-string">&quot;rb&quot;</span>);<br><br>    <span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;ERROR: cannot open &#x27;%s&#x27;\n&quot;</span>, argv[<span class="hljs-number">1</span>]);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> buffer[<span class="hljs-number">64</span>];<br>    <span class="hljs-type">size_t</span> size = fread(buffer, <span class="hljs-number">1</span>, <span class="hljs-keyword">sizeof</span>(buffer), fp);<br><br>    fclose(fp);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Filename: %s\n&quot;</span>, argv[<span class="hljs-number">1</span>]);<br><br>    <span class="hljs-keyword">if</span> (size == <span class="hljs-number">0</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;File is empty.\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>    identify_magic(buffer, size);<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  ASCII\n&quot;</span>);<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> line = <span class="hljs-number">0</span>; line &lt; size; line += <span class="hljs-number">16</span>)<br>    &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%08zX  &quot;</span>, line);<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> row = <span class="hljs-number">0</span>; row &lt; <span class="hljs-number">16</span>; row++)<br>        &#123;<br>            <span class="hljs-type">size_t</span> idx = line + row;<br><br>            <span class="hljs-keyword">if</span> (idx &lt; size)<br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%02X &quot;</span>, (<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span>)buffer[idx]);<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;   &quot;</span>);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot; &quot;</span>);<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> row = <span class="hljs-number">0</span>; row &lt; <span class="hljs-number">16</span>; row++)<br>        &#123;<br>            <span class="hljs-type">size_t</span> idx = line + row;<br><br>            <span class="hljs-keyword">if</span> (idx &lt; size)<br>            &#123;<br>                print_ascii(buffer[idx]);<br>            &#125;<br>            <span class="hljs-keyword">else</span><br>            &#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="五、运行结果">五、运行结果</h2>
+<p>当 <code>test.bin</code> 的前 8 个字节是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">4D 5A 00 00 90 00 03 00<br></code></pre></td></tr></table></figure>
+<p>运行结果大致如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Filename: test.bin<br>File type: MZ format (DOS/Windows executable)<br>Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  ASCII<br>00000000  4D 5A 00 00 90 00 03 00                              MZ......<br></code></pre></td></tr></table></figure>
+<hr>
+<h2 id="六、关键点讲解">六、关键点讲解</h2>
+<h3 id="1-为什么要用-rb">1. 为什么要用 <code>rb</code></h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">fopen(argv[<span class="hljs-number">1</span>], <span class="hljs-string">&quot;rb&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p><code>rb</code> 表示二进制只读模式。</p>
+<p>如果用文本模式，某些平台可能会对换行符或特殊字节做转换。二进制模式可以保证读到的字节和文件内容一致。</p>
+<h3 id="2-fread-的返回值">2. <code>fread</code> 的返回值</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">size_t</span> size = fread(buffer, <span class="hljs-number">1</span>, <span class="hljs-keyword">sizeof</span>(buffer), fp);<br></code></pre></td></tr></table></figure>
+<p><code>fread</code> 返回实际读取到的元素个数。</p>
+<p>这里每个元素大小是 1 字节，所以返回值就是实际读取的字节数。</p>
+<p>必须使用 <code>size</code>，不能假设文件一定有 64 字节。</p>
+<h3 id="3-为什么魔数判断要检查长度">3. 为什么魔数判断要检查长度</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (size &gt;= <span class="hljs-number">2</span> &amp;&amp; buffer[<span class="hljs-number">0</span>] == <span class="hljs-number">0x4D</span> &amp;&amp; buffer[<span class="hljs-number">1</span>] == <span class="hljs-number">0x5A</span>)<br></code></pre></td></tr></table></figure>
+<p>如果文件只有 1 字节，访问 <code>buffer[1]</code> 就会越界或读取未初始化内容。</p>
+<p>所以要先检查 <code>size &gt;= 2</code> 或 <code>size &gt;= 4</code>。</p>
+<h3 id="4-十六进制输出">4. 十六进制输出</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%02X &quot;</span>, (<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span>)buffer[idx]);<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>%02X</code>：输出两位大写十六进制；</li>
+<li>不足两位时前面补 0；</li>
+<li>每个字节后面加一个空格，方便对齐。</li>
+</ul>
+<h3 id="5-ASCII-输出">5. ASCII 输出</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (c &lt; <span class="hljs-number">0x20</span> || c &gt; <span class="hljs-number">0x7E</span>)<br>&#123;<br>    <span class="hljs-built_in">putchar</span>(<span class="hljs-string">&#x27;.&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>可打印 ASCII 范围通常是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">0x20 到 0x7E<br></code></pre></td></tr></table></figure>
+<p>其他字符统一输出 <code>.</code>。</p>
+<hr>
+<h2 id="七、原项目中的问题与修正">七、原项目中的问题与修正</h2>
+<h3 id="1-nullptr">1. <code>nullptr</code></h3>
+<p>原代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (fp == nullptr)<br></code></pre></td></tr></table></figure>
+<p><code>nullptr</code> 是 C23 引入的关键字。</p>
+<p>本站教程尽量以 C11 为基准，所以改为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (fp == <span class="hljs-literal">NULL</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="2-魔数判断缺少长度保护">2. 魔数判断缺少长度保护</h3>
+<p>原代码直接访问 <code>str[0]</code> 到 <code>str[3]</code>，如果文件不足 4 字节，就可能读取未初始化数据。</p>
+<p>修正后：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (size &gt;= <span class="hljs-number">2</span> &amp;&amp; ...)<br></code></pre></td></tr></table></figure>
+<h3 id="3-运行结果和代码不一致">3. 运行结果和代码不一致</h3>
+<p>原代码写的是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">File type: MZ format (DOS/Windows executable)<br></code></pre></td></tr></table></figure>
+<p>但程序实际输出的是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">This is a MZ file.<br></code></pre></td></tr></table></figure>
+<p>修正后统一输出格式：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">File type: MZ format (DOS/Windows executable)<br></code></pre></td></tr></table></figure>
+<h3 id="4-fread-后立即关闭文件">4. <code>fread</code> 后立即关闭文件</h3>
+<p>原代码在 <code>fread</code> 后关闭文件，这个思路没问题。</p>
+<p>修正版保持同样结构，并增加空文件提示。</p>
+<hr>
+<h2 id="八、可以继续改进的方向">八、可以继续改进的方向</h2>
+<ol>
+<li>支持读取完整文件，而不是只读前 64 字节；</li>
+<li>支持自定义每行字节数；</li>
+<li>支持更多魔数，例如 PNG、JPEG、ZIP、GZIP；</li>
+<li>把文件类型判断和输出格式拆成更清晰的函数；</li>
+<li>增加错误处理，例如文件读取失败、命令行参数错误；</li>
+<li>支持偏移地址按 32 位或 64 位格式化；</li>
+<li>增加测试文件，验证空文件、小文件、大文件、魔数文件等情况。</li>
+</ol>
+<hr>
+<h2 id="九、总结">九、总结</h2>
+<p>这个项目偏向底层，把下面这些重要知识点串起来：</p>
+<ul>
+<li>二进制文件读取；</li>
+<li><code>fread</code> 返回值；</li>
+<li>字节数组处理；</li>
+<li>魔数识别；</li>
+<li>格式化输出；</li>
+<li>命令行参数。</li>
+</ul>
+<p>最重要的收获是：</p>
+<blockquote>
+<p>处理二进制数据时，不能假设文件长度，也不能随意访问数组范围。</p>
+<p>每个字节都应该在确认有效之后再处理。</p>
+</blockquote>
+
+    </div>
+</div>
+                </main>
+                <div class="sidebar-mask" id="sidebar-mask"></div>
+            </div>
+            <!-- footer -->
+            <footer class="card">
+    <div class="copyright">
+        <p>Copyright © 2026
+                七平
+        </p>
+        <p>Powered by Hexo</p>
+    </div>
+</footer>
+    </div>
+
+    <script src="/js/responsive.js"></script>
+    <script src="/js/music.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Pjax({
+                elements: 'a[href]:not([target]):not([data-no-pjax])',
+                selectors: [
+                    'title',
+                    '#pjax-container',
+                    '#pjax-header'
+                ]
+            })
+        })
+    </script>
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"left","width":300,"height":600},"mobile":{"show":true},"log":false});</script></body>
+
+</html>
