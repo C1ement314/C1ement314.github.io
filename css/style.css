@@ -11,7 +11,7 @@
   color-mix(in srgb, var(--secondary-color), black 10%) 51%,
   var(--secondary-color) 100%);
   /* You can customize the background image here */
-  --bg-image: url(/image/bg.jpg);
+  --bg-image: url(/image/background.jpg);
 }
 
 body {
@@ -21,6 +21,7 @@ body {
   background-image: var(--bg-image);
   background-size: cover;
   background-attachment: fixed;
+  background-position: center center;
 }
 
 .container {
