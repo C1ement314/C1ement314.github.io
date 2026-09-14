@@ -1074,12 +1074,25 @@
 
                 </main>
                 <aside id="right-sidebar">
-                    <div class="widget card stats-widget">
+                    
+<div class="widget card stats-widget">
     <div class="widget-title">
         <img src="/image/icon/widget/widget-stats.png" class="widget-title-icon" alt="">
         <span>站点数据</span>
     </div>
     <div class="widget-body">
+        <div class="stats-item">
+            <span>文章数目：</span>
+            <span>22</span> 篇
+        </div>
+        <div class="stats-item">
+            <span>本站总字数：</span>
+            <span>124.9k</span> 字
+        </div>
+        <div class="stats-item">
+            <span>距离上次更新：</span>
+            <span id="site-last-update" data-updated="1789372549670">--</span>
+        </div>
         <div class="stats-item">
             <span>运行时间：</span>
             <span id="site-runtime">计算中...</span>
@@ -1190,6 +1203,26 @@
             };
             updateRuntime();
             setInterval(updateRuntime, 60000);
+        }
+
+        var lastUpdateEl = document.getElementById('site-last-update');
+        if (lastUpdateEl && !lastUpdateEl.dataset.inited) {
+            lastUpdateEl.dataset.inited = '1';
+            var updateLastUpdate = function () {
+                var updated = Number(lastUpdateEl.dataset.updated || 0);
+                if (!updated) {
+                    lastUpdateEl.textContent = '暂无';
+                    return;
+                }
+                var diff = Date.now() - updated;
+                if (diff < 0) diff = 0;
+                var days = Math.floor(diff / 86400000);
+                var hours = Math.floor((diff % 86400000) / 3600000);
+                var minutes = Math.floor((diff % 3600000) / 60000);
+                lastUpdateEl.textContent = days + ' 天 ' + hours + ' 小时 ' + minutes + ' 分钟前';
+            };
+            updateLastUpdate();
+            setInterval(updateLastUpdate, 60000);
         }
 
         var quoteEl = document.getElementById('random-quote');
